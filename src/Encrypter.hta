@@ -1,0 +1,145 @@
+<html>
+
+<head>
+  <title>Message Encrypter/Decrypter</title>
+</head>
+
+<body bgcolor="white">
+  <hta:application applicationname="Message Encrypter/Decrypter" id="Message Encrypter/Decrypter" version="0.7"
+    maximizebutton="yes" scroll="no" icon="#">
+
+    <style>
+      td {
+        color: Black;
+      }
+
+      caption {
+        color: Black;
+      }
+
+      body {
+        font-family: Arial;
+        background-color: #708090;
+        color: #808080;
+      }
+
+      input {
+        background-color: #202020;
+        color: #808080;
+      }
+
+      textarea {
+        background-color: #202020;
+        color: #808080;
+      }
+    </style>
+    <script language="VBScript">
+      Sub Window_OnLoad
+        Dim width, height
+        width = 700
+        height = 500
+        self.ResizeTo width, height
+      End Sub
+      Function Validate(ID)
+        On Error Resume Next
+        Key = Int(pass.value)
+        If(pass.value = "") Then
+        X = MsgBox("You have to enter your password..!", 48, "Error")
+        Else If(tamsg.value = "") Then
+        X = MsgBox("Enter the text to encrypt or decrypt!", 48, "ERROR!")
+      Else
+        Junk = SetTimeOut(KEYS(ID), 1)
+      End If
+      End If
+      End Function
+      Function KEYS(ID)
+      text = pass.value
+      code = 0
+      Do Until text = ""
+      code = ((Asc(Left(text, 1))) + code)
+      text = Replace(text, Left(text, 1), "", "1", "1")
+      Loop
+      code = code Mod 255
+      akey.value = code
+      Junk = SetTimeOut(ID, 1)
+      End Function
+      Function Encrypt
+      Alpha = Array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
+      text = tamsg.value
+      code = ""
+      key = Int(akey.value)
+      Do Until text = ""
+      cnum = Asc(Left(text, 1))
+      cnum = (cnum + key) Mod 255
+      num = cnum Mod 26
+      count = 0
+      tst = num
+      Do Until tst = cnum
+        tst = tst + 26
+        count = count + 1
+      Loop
+      code = code & Alpha(num) & count
+      text = Replace(text, Left(text, 1), "", "1", "1")
+      Loop
+      tamsg.value = code
+      End Function
+      Function Decrypt
+      Alpha = Array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
+      text = tamsg.value
+      code = ""
+      key = Int(akey.value)
+      Do Until text = ""
+      lttr = Left(text, 2)
+      num = Asc(Left(lttr, 1)) - 65
+      chk = Right(lttr, 1)
+      count = 0
+      Do Until count = Int(chk)
+        num = num + 26
+        count = count + 1
+      Loop
+      num = num - key
+      Do While num <= 0
+        num = num + 255
+      Loop
+      Code = code & Chr(num)
+      text = Replace(text, Left(text, 2), "", "1", "1")
+      Loop
+      tamsg.value = code
+      End Function
+    </script>
+
+    <input type="hidden" id="akey">
+    <table align="center" width="400">
+      <caption style="font-family:Book Antiqua; font-size:20">
+        <hr color="black"><b>Message Encrypter/Decrypter</b>
+        <p>By Orange</p>
+        <hr color="black">
+      </caption>
+      <tbody>
+        <tr>
+          <td align="center"><span title="Enter your Full message here!"><textarea id="tamsg" cols="80"
+                rows="15"></textarea></span></td>
+        </tr>
+        <tr>
+          <td color="black" style="font-family: Book Antiqua; font-size:18">
+            <hr color="black">Password &nbsp;<span title="Enter your password here"><input type="password"
+                id="pass"></span><span title="Click Here to Encrypt your Message"><input
+                style="width: 170px; height: 23px; color: white; background: rgb(32, 48, 64); font-family: &quot;Book Antiqua&quot;;"
+                type="button" value="Encrypt" id="btnenc" onclick="Validate('Encrypt')"
+                onmouseover="btnenc.style.background='#102030'" onmouseout="btnenc.style.background='#203040'"></span>
+            <span title="Click Here to Decrypt your Message"><input
+                style="width: 170px; height: 23px; color: white; background: rgb(32, 48, 64); font-family: &quot;Book Antiqua&quot;; font-size: 13px;"
+                type="button" value="Decrypt" id="btndec" onclick="Validate('Decrypt')"
+                onmouseover="btndec.style.background='#102030'" onmouseout="btndec.style.background='#203040'"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </span>
+
+
+
+  </hta:application>
+</body>
+
+</html>
