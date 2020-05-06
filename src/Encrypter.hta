@@ -10,12 +10,13 @@
         font-family: monospace;
         background-color: #708090;
         color: #808080;
+        text-align: center;
       }
       input {
         background-color: #202020;
         color: #808080;
       }
-      input[type="button"] {
+      .button {
         margin: 1em;
         display: inline-block; 
         width: 150px; 
@@ -23,7 +24,7 @@
         color: #fff; 
         background: #203040;
       }
-      input[type="button"]:hover {
+      .hover-ed {
         background: #102030;
       }
       textarea {
@@ -45,29 +46,26 @@
     </style>
   </head>
   <body>
-    <HTA:APPLICATION applicationName="String Encrypter" version="0.8" maximizeButton="yes" scroll="no" icon="#"></HTA:APPLICATION>
+    <HTA:APPLICATION applicationName="String Encrypter" version="0.8.1" maximizeButton="yes" scroll="no" icon="#"></HTA:APPLICATION>
     
     <span style="display: block; width: 600px; margin: 0 auto; padding: 0; text-align: center;">
       <span style="display: block; font-size: 2em; color: #000; width: 100%; ">
         String Encrypter
       </span>
-      <textarea id="tamsg" cols="80" rows="15" style="display:block; width: 600px; height: auto; overflow: auto; margin: 0 auto;"></textarea>
+      <textarea id="tamsg" cols="80" rows="15" style="display:block; width: 600px; height: auto; overflow: auto;"></textarea>
       <input type="hidden" id="akey">
       <span class="password">
         <span style="width: 100px; color: #000;">Password:</span> 
         <input type="password" id="pass" style="width: 490px;">
       </span>
-      <input type="button" value="Encrypt" onclick="Validate(Encrypt)"/>
-      <input type="button" value="Decrypt" onclick="Validate(Decrypt)"/>
+      <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt)" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
+      <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt)" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />
     </span>
     <script>
       window.onload = function () {
         var width = 700, height = 500;
         window.resizeTo(width, height);
       }
-      var pass = document.getElementById('pass');
-      var tamsg = document.getElementById('tamsg');
-      var akey = document.getElementById('akey');
       function Validate(ID) {
         if (pass.value === "") {
           alert("You Have To Enter Your Password!");
