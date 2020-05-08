@@ -1,83 +1,162 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 6]> <html class="lt-ie9 lt-ie8 lt-ie7 lt-ie6"> <![endif]-->
+<!--[if IE 6]>    <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->    
   <head>
     <title>String Encrypter</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <style>
+      html, 
       body {
         display: block;
-        position: relative;
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 0;
+        margin: 0;
+        
+        color: #000;
+        text-align: center;
         font-family: monospace;
         background-color: #708090;
-        color: #808080;
-        text-align: center;
       }
-      input {
-        background-color: #202020;
+      
+      #container {
+        display: block;
+        width: 100%;
+        max-width: 600px;
+        height: 100%;
+        margin: 0 auto;
+      }
+      .label {
+        width: 100%; 
+        display: block; 
+        font-size: 1em; 
+        text-align: left; 
+      }
+      .section {
+        display: block; 
+        padding: 0.25em;
+        border: 1px solid #000; 
+      }
+      input, textarea {
+        width: 100%; 
+        border: none;
+        display: block; 
+        overflow: auto;
+        font-size: 1em; 
         color: #808080;
+        background-color: #202020;
       }
       .button {
-        margin: 1em;
-        display: inline-block; 
-        width: 150px; 
-        height: 24px; 
+        margin: 0;
         color: #fff; 
+        padding: 0.1em;
         background: #203040;
       }
       .hover-ed {
         background: #102030;
       }
-      textarea {
-        background-color: #202020;
-        color: #808080;
-      }
-      .password {
-        width: 100%;
-        display: block;
-      }
-      .password * {
-        display: inline-block; 
-        height: 1em; 
-        font-size: 1em; 
-        padding: 0; 
-        margin: 0; 
-        border: none;
+      @media print {
+        html,
+        body {
+          text-align: left;
+          background: #fff;
+          overflow: visible;
+        }
+        #container {
+          max-width: none;
+          overflow: visible;
+        }
+        .section.password,
+        .section.buttons {
+          display: none;
+        }
+        textarea {
+          background: transparent;
+          border: 1px solid #000;
+        }
       }
     </style>
   </head>
   <body>
-    <HTA:APPLICATION applicationName="String Encrypter" version="0.8.1" maximizeButton="yes" scroll="no" icon="#"></HTA:APPLICATION>
-    
-    <span style="display: block; width: 600px; margin: 0 auto; padding: 0; text-align: center;">
-      <span style="display: block; font-size: 2em; color: #000; width: 100%; ">
-        String Encrypter
+    <HTA:APPLICATION applicationName="String Encrypter" version="0.9" maximizeButton="yes" scroll="no" icon="#" innerborder="no"></HTA:APPLICATION>
+    <span id="container" >
+      <span class="section">
+        <span style="display: block; font-size: 2em; width: 100%; border: 1px solid #000;">
+          String Encrypter
+        </span>
       </span>
-      <textarea id="tamsg" cols="80" rows="15" style="display:block; width: 600px; height: auto; overflow: auto;"></textarea>
-      <input type="hidden" id="akey">
-      <span class="password">
-        <span style="width: 100px; color: #000;">Password:</span> 
-        <input type="password" id="pass" style="width: 490px;">
+      <span class="section text">
+        <span class="label" onclick="tamsg.focus()">
+          Text To Encrypt Or Decrypt:
+        </span>
+        <textarea id="tamsg" rows="10"></textarea>
       </span>
-      <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt)" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
-      <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt)" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />
+      <span class="section password">
+        <span class="label" onclick="pass.focus()">
+          Password:
+        </span>
+        <input type="password" id="pass">
+      </span>
+      <span class="section buttons">
+        <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt)" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
+        <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt)" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />       
+      </span>
+      <input type="hidden" id="temp">
     </span>
     <script>
-      window.onload = function () {
-        var width = 700, height = 500;
-        window.resizeTo(width, height);
+      function addEvent( obj, type, fn ) {
+        if ( obj.attachEvent ) {
+          obj['e'+type+fn] = fn;
+          obj[type+fn] = function(){obj['e'+type+fn]( window.event );}
+          obj.attachEvent( 'on'+type, obj[type+fn] );
+        } else
+          obj.addEventListener( type, fn, false );
       }
-      function Validate(ID) {
+      function removeEvent( obj, type, fn ) {
+        if ( obj.detachEvent ) {
+          obj.detachEvent( 'on'+type, obj[type+fn] );
+          obj[type+fn] = null;
+        } else
+          obj.removeEventListener( type, fn, false );
+      }
+      addEvent(window, 'load', function () {
+        var width = 700, height = 500;
+        if (document.getElementsByTagName('html')[0].className.indexOf('lt-ie8') != -1) {
+          addEvent(window, 'resize', function () {
+            container.style.width = document.body.clientWidth >= 600 ? '600px' : '100%';
+          });
+        }
+        window.resizeTo(width, height);
+      });
+      addEvent(window, 'beforeprint', function () {
+        var width = container.style.width;
+        var height = tamsg.style.height;
+        addEvent(window, 'afterprint', function PrintCleanup () {
+          container.style.width = width;
+          tamsg.style.height = height;
+          removeEvent(window, 'afterprint', PrintCleanup);
+        });
+        container.style.width = '';
+        tamsg.style.height = (tamsg.scrollHeight + 10) + 'px';
+      });
+    </script>
+    <script>
+      function Validate(METHOD) {
         if (pass.value === "") {
-          alert("You Have To Enter Your Password!");
+          alert("You Have To Enter The Password!");
         } else {
           if (tamsg.value === "") {
             alert("Enter The Text To Encrypt Or Decrypt!");
           } else {
-            KEYS(ID);
+            KEYS(METHOD);
           }
         }
       }
-      function KEYS(ID) {
+      function KEYS(METHOD) {
         var text = pass.value;
         var code = 0
         while (text !== "") {
@@ -85,14 +164,14 @@
           text = text.slice(1);
         }
         code = code % 255;
-        akey.value = code;
-        ID();
+        temp.value = code;
+        METHOD();
       }
       function Encrypt () {
         var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
         var text = tamsg.value;
         var code = "";
-        var key = Number(akey.value);
+        var key = Number(temp.value);
         while (text !== "") {
           var cnum = text.charCodeAt(0);
           cnum = (cnum + key) % 255;
@@ -112,7 +191,7 @@
         var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
         var text = tamsg.value;
         var code = "";
-        var key = Number(akey.value);
+        var key = Number(temp.value);
         while (text !== "") {
           var lttr = text.slice(0,2);
           var num = lttr.charCodeAt(0) - 65
