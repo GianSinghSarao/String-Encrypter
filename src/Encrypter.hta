@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html> <!--<![endif]-->    
   <head>
     <title>String Encrypter</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=9"> 
     <style>
       html, 
       body {
@@ -17,10 +17,11 @@
         padding: 0;
         margin: 0;
         
-        color: #000;
+        color: TitleText;
         text-align: center;
         font-family: monospace;
-        background-color: #708090;
+        /* background-color: #708090; */
+        background: ActiveCaption;
       }
       
       #container {
@@ -59,6 +60,66 @@
       .hover-ed {
         background: #102030;
       }
+      
+      #TitleBar { 
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 48px;
+        padding: 0px;
+        margin: 0px;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: auto;
+      }
+      #TitleBar div {
+        display: block;
+        top: 0px;
+        height: 16px;
+        position: absolute;
+      }
+      #TitleBar .icon {
+        padding: 16px;
+        width: 16px;
+        left: 0px;
+        background: url('#');
+      }
+      #TitleBar .text {
+        padding: 16px 8px;
+        left: 48px;
+      }
+      #TitleBar .buttons {
+        right: 0px;
+        width: 144px;
+        height: 48px;
+      } 
+      #TitleBar .buttons button {
+        position: absolute;
+        top: 0px;
+        width: 48px;
+        padding: 0px;
+        margin: 0px;
+        height: 48px;
+        border: 0px;
+        background: #000;
+        color: #888;
+      }
+      #TitleBar .buttons button.hover-ed, 
+      #TitleBar .buttons button:hover{
+        background: #3d3d3d;
+        color: #f0f0f0;
+      }
+      #TitleBar .buttons button.click-ed, 
+      #TitleBar .buttons button:active {
+        background: #808080;
+        color: #fff;
+      }
+      #TitleBar .buttons button#ExitButton.click-ed, 
+      #TitleBar .buttons button#ExitButton:active {
+        background: #f00;
+        color: #fff;
+      }
       @media print {
         html,
         body {
@@ -78,11 +139,130 @@
           background: transparent;
           border: 1px solid #000;
         }
+        #TitleBar {
+          display: none;
+        }
       }
     </style>
+    <script>
+      function addEvent( obj, type, fn ) {
+        if ( obj.attachEvent ) {
+          obj['e'+type+fn] = fn;
+          obj[type+fn] = function(){obj['e'+type+fn]( window.event );}
+          obj.attachEvent( 'on'+type, obj[type+fn] );
+        } else
+          obj.addEventListener( type, fn, false );
+      }
+      function removeEvent( obj, type, fn ) {
+        if ( obj.detachEvent ) {
+          obj.detachEvent( 'on'+type, obj[type+fn] );
+          obj[type+fn] = null;
+        } else
+          obj.removeEventListener( type, fn, false );
+      }
+      var Titlebar = '<div id="TitleBar"><div class="icon"></div><div class="text" unselectable="on">String Encrypter</div><div class="buttons"><button style="left: 0px;" id="MinButton">Min</button><button style="left: 48px;" id="MaxButton">Max</button><button style="left: 96px;" id="ExitButton">Exit</button></div></div>';
+      var AccentColor = (function () {
+        try {
+          var unProcessedInt = new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\DWM\\AccentColor');
+        } catch (e) {
+          return '#000';
+        }
+        if (unProcessedInt < 0) { unProcessedInt = 0xFFFFFFFF + unProcessedInt + 1; }
+        var HexString = unProcessedInt.toString(16);
+        var Alpha = HexString.substring(0, 2);
+        var Blue = HexString.substring(2, 4);
+        var Green = HexString.substring(4, 6);
+        var Red = HexString.substring(6, 8);
+        var NormalHexColorString = '#' + Red + Green + Blue;
+        return NormalHexColorString;
+      })();
+      
+      var posX = 0;
+      var posY = 0;
+      var move = false;
+      var w = 0;
+      var h = 0;
+      var x = 0;
+      var y = 0;
+      var max = false;
+      
+      if (!window.screenLeft) {
+        window.screenLeft = window.screenX;
+        window.screenTop = window.screenY;
+      }
+      function setPos(event) {
+        if (window.event !== undefined) {
+          posX = window.event.screenX;
+          posY = window.event.screenY;
+          move = true;
+        }
+      }
+      function moving(event) {
+        if (move === true) {
+          var moveX = event.screenX - posX - 7;
+          var moveY = event.screenY - posY - 7;
+          if (max) {
+            MaximiseWindow();
+          };
+          window.moveTo((window.screenLeft + moveX), (window.screenTop + moveY));
+          setPos();
+        }
+      }
+      function stopMoving() {
+        move = false;
+      }
+      function MaximiseWindow() {
+        if (!max) {
+          x = window.screenLeft;
+          y = window.screenTop;
+          w = document.body.clientWidth + 14;
+          h = document.body.clientHeight + 14;
+          window.moveTo(-7, -7);
+          window.resizeTo(screen.availWidth + 14, screen.availHeight + 14);
+        } else {
+          window.moveTo(x, y);
+          window.resizeTo(w, h)
+        }
+        max = !max;
+      }
+      function CloseWindow() { 
+        window.close(); 
+      }
+      function MinimiseWindow() { 
+        window.blur(); 
+      }
+      addEvent(window, 'load', function () {
+        document.body.innerHTML = Titlebar + document.body.innerHTML;
+        TitleBar.style.background = AccentColor;
+        if (document.documentElement.className.indexOf('lt-ie7') > -1) {
+          addEvent(MinButton, 'mousedown', function () { MinButton.className = 'click-ed'; });
+          addEvent(MinButton, 'mouseover', function () { MinButton.className = 'hover-ed'; });
+          addEvent(MinButton, 'mouseup', function () {  MinButton.className = 'hover-ed'; });
+          addEvent(MinButton, 'mouseout', function () {  MinButton.className = ''; });
+      
+          addEvent(MaxButton, 'mousedown', function () {  MaxButton.className = 'click-ed'; });
+          addEvent(MaxButton, 'mouseover', function () {  MaxButton.className = 'hover-ed'; });
+          addEvent(MaxButton, 'mouseup', function () {  MaxButton.className = 'hover-ed'; });
+          addEvent(MaxButton, 'mouseout', function () {  MaxButton.className = ''; });
+      
+          addEvent(ExitButton, 'mousedown', function () {  ExitButton.className = 'click-ed'; });
+          addEvent(ExitButton, 'mouseover', function () {  ExitButton.className = 'hover-ed'; });
+          addEvent(ExitButton, 'mouseup', function () {  ExitButton.className = 'hover-ed'; });
+          addEvent(ExitButton, 'mouseout', function () {  ExitButton.className = ''; });
+        } 
+        addEvent(MinButton, 'click', MinimiseWindow);
+        addEvent(MaxButton, 'click', MaximiseWindow);
+        addEvent(ExitButton, 'click', CloseWindow);
+      
+        addEvent(TitleBar, 'mousedown', setPos);
+        addEvent(TitleBar, 'mousemove', moving);
+        addEvent(TitleBar, 'mouseup', stopMoving);
+        addEvent(TitleBar, 'mouseout', stopMoving);
+      });
+    </script>
   </head>
   <body>
-    <HTA:APPLICATION applicationName="String Encrypter" version="0.9" maximizeButton="yes" scroll="no" icon="#" innerborder="no"></HTA:APPLICATION>
+    <HTA:APPLICATION applicationName="String Encrypter" version="0.9.1" maximizeButton="yes" scroll="no" icon="#" caption="no" innerborder="no"></HTA:APPLICATION>
     <span id="container" >
       <span class="section">
         <span style="display: block; font-size: 2em; width: 100%; border: 1px solid #000;">
@@ -102,27 +282,12 @@
         <input type="password" id="pass">
       </span>
       <span class="section buttons">
-        <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt)" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
-        <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt)" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />       
+        <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
+        <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />       
       </span>
       <input type="hidden" id="temp">
     </span>
-    <script>
-      function addEvent( obj, type, fn ) {
-        if ( obj.attachEvent ) {
-          obj['e'+type+fn] = fn;
-          obj[type+fn] = function(){obj['e'+type+fn]( window.event );}
-          obj.attachEvent( 'on'+type, obj[type+fn] );
-        } else
-          obj.addEventListener( type, fn, false );
-      }
-      function removeEvent( obj, type, fn ) {
-        if ( obj.detachEvent ) {
-          obj.detachEvent( 'on'+type, obj[type+fn] );
-          obj[type+fn] = null;
-        } else
-          obj.removeEventListener( type, fn, false );
-      }
+    <script> 
       addEvent(window, 'load', function () {
         var width = 700, height = 500;
         if (document.getElementsByTagName('html')[0].className.indexOf('lt-ie8') != -1) {
