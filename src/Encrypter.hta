@@ -86,9 +86,9 @@
         right: 0px;
       } 
       #TitleBar .buttons button {
-        background: #000;
+        background: transparent;
         position: absolute;
-        color: #888;
+        color: #fff;
         padding: 0px;
         height: 48px;
         margin: 0px;
@@ -97,19 +97,20 @@
         top: 0px;
       }
       #TitleBar .buttons button.hover-ed, 
-      #TitleBar .buttons button:hover{
-        background: #3d3d3d;
-        color: #f0f0f0;
+      #TitleBar .buttons button:hover {
+        background: rgba(255, 255, 255, 0.1);
       }
       #TitleBar .buttons button.click-ed, 
       #TitleBar .buttons button:active {
-        background: #808080;
-        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+      }
+      #TitleBar .buttons button#ExitButton.hover-ed, 
+      #TitleBar .buttons button#ExitButton:hover {
+        background: #e81123;
       }
       #TitleBar .buttons button#ExitButton.click-ed, 
       #TitleBar .buttons button#ExitButton:active {
         background: #f00;
-        color: #fff;
       }
       /* #endregion */
       #container {
@@ -198,7 +199,7 @@
         try {
           var unProcessedInt = new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\DWM\\AccentColor');
         } catch (e) {
-          return '#000';
+          return '#000000';
         }
         if (unProcessedInt < 0) { unProcessedInt = 0xFFFFFFFF + unProcessedInt + 1; }
         var HexString = unProcessedInt.toString(16);
@@ -220,6 +221,24 @@
       if (!window.screenLeft) {
         window.screenLeft = window.screenX;
         window.screenTop = window.screenY;
+      }
+      function overlayColor (BackgroundColour, OverlayColour, OverlayOpacity) {
+        //I feel like this could be implemented less verbosely (with loops?) but idrc *that* much.
+        var BGColour = [
+          parseInt('0x' + BackgroundColour.substring(1,3)), 
+          parseInt('0x' + BackgroundColour.substring(3,5)), 
+          parseInt('0x' + BackgroundColour.substring(5,7))
+        ], OColour = [
+          parseInt('0x' + OverlayColour.substring(1,3)),
+          parseInt('0x' + OverlayColour.substring(3,5)),
+          parseInt('0x' + OverlayColour.substring(5,7))
+        ];
+        var FinalColour = [
+          Math.round(BGColour[0] + (OColour[0] - BGColour[0]) * OverlayOpacity),
+          Math.round(BGColour[1] + (OColour[1] - BGColour[1]) * OverlayOpacity),
+          Math.round(BGColour[2] + (OColour[2] - BGColour[2]) * OverlayOpacity)
+        ];
+        return '#' + FinalColour[0].toString(16) + FinalColour[1].toString(16) + FinalColour[2].toString(16);
       }
       function setPos(event) {
         if (window.event !== undefined) {
@@ -281,6 +300,29 @@
           addEvent(ExitButton, 'mouseup', function () { ExitButton.className = 'hover-ed'; });
           addEvent(ExitButton, 'mouseout', function () { ExitButton.className = ''; });
         }
+        if (document.documentElement.className.indexOf('lt-ie9') > -1) {
+          //'polyfill' rgba colours used on button hover by creating a supplementary stylesheet with rgb colours
+          var PolyfillStyleSheet = document.createElement('style');
+          document.getElementsByTagName('head')[0].appendChild(PolyfillStyleSheet);
+          PolyfillStyleSheet.type = 'text/css';
+          PolyfillStyleSheet.styleSheet.cssText = '\
+            #TitleBar .buttons button.hover-ed, \
+            #TitleBar .buttons button:hover { \
+              background: ' + overlayColor(AccentColor, '#ffffff', 0.1) + '; \
+              color: #f0f0f0; \
+            } \
+            #TitleBar .buttons button.click-ed, \
+            #TitleBar .buttons button:active { \
+              background: ' + overlayColor(AccentColor, '#ffffff', 0.2) + '; \
+              color: #fff; \
+            } \
+            #TitleBar .buttons button#ExitButton.click-ed, \
+            #TitleBar .buttons button#ExitButton:active { \
+              background: #f00; \
+              color: #fff; \
+            } ' ; 
+            //stylesheet above needs updating to calculate rgba colour value for close button on click
+        }
         addEvent(MinButton, 'click', MinimiseWindow);
         addEvent(MaxButton, 'click', MaximiseWindow);
         addEvent(ExitButton, 'click', CloseWindow);
@@ -293,7 +335,7 @@
     </script>
   </head>
   <body>
-    <HTA:APPLICATION applicationName="String Encrypter" version="0.9.2" maximizeButton="yes" selection="no" scroll="no" icon="#" caption="no" innerborder="no"></HTA:APPLICATION>
+    <HTA:APPLICATION applicationName="String Encrypter" version="0.9.3" maximizeButton="yes" selection="no" scroll="no" icon="#" caption="no" innerborder="no"></HTA:APPLICATION>
     <span id="container" >
       <span class="section text">
         <span class="label" onclick="tamsg.focus()">
