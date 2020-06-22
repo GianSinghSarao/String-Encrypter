@@ -31,7 +31,6 @@
       * {
         font-family: inherit;
       }
-      /* HTML5 display-role reset for older browsers */
       article, aside, details, figcaption, figure, 
       footer, header, hgroup, menu, nav, section {
         display: block;
@@ -159,13 +158,18 @@
           background: #fff;
           overflow: visible;
         }
+        #tamsg {
+          color: #000;
+        }
         #container {
           max-width: none;
           overflow: visible;
         }
-        .section.password,
-        .section.buttons {
+        .section {
           display: none;
+        }
+        .section.text {
+          display: block;
         }
         textarea {
           background: transparent;
@@ -194,6 +198,8 @@
         } else
           obj.removeEventListener(type, fn, false);
       }
+    </script>
+    <script>
       var Titlebar = '<div id="TitleBar"><div class="icon"></div><div class="text" unselectable="on">String Encrypter</div><div class="buttons"><button style="left: 0px;" id="MinButton">Min</button><button style="left: 48px;" id="MaxButton">Max</button><button style="left: 96px;" id="ExitButton">Exit</button></div></div>';
       var AccentColor = (function () {
         try {
@@ -333,9 +339,76 @@
         addEvent(TitleBar, 'mouseout', stopMoving);
       });
     </script>
+    <script>
+      function convertSemverVersionToArray (a, A, B, C) {
+        A = a.replace('v', '').split('.');
+        B = [];
+        for (C = 0; C != A.length; C++) {
+          B[C] = Number(A[C]);
+        }
+        return B;
+      };
+      function ifSuitable (a, b) {
+        if (a[0] > b[0]) return true;
+        if (a[0] < b[0]) return false;
+        if (a[1] > b[1]) return true;
+        if (a[1] < b[1]) return false;
+        if (a[2] < b[2]) return false;
+        return true;
+      };
+      var latestVersion = (function (C) {
+        try {
+          C = new ActiveXObject('WinHttp.WinHttpRequest.5.1');
+          C.Option(6) = false; //i have no idea how this works. i hope it's because it returns a reference to the enableRedirects option, instead of a copy.
+          C.open("GET", 'https://github.com/GianSinghSarao/String-Encrypter/releases/latest/', false);
+          C.send();
+        } catch (D) {
+          return 'v0.0.0';
+        }
+        return C.GetResponseHeader('Location').split('/').pop();
+      })();
+      addEvent(window, 'load', function (a, A, B, C) {
+        A = 'v' + appTag.version;
+        B = latestVersion; 
+        C = '<span class="section"> Current Version: ' + A;
+        if (B == 'v0.0.0') {
+          C += '(Failed to check for updates);';  
+        } else {
+          if (ifSuitable(convertSemverVersionToArray(A), convertSemverVersionToArray(B))) {
+            if (A != B) {
+              C += '(Alpha);';
+            } else {
+              C += '(Stable);';
+            }
+          } else {
+            C += '(<a href="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/">Get Latest Version</a>);';
+          }
+        }
+        C += ' <br>\n<a href="https://github.com/GianSinghSarao/String-Encrypter">GitHub Repository</a>; </span>'
+        container.innerHTML += C;
+      });
+    </script>
+    <script>
+      //small script to make links open in the default browser instead of IE.
+      addEvent(window, 'load', function (a, A) {
+        setTimeout(function () { 
+          //this settimeout exists because IE5 calls load event handlers in reverse order of registration.
+          //meaning any anchors added dynamically that are normally caught, are missed in IE5 without this.
+          var AnchorElements = document.getElementsByTagName('A');
+          for (var A = 0; A < AnchorElements.length; A++) {
+            // onclick used here (instead of addEvent) to replace the handler that launches IE.
+            AnchorElements[A].onclick = function (a, A) {
+              A = new ActiveXObject("WScript.Shell");
+              A.run(this.href);
+              return false;
+            };
+          }  
+        }, 10);
+      });
+    </script>
   </head>
   <body>
-    <HTA:APPLICATION applicationName="String Encrypter" version="0.9.3" maximizeButton="yes" selection="no" scroll="no" icon="#" caption="no" innerborder="no"></HTA:APPLICATION>
+    <HTA:APPLICATION applicationName="String Encrypter" version="0.9.4" maximizeButton="yes" selection="no" scroll="no" icon="#" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
     <span id="container" >
       <span class="section text">
         <span class="label" onclick="tamsg.focus()">
@@ -343,13 +416,13 @@
         </span>
         <textarea id="tamsg" rows="10"></textarea>
       </span>
-      <span class="section password">
+      <span class="section">
         <span class="label" onclick="pass.focus()">
           Password:
         </span>
         <input type="password" id="pass">
       </span>
-      <span class="section buttons">
+      <span class="section">
         <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
         <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />       
       </span>
