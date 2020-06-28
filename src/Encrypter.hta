@@ -86,7 +86,9 @@
       } 
       #TitleBar .buttons button {
         background: transparent;
+        font-family: Webdings;
         position: absolute;
+        font-size: 16px;
         color: #fff;
         padding: 0px;
         height: 48px;
@@ -200,7 +202,7 @@
       }
     </script>
     <script>
-      var Titlebar = '<div id="TitleBar"><div class="icon"></div><div class="text" unselectable="on">String Encrypter</div><div class="buttons"><button style="left: 0px;" id="MinButton">Min</button><button style="left: 48px;" id="MaxButton">Max</button><button style="left: 96px;" id="ExitButton">Exit</button></div></div>';
+      var Titlebar = '<div id="TitleBar"><div class="icon"></div><div class="text" unselectable="on">String Encrypter</div><div class="buttons"><button style="left: 0px;" id="MinButton" title="Minimise">0</button><button style="left: 48px;" id="MaxButton" title="Maximise">1</button><button style="left: 96px;" id="ExitButton" title="Quit">r</button></div></div>';
       var AccentColor = (function () {
         try {
           var unProcessedInt = new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\DWM\\AccentColor');
@@ -273,9 +275,13 @@
           y = window.screenTop;
           w = document.body.clientWidth + 14;
           h = document.body.clientHeight + 14;
+          MaxButton.innerHTML = "2";
+          MaxButton.title = "Restore";
           window.moveTo(-7, -7);
           window.resizeTo(screen.availWidth + 14, screen.availHeight + 14);
         } else {
+          MaxButton.innerHTML = "1";
+          MaxButton.title = "Maximise";
           window.moveTo(x, y);
           window.resizeTo(w, h)
         }
@@ -295,12 +301,12 @@
           addEvent(MinButton, 'mouseover', function () { MinButton.className = 'hover-ed'; });
           addEvent(MinButton, 'mouseup', function () { MinButton.className = 'hover-ed'; });
           addEvent(MinButton, 'mouseout', function () { MinButton.className = ''; });
-
+      
           addEvent(MaxButton, 'mousedown', function () { MaxButton.className = 'click-ed'; });
           addEvent(MaxButton, 'mouseover', function () { MaxButton.className = 'hover-ed'; });
           addEvent(MaxButton, 'mouseup', function () { MaxButton.className = 'hover-ed'; });
           addEvent(MaxButton, 'mouseout', function () { MaxButton.className = ''; });
-
+      
           addEvent(ExitButton, 'mousedown', function () { ExitButton.className = 'click-ed'; });
           addEvent(ExitButton, 'mouseover', function () { ExitButton.className = 'hover-ed'; });
           addEvent(ExitButton, 'mouseup', function () { ExitButton.className = 'hover-ed'; });
@@ -332,7 +338,7 @@
         addEvent(MinButton, 'click', MinimiseWindow);
         addEvent(MaxButton, 'click', MaximiseWindow);
         addEvent(ExitButton, 'click', CloseWindow);
-
+      
         addEvent(TitleBar, 'mousedown', setPos);
         addEvent(TitleBar, 'mousemove', moving);
         addEvent(TitleBar, 'mouseup', stopMoving);
@@ -381,10 +387,10 @@
               C += '(Stable);';
             }
           } else {
-            C += '(<a href="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/">Get Latest Version</a>);';
+            C += '(<a href="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/" title="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/">Get Latest Version</a>);';
           }
         }
-        C += ' <br>\n<a href="https://github.com/GianSinghSarao/String-Encrypter">GitHub Repository</a>; </span>'
+        C += ' <br>\n<a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub Repository</a>; </span>'
         container.innerHTML += C;
       });
     </script>
@@ -408,7 +414,7 @@
     </script>
   </head>
   <body>
-    <HTA:APPLICATION applicationName="String Encrypter" version="0.9.4" maximizeButton="yes" selection="no" scroll="no" icon="#" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
+    <HTA:APPLICATION applicationName="String Encrypter" version="0.9.5" maximizeButton="yes" selection="no" scroll="no" icon="#" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
     <span id="container" >
       <span class="section text">
         <span class="label" onclick="tamsg.focus()">

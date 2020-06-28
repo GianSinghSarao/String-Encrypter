@@ -1,0 +1,173 @@
+/* #region - CSS Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  vertical-align: baseline;
+  font-size: 16px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+* {
+  font-family: inherit;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+/* #endregion */
+html, 
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #191919;
+  text-align: center;
+  overflow: auto;
+  display: block;
+  color: #fff;
+  height: 100%;
+  width: 100%;
+}
+/* #region - Custom Titlebar Styles */
+#TitleBar { 
+  position: relative;
+  font-size: 16px;
+  display: block;
+  color: #fff;
+  padding: 0px;
+  height: 48px;
+  border: none;
+  cursor: auto;
+  margin: 0px;
+  width: 100%;
+}
+#TitleBar div {
+  position: absolute;
+  display: block;
+  height: 16px;
+  top: 0px;
+}
+#TitleBar .icon {
+  background: url('#');
+  padding: 16px;
+  width: 16px;
+  left: 0px;
+}
+#TitleBar .text {
+  padding: 16px 8px;
+  left: 48px;
+}
+#TitleBar .buttons {
+  height: 48px;
+  width: 144px;
+  right: 0px;
+} 
+#TitleBar .buttons button {
+  background: transparent;
+  font-family: Webdings;
+  position: absolute;
+  font-size: 16px;
+  color: #fff;
+  padding: 0px;
+  height: 48px;
+  margin: 0px;
+  border: 0px;
+  width: 48px;
+  top: 0px;
+}
+#TitleBar .buttons button.hover-ed, 
+#TitleBar .buttons button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+#TitleBar .buttons button.click-ed, 
+#TitleBar .buttons button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+#TitleBar .buttons button#ExitButton.hover-ed, 
+#TitleBar .buttons button#ExitButton:hover {
+  background: #e81123;
+}
+#TitleBar .buttons button#ExitButton.click-ed, 
+#TitleBar .buttons button#ExitButton:active {
+  background: #f00;
+}
+/* #endregion */
+#container {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 0 auto;
+}
+.label {
+  width: 100%; 
+  display: block; 
+  font-size: 1em; 
+  text-align: left; 
+}
+.section {
+  display: block; 
+  padding: 0.25em;
+  border: 1px solid #2b2b2b; 
+  color: #636363;
+}
+input, textarea {
+  width: 100%; 
+  border: none;
+  display: block; 
+  overflow: auto;
+  font-size: 1em; 
+  color: #fff;
+  background-color: #202020;
+}
+.button {
+  margin: 0;
+  color: #888; 
+  padding: 0.1em;
+  background: #000;
+}
+input.button.hover-ed,
+input.button:hover {
+  background: #3d3d3d;
+  color: #f0f0f0;
+}
+@media print {
+  html,
+  body {
+    text-align: left;
+    background: #fff;
+    overflow: visible;
+  }
+  #tamsg {
+    color: #000;
+  }
+  #container {
+    max-width: none;
+    overflow: visible;
+  }
+  .section {
+    display: none;
+  }
+  .section.text {
+    display: block;
+  }
+  textarea {
+    background: transparent;
+    border: 1px solid #000;
+  }
+  #TitleBar {
+    display: none;
+  }
+}

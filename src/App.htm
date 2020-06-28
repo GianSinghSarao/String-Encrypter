@@ -1,0 +1,108 @@
+<span id="container" >
+  <span class="section text">
+    <span class="label" onclick="tamsg.focus()">
+      Text To Encrypt Or Decrypt:
+    </span>
+    <textarea id="tamsg" rows="10"></textarea>
+  </span>
+  <span class="section">
+    <span class="label" onclick="pass.focus()">
+      Password:
+    </span>
+    <input type="password" id="pass">
+  </span>
+  <span class="section">
+    <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
+    <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />       
+  </span>
+  <input type="hidden" id="temp">
+</span>
+<script> 
+  addEvent(window, 'load', function () {
+    var width = 700, height = 500;
+    if (document.getElementsByTagName('html')[0].className.indexOf('lt-ie8') != -1) {
+      addEvent(window, 'resize', function () {
+        container.style.width = document.body.clientWidth >= 600 ? '600px' : '100%';
+      });
+    }
+    window.resizeTo(width, height);
+  });
+  addEvent(window, 'beforeprint', function () {
+    var width = container.style.width;
+    var height = tamsg.style.height;
+    addEvent(window, 'afterprint', function PrintCleanup () {
+      container.style.width = width;
+      tamsg.style.height = height;
+      removeEvent(window, 'afterprint', PrintCleanup);
+    });
+    container.style.width = '';
+    tamsg.style.height = (tamsg.scrollHeight + 10) + 'px';
+  });
+</script>
+<script>
+  function Validate(METHOD) {
+    if (pass.value === "") {
+      alert("You Have To Enter The Password!");
+    } else {
+      if (tamsg.value === "") {
+        alert("Enter The Text To Encrypt Or Decrypt!");
+      } else {
+        KEYS(METHOD);
+      }
+    }
+  }
+  function KEYS(METHOD) {
+    var text = pass.value;
+    var code = 0
+    while (text !== "") {
+      code += text.charCodeAt(0);
+      text = text.slice(1);
+    }
+    code = code % 255;
+    temp.value = code;
+    METHOD();
+  }
+  function Encrypt () {
+    var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    var text = tamsg.value;
+    var code = "";
+    var key = Number(temp.value);
+    while (text !== "") {
+      var cnum = text.charCodeAt(0);
+      cnum = (cnum + key) % 255;
+      num = cnum % 26;
+      var count = 0;
+      var tst = num;
+      while (tst !== cnum) {
+        tst += 26;
+        count += 1
+      }
+      code = code + Alpha[num] + count;
+      text = text.slice(1);
+    }
+    tamsg.value = code;
+  }
+  function Decrypt () {
+    var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    var text = tamsg.value;
+    var code = "";
+    var key = Number(temp.value);
+    while (text !== "") {
+      var lttr = text.slice(0,2);
+      var num = lttr.charCodeAt(0) - 65
+      var chk = lttr.slice(1,2);
+      var count = 0;
+      while (count !== Number(chk)) {
+        num += 26;
+        count += 1; 
+      }
+      num -= key;
+      while (num <= 0) {
+        num += 255;
+      }
+      code = code + String.fromCharCode(num);
+      text = text.slice(2);
+    }
+    tamsg.value = code;
+  }
+</script>
