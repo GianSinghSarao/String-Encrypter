@@ -14,21 +14,43 @@ function ifSuitable (a, b) {
   if (a[2] < b[2]) return false;
   return true;
 };
-var latestVersion = (function (C) {
-  try {
-    C = new ActiveXObject('WinHttp.WinHttpRequest.5.1');
-    C.Option(6) = false; //i have no idea how this works. i hope it's because it returns a reference to the enableRedirects option, instead of a copy.
-    C.open("GET", 'https://github.com/GianSinghSarao/String-Encrypter/releases/latest/', false);
-    C.send();
-  } catch (D) {
-    return 'v0.0.0';
+var latestVersion = (function () {
+  var CachedVersion = '', XHR;
+  function GetLatestVersion () {
+    if (Environment.IsOldIE) {
+      XHR = new ActiveXObject("Microsoft.XMLHTTP");
+    } else {
+      XHR = new XMLHttpRequest();
+    }
+    XHR.onreadystatechange = function () {
+      if (XHR.readyState == 4) {
+        if (XHR.status >= 200 && XHR.status < 400) {
+          CachedVersion = XHR.responseText.replace(/\n/gm, "").replace(/.*"(v[^"]*)".*/gm, "$1");
+        } else {
+          CachedVersion = 'v0.0.0';
+        }
+      }
+    };
+    XHR.open('GET', 'https://api.github.com/repos/GianSinghSarao/String-Encrypter/releases/latest', true);
+    XHR.send();
   }
-  return C.GetResponseHeader('Location').split('/').pop();
+  GetLatestVersion();
+  return function (refresh) {
+    if (refresh) {
+      GetLatestVersion();
+    } else {
+      return CachedVersion;
+    }
+  };
 })();
 addEvent(window, 'load', function (a, A, B, C) {
-  A = 'v' + appTag.version;
-  B = latestVersion; 
-  C = '<span class="section"> Current Version: ' + A;
+  try {
+    A = 'v' + document.getElementById('appTag').getAttribute('version');
+  } catch (e) {
+    A = 'unknown';
+  }
+  B = latestVersion(); 
+  C = '<span> Current Version: ' + A;
   if (B == 'v0.0.0') {
     C += '(Failed to check for updates);';  
   } else {
@@ -42,6 +64,7 @@ addEvent(window, 'load', function (a, A, B, C) {
       C += '(<a href="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/" title="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/">Get Latest Version</a>);';
     }
   }
-  C += ' <br>\n<a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub Repository</a>; </span>'
-  container.innerHTML += C;
+  C += '</span> \n<a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub Repository</a>;'
+  C = '<div role="contentinfo" id="PageStatusBar">'+ C + '</div>';
+  document.body.innerHTML += C;
 });

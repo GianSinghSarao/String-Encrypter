@@ -1,173 +1,464 @@
-/* #region - CSS Reset */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  vertical-align: baseline;
-  font-size: 16px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-}
-* {
-  font-family: inherit;
-}
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-body {
+/* #region Normalization Attempt */
+/* 
+  This section should be a copy of a generic normalize.css but because this 
+  stylesheet is designed for HTAs which only work in IE it didn't make much 
+  sense to keep moz and webkit prefixed properties. Nor does it make sense 
+  to keep rules which interfere with my styles. Especially considering that
+  this HTA needs to have the same features in IE5 as it would have in IE9,
+  despite IE5 having shoddy CSS 2 support.
+ */
+html {
   line-height: 1;
 }
-/* #endregion */
-html, 
+
+hta\:application,
+application {
+  display: none;
+}
+
 body {
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #191919;
-  text-align: center;
-  overflow: auto;
-  display: block;
-  color: #fff;
-  height: 100%;
-  width: 100%;
+  margin: 0;
 }
-/* #region - Custom Titlebar Styles */
-#TitleBar { 
+
+article, aside, footer, header, nav, section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+figcaption, figure, main {
+  display: block;
+}
+
+figure {
+  margin: 1em 40px;
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+a {
+  background: transparent;
+}
+
+b, strong {
+  font-weight: bolder;
+}
+
+code, kbd, samp, pre {
+  font-family: "Cascadia Code", "Roboto Mono", monospace;
+  font-size: 1em;
+}
+
+dfn {
+  font-style: italic;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
   position: relative;
-  font-size: 16px;
-  display: block;
-  color: #fff;
-  padding: 0px;
-  height: 48px;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+audio, video {
+  display: inline-block;
+}
+
+img {
+  border-style: none;
+}
+
+button, input, optgroup, select, textarea {
+  font-size: 100%;
+  margin: 0;
+}
+
+button, input {
+  overflow: visible;
+  border-width: 0px;
   border: none;
+}
+
+button, select {
+  text-transform: none;
+}
+
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+legend {
+  box-sizing: border-box;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
+}
+
+progress {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+textarea {
+  overflow: auto;
+}
+
+details, menu {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+canvas {
+  display: inline-block;
+}
+
+template {
+  display: none;
+}
+
+/* #endregion */
+/* #region Page Layout Overview */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+  font-family: "Cascadia Code", "Roboto Mono", monospace;
+  font-size: 16px;
+}
+
+#PageTitleBar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: auto;
+  height: 3em;
   cursor: auto;
-  margin: 0px;
   width: 100%;
 }
-#TitleBar div {
+
+#PageContent {
   position: absolute;
-  display: block;
-  height: 16px;
-  top: 0px;
-}
-#TitleBar .icon {
-  background: url('#');
-  padding: 16px;
-  width: 16px;
+  top: 3em;
   left: 0px;
-}
-#TitleBar .text {
-  padding: 16px 8px;
-  left: 48px;
-}
-#TitleBar .buttons {
-  height: 48px;
-  width: 144px;
   right: 0px;
-} 
-#TitleBar .buttons button {
+  bottom: 1.4em;
+  display: block;
+  height: calc(100% - 4.4em);
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+
+#PageStatusBar {
+  position: absolute;
+  top: auto;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 1.4em;
+  vertical-align: middle;
+  line-height: 1.4em;
+  padding-left: 0.1em;
+  cursor: auto;
+  width: 100%;
+}
+
+#PageStatusBar * {
+  font-size: 0.9em;
+}
+/* #endregion */
+/* #region Page Content */
+
+#form {
+  border: none;
+  padding: 0;
+  display: block;
+  text-align: left;
+  margin: 0 auto;
+  width: calc(80ch + 4em);
+  max-width: 100%;
+}
+
+#form.wide {
+  margin-top: 1em;
+}
+
+#form div {
+  display: block;
+  padding: 1em;
+  width: 100%;
+}
+
+#ZeroSize {
+  display: inline;
+  line-height: 1;
+  outline: none;
+  border: none;
+  padding: none;
+  margin: none;
+  box-sizing: content-box;
+  opacity: 0;
+  color: transparent;
+  background-color: transparent;
+}
+
+#ZeroSize.hidden {
+  display: none;
+}
+
+label {
+  width: 100%;
+  display: block;
+  font-size: 1em;
+  text-align: left;
+}
+
+input, textarea {
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  width: 100%;
+  overflow: auto;
+  font-size: 1em;
+  padding: 1em;
+  margin: 0;
+  line-height: 1em;
+}
+
+.lt-ie7 #pass {
+  height: 3em;
+}
+
+#form div#Buttons {
+  padding: 0;
+}
+
+#form.wide div#Buttons {
+  overflow: auto;
+}
+
+#form.wide div#Buttons #EncryptButton,
+#form.wide div#Buttons #DecryptButton {
+  width: 50%;
+  float: left;
+}
+
+/* #endregion */
+/* #region TitleBar Styles (Partial - Some are generated and added to the DOM by JS) */
+#PageTitleBar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: auto;
+  height: 3em;
+  cursor: auto;
+  width: 100%;
+}
+
+#PageTitleBar div,
+#PageTitleBar h1 {
+  position: absolute;
+}
+
+#PageTitleBar .icon {
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  width: 3em;
+}
+
+#PageTitleBar .text {
+  line-height: 1em;
+  font-size: 1em;
+  font-weight: normal;
+  top: 0;
+  right: 9em;
+  bottom: 0;
+  left: 3em;
+  padding: 1em 0.75em;
+  margin: 0;
+}
+
+#PageTitleBar #CustomWindowButtons {
+  background: transparent;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  overflow: visible;
+}
+
+#PageTitleBar #CustomWindowButtons button {
   background: transparent;
   font-family: Webdings;
-  position: absolute;
-  font-size: 16px;
-  color: #fff;
-  padding: 0px;
-  height: 48px;
-  margin: 0px;
-  border: 0px;
-  width: 48px;
-  top: 0px;
+  line-height: 1em;
+  height: 3em;
+  width: 3em;
+  padding: 1em;
+  border: 0px transparent solid;
 }
-#TitleBar .buttons button.hover-ed, 
-#TitleBar .buttons button:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-#TitleBar .buttons button.click-ed, 
-#TitleBar .buttons button:active {
-  background: rgba(255, 255, 255, 0.2);
-}
-#TitleBar .buttons button#ExitButton.hover-ed, 
-#TitleBar .buttons button#ExitButton:hover {
+
+#PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
+#PageTitleBar #CustomWindowButtons button#ExitButton:hover {
   background: #e81123;
-}
-#TitleBar .buttons button#ExitButton.click-ed, 
-#TitleBar .buttons button#ExitButton:active {
-  background: #f00;
-}
-/* #endregion */
-#container {
-  display: block;
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  margin: 0 auto;
-}
-.label {
-  width: 100%; 
-  display: block; 
-  font-size: 1em; 
-  text-align: left; 
-}
-.section {
-  display: block; 
-  padding: 0.25em;
-  border: 1px solid #2b2b2b; 
-  color: #636363;
-}
-input, textarea {
-  width: 100%; 
-  border: none;
-  display: block; 
-  overflow: auto;
-  font-size: 1em; 
   color: #fff;
-  background-color: #202020;
 }
-.button {
-  margin: 0;
-  color: #888; 
-  padding: 0.1em;
-  background: #000;
+
+#PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+#PageTitleBar #CustomWindowButtons button#ExitButton:active {
+  background: #f00;
+  color: #fff;
 }
-input.button.hover-ed,
-input.button:hover {
-  background: #3d3d3d;
+
+/* #endregion */
+/* #region Page Themeing */
+body.dark {
+  background: #202020;
+  color: #ffffff;
+}
+
+body.light {
+  background: #f5f6f7;
+  color: #000000;
+}
+
+body.light #PageTitleBar {
+  border-bottom: #dadbdc 1px solid;
+}
+
+body.dark #PageStatusBar {
+  background: #333333;
+}
+
+body.light #PageStatusBar {
+  background: #ffffff;
+}
+
+body.dark #form div {
+  border: 1px solid #3e3e3e;
+  color: #dadbdc;
+}
+
+body.light #form div {
+  border: 1px solid #e3e4e5;
+  color: #2b2b2b;
+}
+
+body.dark input,
+body.dark textarea {
+  background: #2b2b2b;
+  color: #fff;
+}
+
+body.light input,
+body.light textarea {
+  background: #fafbfc;
+  color: #202020;
+}
+
+body.dark .button {
+  background: transparent;
+  color: #888;
+}
+
+body.light .button {
+  background: transparent;
+  color: #222;
+}
+
+body.dark input.button.hover-ed,
+body.dark input.button:hover {
+  background: #4a4a4a;
+  border: solid 1px #595959;
   color: #f0f0f0;
 }
+
+body.light input.button.hover-ed,
+body.light input.button:hover {
+  background: #e8eff7;
+  border: solid 1px #a4cef9;
+  color: #3d3d3d;
+}
+/* #endregion */
+/* #region Print Styles */
 @media print {
-  html,
-  body {
-    text-align: left;
-    background: #fff;
-    overflow: visible;
+
+  #tamsg,
+  * {
+    text-align: left !important;
+    background: #fff !important;
+    color: #000 !important;
+    position: static !important;
+    max-width: none !important;
+    overflow: visible !important;
   }
-  #tamsg {
-    color: #000;
+
+  #form.wide {
+    margin: 0 !important;
   }
-  #container {
-    max-width: none;
-    overflow: visible;
-  }
-  .section {
+
+  #form div {
     display: none;
   }
-  .section.text {
-    display: block;
+
+  #form div.text {
+    display: inline;
   }
+
   textarea {
     background: transparent;
     border: 1px solid #000;
   }
-  #TitleBar {
+
+  #PageTitleBar,
+  #PageStatusBar {
     display: none;
   }
 }
+
+/* #endregion */

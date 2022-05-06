@@ -1,41 +1,59 @@
-<span id="container" >
-  <span class="section text">
-    <span class="label" onclick="tamsg.focus()">
+<div><span id="ZeroSize">0</span></div>
+<fieldset id="form">
+  <div class="text">
+    <label id="textareaLabel" for="tamsg">
       Text To Encrypt Or Decrypt:
-    </span>
-    <textarea id="tamsg" rows="10"></textarea>
-  </span>
-  <span class="section">
-    <span class="label" onclick="pass.focus()">
+    </label>
+    <textarea id="tamsg" cols="80" rows="5"></textarea>
+  </div>
+  <div>
+    <label id="passwordLabel" for="pass">
       Password:
-    </span>
+    </label>
     <input type="password" id="pass">
-  </span>
-  <span class="section">
-    <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);" onmouseover="EncryptButton.className='button hover-ed';" onmouseout="EncryptButton.className='button';" />
-    <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);" onmouseover="DecryptButton.className='button hover-ed';" onmouseout="DecryptButton.className='button';" />       
-  </span>
+  </div>
+  <div id="Buttons">
+    <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);"/>
+    <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);"/>       
+  </div>
   <input type="hidden" id="temp">
-</span>
+</fieldset>
 <script> 
   addEvent(window, 'load', function () {
-    var width = 700, height = 500;
-    if (document.getElementsByTagName('html')[0].className.indexOf('lt-ie8') != -1) {
-      addEvent(window, 'resize', function () {
-        container.style.width = document.body.clientWidth >= 600 ? '600px' : '100%';
-      });
+    var width = 582, height = 444;
+    var chSize = ZeroSize.offsetWidth;
+    var emSize = ZeroSize.offsetHeight;
+    ZeroSize.className = "hidden";
+    var cssInJS = function () { 
+      var formSize = 80 * chSize + 4 * emSize; 
+      if (Environment.hasActiveXObject) {
+        form.style.width = document.body.clientWidth >= formSize + 2 * emSize ? formSize + "px" : "100%"; 
+      } 
+      if (document.body.clientWidth >= formSize + 2 * emSize) {
+        form.className = "wide";
+      } else {
+        form.className = "";
+      }
+    } 
+    cssInJS(); 
+    addEvent(window, 'resize', cssInJS);
+    if (document.getElementsByTagName('html')[0].className.indexOf('lt-ie7') != -1) {
+      DecryptButton.setAttribute('onmouseover', "DecryptButton.className='button hover-ed';");
+      DecryptButton.setAttribute('onmouseout', "DecryptButton.className='button';");
+      EncryptButton.setAttribute('onmouseover', "EncryptButton.className='button hover-ed';");
+      EncryptButton.setAttribute('onmouseout', "EncryptButton.className='button';");
     }
     window.resizeTo(width, height);
   });
   addEvent(window, 'beforeprint', function () {
-    var width = container.style.width;
+    var width = form.style.width;
     var height = tamsg.style.height;
     addEvent(window, 'afterprint', function PrintCleanup () {
-      container.style.width = width;
+      form.style.width = width;
       tamsg.style.height = height;
       removeEvent(window, 'afterprint', PrintCleanup);
     });
-    container.style.width = '';
+    form.style.width = '';
     tamsg.style.height = (tamsg.scrollHeight + 10) + 'px';
   });
 </script>

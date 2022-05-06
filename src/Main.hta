@@ -1,20 +1,36 @@
 <!DOCTYPE html>
-<!--[if lt IE 6]> <html class="lt-ie9 lt-ie8 lt-ie7 lt-ie6"> <![endif]-->
-<!--[if IE 6]>    <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>    <html class="lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>    <html class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html> <!--<![endif]-->    
+<!--[if lt IE 6]> <html lang="en" class="lt-ie9 lt-ie8 lt-ie7 lt-ie6"> <![endif]-->
+<!--[if IE 6]>    <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html lang="en" class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html lang="en" class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->    
   <head>
     <title>String Encrypter</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=9"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=5"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="App.css">
+    <script src="Environment.js"></script>
     <script src="Events.js"></script>
+    <script src="MIME_Types.js"></script>
+    <script src="Assets.js"></script>
+    <script src="Colors.js"></script>
+    <script src="Theme.js"></script>
     <script src="Titlebar.js"></script>
     <script src="UpdateChecker.js"></script>
     <script src="AnchorOverrider.js"></script>
   </head>
   <body>
-{{HTA_TAG.hta}}
+    <div role="main" id="PageContent">
+      <noscript>
+        <h1>
+          This App Requires Javascript To Work. <br>
+          Please enable it for this site, then refresh this tab. <hr>
+          If you are on IE click "Allow Blocked Content".
+        </h1>
+      </noscript>
+      <HTA:APPLICATION applicationName="String Encrypter" version="0.10.0" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
 {{App.htm}}
+    </div>
   </body>
 </html>
