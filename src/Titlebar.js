@@ -96,7 +96,11 @@
   }
 
   function MinimiseWindow() {
-    window.blur();
+    try {
+      document.getElementById("HHCtrlMinimizeWindowObject").Click();
+    } catch (e) {
+      window.blur();
+    }
   }
 
   if (Environment.hasDocument) {
@@ -105,7 +109,7 @@
         var outerHTML = '';
         outerHTML += '<div role="banner" id="PageTitleBar"><div class="icon"></div><h1 class="text">String Encrypter</h1>';
         if (Environment.IsHTA()) {
-          outerHTML += '<div id="CustomWindowButtons"><button id="MinButton" title="Minimise" aria-label="Minimise">0</button><button id="MaxButton" title="Maximise" aria-label="Maximise">1</button><button id="ExitButton" title="Quit" aria-label="Quit">r</button></div>';
+          outerHTML += '<div id="CustomWindowButtons"><button id="MinButton" title="Minimise" aria-label="Minimise">0</button><button id="MaxButton" title="Maximise" aria-label="Maximise">1</button><button id="ExitButton" title="Quit" aria-label="Quit">r</button></div><object id="HHCtrlMinimizeWindowObject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"><param name="command" value="minimize" /></object>';
         }
         outerHTML += '</div>';
         return outerHTML;
