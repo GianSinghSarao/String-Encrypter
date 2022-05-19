@@ -4,7 +4,7 @@
     <label id="textareaLabel" for="tamsg">
       Text To Encrypt Or Decrypt:
     </label>
-    <textarea id="tamsg" cols="80" rows="5"></textarea>
+    <textarea id="tamsg" cols="80" rows="3"></textarea>
   </div>
   <div>
     <label id="passwordLabel" for="pass">
@@ -42,6 +42,7 @@
       DecryptButton.setAttribute('onmouseout', "DecryptButton.className='button';");
       EncryptButton.setAttribute('onmouseover', "EncryptButton.className='button hover-ed';");
       EncryptButton.setAttribute('onmouseout', "EncryptButton.className='button';");
+      tamsg.setAttribute('rows', "5");
     }
     window.resizeTo(width, height);
   });

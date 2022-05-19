@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->    
   <head>
     <title>String Encrypter</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=5"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=9"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <style>
@@ -1031,14 +1031,14 @@
           If you are on IE click "Allow Blocked Content".
         </h1>
       </noscript>
-      <HTA:APPLICATION applicationName="String Encrypter" version="0.10.2" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
+      <HTA:APPLICATION applicationName="String Encrypter" version="0.10.3" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
     <div><span id="ZeroSize">0</span></div>
     <fieldset id="form">
       <div class="text">
         <label id="textareaLabel" for="tamsg">
           Text To Encrypt Or Decrypt:
         </label>
-        <textarea id="tamsg" cols="80" rows="5"></textarea>
+        <textarea id="tamsg" cols="80" rows="3"></textarea>
       </div>
       <div>
         <label id="passwordLabel" for="pass">
@@ -1076,6 +1076,7 @@
           DecryptButton.setAttribute('onmouseout', "DecryptButton.className='button';");
           EncryptButton.setAttribute('onmouseover', "EncryptButton.className='button hover-ed';");
           EncryptButton.setAttribute('onmouseout', "EncryptButton.className='button';");
+          tamsg.setAttribute('rows', "5");
         }
         window.resizeTo(width, height);
       });
