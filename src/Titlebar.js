@@ -8,34 +8,49 @@
     A = Color.toHex(A).substring(0, 7);
     return A;
   })();
-  
+
   var FontColor = Color.toHex(
     Color.getContrastingOf(Color.fromHex(TitleBarColor))
   ).substring(0, 7);
-  
+
   var posX = 0, posY = 0, 
     move = false, 
     w = 0, h = 0, 
     x = 0, y = 0, 
-    max = false;
+    max = false,
+    MIN_WIDTH = 144,
+    MIN_HEIGHT = 48;
 
   if (!window.screenLeft) {
     window.screenLeft = window.screenX;
     window.screenTop = window.screenY;
   }
 
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
+
   function customResize() {
-    var buttonsWidth = 144;
-    var buttonsHeight = 48;
-    var widthOK = document.body.clientWidth >= buttonsWidth;
-    var heightOK = document.body.clientHeight >= buttonsHeight;
+    var widthOK = document.body.clientWidth >= MIN_WIDTH;
+    var heightOK = document.body.clientHeight >= MIN_HEIGHT;
     if (widthOK && heightOK) {
     } else if (widthOK) {
-      window.resizeTo(document.body.clientWidth + 14, buttonsHeight + 14);
+      window.resizeTo(document.body.clientWidth + 14, MIN_HEIGHT + 14);
     } else if (heightOK) {
-      window.resizeTo(buttonsWidth + 14, document.body.clientHeight + 14);
+      window.resizeTo(MIN_WIDTH + 14, document.body.clientHeight + 14);
     } else {
-      window.resizeTo(buttonsWidth + 14, buttonsHeight + 14);
+      window.resizeTo(MIN_WIDTH + 14, MIN_HEIGHT + 14);
     }
   }
 
@@ -203,7 +218,7 @@
           addEvent(document, 'focusin', function () {
             document.body.className = document.body.className.replace(/\s*unfocused/g, "");
           });  
-          addEvent(window, 'resize', customResize);
+          addEvent(window, 'resize', debounce(customResize, 200));
         }
       }, 0);
     });
