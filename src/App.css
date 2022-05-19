@@ -447,7 +447,7 @@ body.light input.button:hover {
   }
 
   #form div.text {
-    display: inline;
+    display: block;
   }
 
   textarea {
