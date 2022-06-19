@@ -175,6 +175,7 @@ html, body {
   height: 3em;
   cursor: auto;
   width: 100%;
+  z-index: 1000;
 }
 
 #PageContent {
