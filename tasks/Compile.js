@@ -25,29 +25,33 @@ b = 'var Assets = (function (a, b, c) { \n\
 ' + b.join(', \n') + ' \n\
   }; \n\
   try { \n\
-    function cleanup () { \n\
+    if (Environment.hasActiveXObject) { \n\
+      function cleanup () { \n\
+        a = new ActiveXObject("WScript.Shell"); \n\
+        b = new ActiveXObject("Scripting.FileSystemObject"); \n\
+        a.CurrentDirectory = b.GetSpecialFolder(2); \n\
+        b.DeleteFolder(c.slice(0, -1)); \n\
+      } \n\
+      addEvent(window, "unload", cleanup); \n\
       a = new ActiveXObject("WScript.Shell"); \n\
       b = new ActiveXObject("Scripting.FileSystemObject"); \n\
-      a.CurrentDirectory = b.GetSpecialFolder(2); \n\
-      b.DeleteFolder(c.slice(0, -1)); \n\
-    } \n\
-    addEvent(window, "unload", cleanup); \n\
-    a = new ActiveXObject("WScript.Shell"); \n\
-    b = new ActiveXObject("Scripting.FileSystemObject"); \n\
-    c = b.GetSpecialFolder(2) + "\\\\Strngncryptr-" + b.GetTempName() + "\\\\"; \n\
-    b.CreateFolder(c); \n\
-    a.CurrentDirectory = c; \n\
-    for (var FileName in Assets) { \n\
-      a = new ActiveXObject("Microsoft.XMLDOM").createElement("Base64Data"); \n\
-      a.dataType = "bin.base64"; \n\
-      a.text = Assets[FileName]; \n\
-      b = new ActiveXObject("ADODB.Stream"); \n\
-      b.Type = 1; \n\
-      b.Open(); \n\
-      b.Write(a.nodeTypedValue); \n\
-      b.SaveToFile(FileName, 2); \n\
-      b.Close(); \n\
-      Assets[FileName] = c + FileName; \n\
+      c = b.GetSpecialFolder(2) + "\\\\Strngncryptr-" + b.GetTempName() + "\\\\"; \n\
+      b.CreateFolder(c); \n\
+      a.CurrentDirectory = c; \n\
+      for (var FileName in Assets) { \n\
+        a = new ActiveXObject("Microsoft.XMLDOM").createElement("Base64Data"); \n\
+        a.dataType = "bin.base64"; \n\
+        a.text = Assets[FileName]; \n\
+        b = new ActiveXObject("ADODB.Stream"); \n\
+        b.Type = 1; \n\
+        b.Open(); \n\
+        b.Write(a.nodeTypedValue); \n\
+        b.SaveToFile(FileName, 2); \n\
+        b.Close(); \n\
+        Assets[FileName] = c + FileName; \n\
+      } \n\
+    } else { \n\
+      throw "Not IE"; \n\
     } \n\
   } catch (e) { \n\
     for (var FileName in Assets) { \n\

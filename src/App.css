@@ -311,6 +311,20 @@ input, textarea {
   bottom: 0;
   left: 0;
   width: 3em;
+  line-height: 3em;
+  text-align: center;
+}
+
+#PageTitleBar .icon * {
+  vertical-align: middle;
+}
+
+#PageTitleBar .icon span {
+  display: none;
+}
+
+.lt-ie8 #PageTitleBar .icon span {
+  display: inline-block;
 }
 
 #PageTitleBar .text {
@@ -321,7 +335,7 @@ input, textarea {
   right: 9em;
   bottom: 0;
   left: 3em;
-  padding: 1em 0.75em;
+  padding: 1em 0em;
   margin: 0;
 }
 
@@ -439,8 +453,9 @@ body.light input.button:hover {
     overflow: visible !important;
   }
 
-  #form.wide {
+  #form {
     margin: 0 !important;
+    width: 100%;
   }
 
   #form div {
