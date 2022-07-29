@@ -1,0 +1,274 @@
+* {
+  box-sizing: border-box;
+  
+  background-color: transparent;
+  border-width: 0;
+  border-color: transparent;
+  border-style: none;
+  
+  font-size: 16px;
+  font-family: "Cascadia Code", "Roboto Mono", monospace;
+  line-height: 1em;
+
+  padding: 0;
+  margin: 0;
+}
+
+hta\:application,
+application {
+  display: none;
+}
+
+body,
+#PageTitleBar, 
+#PageTitleBar div,
+#PageTitleBar h1,
+#PageContent,
+#PageStatusBar {
+  position: absolute;
+}
+
+html,
+body {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  height: 100%;
+  width: 100%;
+
+  display: block;
+  overflow: hidden;
+  overscroll-behavior: auto;
+}
+
+.modern body {
+  position: static;
+}
+
+.modern #PageTitleBar,
+.modern #PageStatusBar {
+  position: fixed;
+}
+
+#PageTitleBar {
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: 0;
+
+  height: 3em;
+  width: 100%;
+
+  cursor: auto;
+  z-index: 1000;
+}
+
+#PageTitleBar div, 
+#PageTitleBar h1 {
+  top: 0;
+  bottom: 0;
+
+  height: 100%;
+}
+
+#PageTitleBar .icon {
+  right: auto;
+  left: 0;
+
+  width: 3em;
+
+  line-height: 3em;
+  text-align: center;
+}
+
+#PageTitleBar .icon img,
+#PageTitleBar .icon span {
+  vertical-align: middle;
+}
+
+#PageTitleBar .icon span {
+  height: 100%;
+
+  display: none;
+}
+
+.lt-ie8 #PageTitleBar .icon span {
+  display: inline-block;
+} 
+
+#PageTitleBar .text {
+  right: 0;
+  left: 3em;
+
+  font-size: 1em;
+  font-weight: normal;
+
+  padding: 1em 0em;
+}
+
+.HTA #PageTitleBar .text {
+  right: 9em;
+}
+
+#PageTitleBar #CustomWindowButtons {
+  right: 0;
+  left: auto;
+  
+  overflow: visible;
+}
+
+#PageTitleBar #CustomWindowButtons button {
+  height: 3em;
+  width: 3em;
+
+  font-family: Webdings;
+  
+  padding: 1em;
+}
+
+#PageContent {
+  top: 3em;
+  right: 0;
+  bottom: 1.4em;
+  left: 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  text-align: center;
+  
+  margin: 0 auto;
+}
+
+.lt-ie7 #PageContent {
+  width: 100%;
+}
+
+#PageStatusBar {
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  min-height: 1.45em;
+  width: 100%;
+
+  line-height: 1.45em;
+}
+
+#PageStatusBar * {
+  font-size: 0.8em;
+}
+
+#form {
+  width: calc(80ch + 4em);
+  max-width: 100%;
+
+  margin: 0 auto;
+}
+
+#form.wide {
+  margin-top: 1em;
+}
+
+#form div {
+  width: 100%;
+  
+  padding: 1em;
+}
+
+#ZeroSize {
+  box-sizing: content-box;
+
+  color: transparent;
+  outline: none;
+  border: none;
+  opacity: 0;
+  
+  display: inline;
+
+  padding: none;
+  margin: none;
+}
+
+#ZeroSize.hidden {
+  display: none;
+}
+
+label {
+  width: 100%;
+  
+  font-size: 1em;
+  text-align: left;
+
+  display: block;
+}
+
+input, textarea {  
+  width: 100%;
+  
+  padding: 1em;
+  margin: 0;
+  
+  overflow: auto;
+  display: block;
+}
+
+.lt-ie7 #pass {
+  height: 3em;
+}
+
+#form div#Buttons {
+  padding: 0;
+}
+
+#form.normal div#Buttons {
+  overflow: auto;
+}
+
+#form.normal div#Buttons #EncryptButton,
+#form.normal div#Buttons #DecryptButton {
+  width: 50%;
+  float: left;
+}
+
+@media print {
+  * {
+    position: static !important;
+
+    background: #fff !important;
+    color: #000 !important;
+    
+    max-width: none !important;
+    
+    overflow: visible !important;
+    
+    text-align: left !important;
+  }
+
+  #form {
+    margin: 0 !important;
+    width: 100%;
+  }
+
+  #form div {
+    display: none;
+  }
+
+  #form div.text {
+    display: block;
+  }
+
+  textarea#tamsg {
+    max-width: calc(100vw - 2em);
+    background: transparent;
+    border: 1px solid #000;
+  }
+
+  #PageTitleBar,
+  #PageStatusBar {
+    display: none;
+  }
+}

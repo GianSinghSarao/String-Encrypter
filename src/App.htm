@@ -1,5 +1,5 @@
-<div><span id="ZeroSize">0</span></div>
-<fieldset id="form">
+<div><span id="ZeroSize" aria-hidden="true">0</span></div>
+<div id="form">
   <div class="text">
     <label id="textareaLabel" for="tamsg">
       Text To Encrypt Or Decrypt:
@@ -17,20 +17,25 @@
     <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);"/>       
   </div>
   <input type="hidden" id="temp">
-</fieldset>
+</div>
 <script> 
   addEvent(window, 'load', function () {
-    var width = 582, height = 444;
+    var width = 400, height = 400;
     var chSize = ZeroSize.offsetWidth;
     var emSize = ZeroSize.offsetHeight;
     ZeroSize.className = "hidden";
     var cssInJS = function () { 
-      var formSize = 80 * chSize + 4 * emSize; 
+      var formSize = (80 * chSize) + (4 * emSize); 
+      var minFormSize = (14 * chSize) + (4 * emSize);
       if (Environment.hasActiveXObject) {
-        form.style.width = document.body.clientWidth >= formSize + 2 * emSize ? formSize + "px" : "100%"; 
+        form.style.width = document.body.clientWidth >= formSize + (2 * emSize) ? formSize + "px" : "100%"; 
       } 
-      if (document.body.clientWidth >= formSize + 2 * emSize) {
-        form.className = "wide";
+      if (document.body.clientWidth >= minFormSize + (2 * emSize)) {
+        if (document.body.clientWidth >= formSize + (2 * emSize)) {
+          form.className = "normal wide";
+        } else {
+          form.className = "normal";
+        }
       } else {
         form.className = "";
       }

@@ -130,6 +130,16 @@
         return outerHTML;
       })();
       document.body.innerHTML = Titlebar + document.body.innerHTML;
+      //IE9 and IE10 are very glitchy about the hta tag when using innerHTML, like above
+      //attempting to access the commandline property will sometimes result in it being undefined
+      //this is because the dom is completely replaced/rebuilt when using innerhtml, 
+      //which causes the js object to become detached from the dom node, 
+      //and a timeout is the easiest solution to it
+      setTimeout(function () {
+        if (Environment.IsHTA()) {
+          document.documentElement.className += " HTA";
+        }
+      }, 0);
       if (Environment.IsHTA() && Environment.IsOldIE) {
         addEvent(MinButton, 'mousedown', function () { MinButton.className = 'click-ed'; });
         addEvent(MinButton, 'mouseover', function () { MinButton.className = 'hover-ed'; });

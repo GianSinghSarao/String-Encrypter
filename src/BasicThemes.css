@@ -1,0 +1,83 @@
+#PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
+#PageTitleBar #CustomWindowButtons button#ExitButton:hover {
+  background: #e81123;
+  color: #fff;
+}
+
+#PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+#PageTitleBar #CustomWindowButtons button#ExitButton:active {
+  background: #f00;
+  color: #fff;
+}
+
+body.dark {
+  color-scheme: dark;
+  background: #202020;
+  color: #ffffff;
+}
+
+body.light {
+  color-scheme: light;
+  background: #f5f6f7;
+  color: #000000;
+}
+
+body.light #PageTitleBar {
+  border-bottom: #dadbdc 1px solid;
+}
+
+body.dark #PageStatusBar {
+  background: #333333;
+}
+
+body.light #PageStatusBar {
+  background: #ffffff;
+}
+
+body.dark #form {
+  border: 1px solid #3e3e3e;
+  color: #dadbdc;
+}
+
+body.light #form {
+  border: 1px solid #e3e4e5;
+  color: #2b2b2b;
+}
+
+body.dark input,
+body.dark textarea {
+  background: #2b2b2b;
+  color: #fff;
+}
+
+body.light input,
+body.light textarea {
+  background: #fafbfc;
+  color: #202020;
+}
+
+body.dark .button {
+  background: transparent;
+  color: #aaa;
+}
+
+body.light .button {
+  background: transparent;
+  color: #222;
+}
+
+body.dark input.button:focus,
+body.dark input.button.hover-ed,
+body.dark input.button:hover {
+  background: #4a4a4a;
+  /* border: solid 1px #595959; */
+  color: #e5e5e5;
+}
+
+body.light input.button:focus, 
+body.light input.button.hover-ed,
+body.light input.button:hover {
+  background: #e8eff7;
+  /* border: solid 1px #a4cef9; */
+  color: #3d3d3d;
+}

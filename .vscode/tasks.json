@@ -36,7 +36,9 @@
         "reveal": "always",
         "clear": true,
         "focus": true,
-        "showReuseMessage": false
+        "showReuseMessage": false,
+        "close": true,
+        "panel": "dedicated"
       },
       "problemMatcher": []
     }

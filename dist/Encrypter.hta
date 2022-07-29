@@ -3,24 +3,27 @@
 <!--[if IE 6]>    <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>    <html lang="en" class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html lang="en" class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->    
+<!--[if gt IE 8]><!--> <html lang="en" class="modern"> <!--<![endif]-->    
   <head>
     <title>String Encrypter</title>
     <meta http-equiv="X-UA-Compatible" content="IE=9"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <style>
-      /* #region Normalization Attempt */
-      /* 
-        This section should be a copy of a generic normalize.css but because this 
-        stylesheet is designed for HTAs which only work in IE it didn't make much 
-        sense to keep moz and webkit prefixed properties. Nor does it make sense 
-        to keep rules which interfere with my styles. Especially considering that
-        this HTA needs to have the same features in IE5 as it would have in IE9,
-        despite IE5 having shoddy CSS 2 support.
-       */
-      html {
-        line-height: 1;
+      * {
+        box-sizing: border-box;
+        
+        background-color: transparent;
+        border-width: 0;
+        border-color: transparent;
+        border-style: none;
+        
+        font-size: 16px;
+        font-family: "Cascadia Code", "Roboto Mono", monospace;
+        line-height: 1em;
+      
+        padding: 0;
+        margin: 0;
       }
       
       hta\:application,
@@ -28,211 +31,154 @@
         display: none;
       }
       
-      body {
-        margin: 0;
-      }
-      
-      article, aside, footer, header, nav, section {
-        display: block;
-        margin: 0;
-        padding: 0;
-      }
-      
-      h1 {
-        font-size: 2em;
-        margin: 0.67em 0;
-      }
-      
-      figcaption, figure, main {
-        display: block;
-      }
-      
-      figure {
-        margin: 1em 40px;
-      }
-      
-      hr {
-        box-sizing: content-box;
-        height: 0;
-        overflow: visible;
-      }
-      
-      a {
-        background: transparent;
-      }
-      
-      b, strong {
-        font-weight: bolder;
-      }
-      
-      code, kbd, samp, pre {
-        font-family: "Cascadia Code", "Roboto Mono", monospace;
-        font-size: 1em;
-      }
-      
-      dfn {
-        font-style: italic;
-      }
-      
-      mark {
-        background: #ff0;
-        color: #000;
-      }
-      
-      small {
-        font-size: 80%;
-      }
-      
-      sub, sup {
-        font-size: 75%;
-        line-height: 0;
-        position: relative;
-        vertical-align: baseline;
-      }
-      
-      sub {
-        bottom: -0.25em;
-      }
-      
-      sup {
-        top: -0.5em;
-      }
-      
-      audio, video {
-        display: inline-block;
-      }
-      
-      img {
-        border-style: none;
-      }
-      
-      button, input, optgroup, select, textarea {
-        font-size: 100%;
-        margin: 0;
-      }
-      
-      button, input {
-        overflow: visible;
-        border-width: 0px;
-        border: none;
-      }
-      
-      button, select {
-        text-transform: none;
-      }
-      
-      fieldset {
-        padding: 0.35em 0.75em 0.625em;
-      }
-      
-      legend {
-        box-sizing: border-box;
-        display: table;
-        max-width: 100%;
-        padding: 0;
-        white-space: normal;
-      }
-      
-      progress {
-        display: inline-block;
-        vertical-align: baseline;
-      }
-      
-      textarea {
-        overflow: auto;
-      }
-      
-      details, menu {
-        display: block;
-      }
-      
-      summary {
-        display: list-item;
-      }
-      
-      canvas {
-        display: inline-block;
-      }
-      
-      template {
-        display: none;
-      }
-      
-      /* #endregion */
-      /* #region Page Layout Overview */
-      * {
-        box-sizing: border-box;
-      }
-      
-      html, body {
+      body,
+      #PageTitleBar, 
+      #PageTitleBar div,
+      #PageTitleBar h1,
+      #PageContent,
+      #PageStatusBar {
         position: absolute;
+      }
+      
+      html,
+      body {
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
-        width: 100%;
+      
         height: 100%;
-        overflow: hidden;
+        width: 100%;
+      
         display: block;
-        font-family: "Cascadia Code", "Roboto Mono", monospace;
-        font-size: 16px;
+        overflow: hidden;
+        overscroll-behavior: auto;
+      }
+      
+      .modern body {
+        position: static;
+      }
+      
+      .modern #PageTitleBar,
+      .modern #PageStatusBar {
+        position: fixed;
       }
       
       #PageTitleBar {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        right: 0px;
+        top: 0;
+        right: 0;
         bottom: auto;
+        left: 0;
+      
         height: 3em;
-        cursor: auto;
         width: 100%;
+      
+        cursor: auto;
         z-index: 1000;
       }
       
-      #PageContent {
-        position: absolute;
-        top: 3em;
-        left: 0px;
-        right: 0px;
-        bottom: 1.4em;
-        display: block;
-        height: calc(100% - 4.4em);
-        width: 100%;
-        margin: 0 auto;
-        overflow-x: hidden;
-        overflow-y: auto;
+      #PageTitleBar div, 
+      #PageTitleBar h1 {
+        top: 0;
+        bottom: 0;
+      
+        height: 100%;
+      }
+      
+      #PageTitleBar .icon {
+        right: auto;
+        left: 0;
+      
+        width: 3em;
+      
+        line-height: 3em;
         text-align: center;
       }
       
-      #PageStatusBar {
-        position: absolute;
-        top: auto;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        height: 1.4em;
+      #PageTitleBar .icon img,
+      #PageTitleBar .icon span {
         vertical-align: middle;
-        line-height: 1.4em;
-        padding-left: 0.1em;
-        cursor: auto;
+      }
+      
+      #PageTitleBar .icon span {
+        height: 100%;
+      
+        display: none;
+      }
+      
+      .lt-ie8 #PageTitleBar .icon span {
+        display: inline-block;
+      } 
+      
+      #PageTitleBar .text {
+        right: 0;
+        left: 3em;
+      
+        font-size: 1em;
+        font-weight: normal;
+      
+        padding: 1em 0em;
+      }
+      
+      .HTA #PageTitleBar .text {
+        right: 9em;
+      }
+      
+      #PageTitleBar #CustomWindowButtons {
+        right: 0;
+        left: auto;
+        
+        overflow: visible;
+      }
+      
+      #PageTitleBar #CustomWindowButtons button {
+        height: 3em;
+        width: 3em;
+      
+        font-family: Webdings;
+        
+        padding: 1em;
+      }
+      
+      #PageContent {
+        top: 3em;
+        right: 0;
+        bottom: 1.4em;
+        left: 0;
+      
+        overflow-x: hidden;
+        overflow-y: auto;
+      
+        text-align: center;
+        
+        margin: 0 auto;
+      }
+      
+      .lt-ie7 #PageContent {
         width: 100%;
       }
       
-      #PageStatusBar * {
-        font-size: 0.9em;
+      #PageStatusBar {
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      
+        min-height: 1.45em;
+        width: 100%;
+      
+        line-height: 1.45em;
       }
-      /* #endregion */
-      /* #region Page Content */
+      
+      #PageStatusBar * {
+        font-size: 0.8em;
+      }
       
       #form {
-        border: none;
-        padding: 0;
-        display: block;
-        text-align: left;
-        margin: 0 auto;
         width: calc(80ch + 4em);
         max-width: 100%;
+      
+        margin: 0 auto;
       }
       
       #form.wide {
@@ -240,22 +186,23 @@
       }
       
       #form div {
-        display: block;
-        padding: 1em;
         width: 100%;
+        
+        padding: 1em;
       }
       
       #ZeroSize {
-        display: inline;
-        line-height: 1;
+        box-sizing: content-box;
+      
+        color: transparent;
         outline: none;
         border: none;
+        opacity: 0;
+        
+        display: inline;
+      
         padding: none;
         margin: none;
-        box-sizing: content-box;
-        opacity: 0;
-        color: transparent;
-        background-color: transparent;
       }
       
       #ZeroSize.hidden {
@@ -264,21 +211,21 @@
       
       label {
         width: 100%;
-        display: block;
+        
         font-size: 1em;
         text-align: left;
+      
+        display: block;
       }
       
-      input, textarea {
-        display: block;
-        box-sizing: border-box;
-        border: 1px solid transparent;
+      input, textarea {  
         width: 100%;
-        overflow: auto;
-        font-size: 1em;
+        
         padding: 1em;
         margin: 0;
-        line-height: 1em;
+        
+        overflow: auto;
+        display: block;
       }
       
       .lt-ie7 #pass {
@@ -289,87 +236,56 @@
         padding: 0;
       }
       
-      #form.wide div#Buttons {
+      #form.normal div#Buttons {
         overflow: auto;
       }
       
-      #form.wide div#Buttons #EncryptButton,
-      #form.wide div#Buttons #DecryptButton {
+      #form.normal div#Buttons #EncryptButton,
+      #form.normal div#Buttons #DecryptButton {
         width: 50%;
         float: left;
       }
       
-      /* #endregion */
-      /* #region TitleBar Styles (Partial - Some are generated and added to the DOM by JS) */
-      #PageTitleBar {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: auto;
-        height: 3em;
-        cursor: auto;
-        width: 100%;
-      }
+      @media print {
+        * {
+          position: static !important;
       
-      #PageTitleBar div,
-      #PageTitleBar h1 {
-        position: absolute;
-      }
+          background: #fff !important;
+          color: #000 !important;
+          
+          max-width: none !important;
+          
+          overflow: visible !important;
+          
+          text-align: left !important;
+        }
       
-      #PageTitleBar .icon {
-        top: 0;
-        right: auto;
-        bottom: 0;
-        left: 0;
-        width: 3em;
-        line-height: 3em;
-        text-align: center;
-      }
+        #form {
+          margin: 0 !important;
+          width: 100%;
+        }
       
-      #PageTitleBar .icon * {
-        vertical-align: middle;
-      }
+        #form div {
+          display: none;
+        }
       
-      #PageTitleBar .icon span {
-        display: none;
-      }
+        #form div.text {
+          display: block;
+        }
       
-      .lt-ie8 #PageTitleBar .icon span {
-        display: inline-block;
-      }
+        textarea#tamsg {
+          max-width: calc(100vw - 2em);
+          background: transparent;
+          border: 1px solid #000;
+        }
       
-      #PageTitleBar .text {
-        line-height: 1em;
-        font-size: 1em;
-        font-weight: normal;
-        top: 0;
-        right: 9em;
-        bottom: 0;
-        left: 3em;
-        padding: 1em 0em;
-        margin: 0;
+        #PageTitleBar,
+        #PageStatusBar {
+          display: none;
+        }
       }
-      
-      #PageTitleBar #CustomWindowButtons {
-        background: transparent;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: auto;
-        overflow: visible;
-      }
-      
-      #PageTitleBar #CustomWindowButtons button {
-        background: transparent;
-        font-family: Webdings;
-        line-height: 1em;
-        height: 3em;
-        width: 3em;
-        padding: 1em;
-        border: 0px transparent solid;
-      }
-      
+    </style>
+    <style>
       #PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
       #PageTitleBar #CustomWindowButtons button#ExitButton:hover {
         background: #e81123;
@@ -382,14 +298,14 @@
         color: #fff;
       }
       
-      /* #endregion */
-      /* #region Page Themeing */
       body.dark {
+        color-scheme: dark;
         background: #202020;
         color: #ffffff;
       }
       
       body.light {
+        color-scheme: light;
         background: #f5f6f7;
         color: #000000;
       }
@@ -406,12 +322,12 @@
         background: #ffffff;
       }
       
-      body.dark #form div {
+      body.dark #form {
         border: 1px solid #3e3e3e;
         color: #dadbdc;
       }
       
-      body.light #form div {
+      body.light #form {
         border: 1px solid #e3e4e5;
         color: #2b2b2b;
       }
@@ -430,7 +346,7 @@
       
       body.dark .button {
         background: transparent;
-        color: #888;
+        color: #aaa;
       }
       
       body.light .button {
@@ -438,58 +354,21 @@
         color: #222;
       }
       
+      body.dark input.button:focus,
       body.dark input.button.hover-ed,
       body.dark input.button:hover {
         background: #4a4a4a;
-        border: solid 1px #595959;
-        color: #f0f0f0;
+        /* border: solid 1px #595959; */
+        color: #e5e5e5;
       }
       
+      body.light input.button:focus, 
       body.light input.button.hover-ed,
       body.light input.button:hover {
         background: #e8eff7;
-        border: solid 1px #a4cef9;
+        /* border: solid 1px #a4cef9; */
         color: #3d3d3d;
       }
-      /* #endregion */
-      /* #region Print Styles */
-      @media print {
-      
-        #tamsg,
-        * {
-          text-align: left !important;
-          background: #fff !important;
-          color: #000 !important;
-          position: static !important;
-          max-width: none !important;
-          overflow: visible !important;
-        }
-      
-        #form {
-          margin: 0 !important;
-          width: 100%;
-        }
-      
-        #form div {
-          display: none;
-        }
-      
-        #form div.text {
-          display: block;
-        }
-      
-        textarea {
-          background: transparent;
-          border: 1px solid #000;
-        }
-      
-        #PageTitleBar,
-        #PageStatusBar {
-          display: none;
-        }
-      }
-      
-      /* #endregion */
     </style>
     <script>
       ;var __global__ = this; var Environment = (function (a) {
@@ -810,6 +689,16 @@
               return outerHTML;
             })();
             document.body.innerHTML = Titlebar + document.body.innerHTML;
+            //IE9 and IE10 are very glitchy about the hta tag when using innerHTML, like above
+            //attempting to access the commandline property will sometimes result in it being undefined
+            //this is because the dom is completely replaced/rebuilt when using innerhtml, 
+            //which causes the js object to become detached from the dom node, 
+            //and a timeout is the easiest solution to it
+            setTimeout(function () {
+              if (Environment.IsHTA()) {
+                document.documentElement.className += " HTA";
+              }
+            }, 0);
             if (Environment.IsHTA() && Environment.IsOldIE) {
               addEvent(MinButton, 'mousedown', function () { MinButton.className = 'click-ed'; });
               addEvent(MinButton, 'mouseover', function () { MinButton.className = 'hover-ed'; });
@@ -922,8 +811,12 @@
         if (a[2] < b[2]) return false;
         return true;
       };
-      var latestVersion = (function () {
-        var CachedVersion = '', XHR;
+      var RepositoryURL = "https://github.com/GianSinghSarao/String-Encrypter/";
+      var LatestReleaseURL = RepositoryURL + "releases/latest";
+      var LatestReleaseAPI_URL = LatestReleaseURL.
+        replace("github.com/", "api.github.com/repos/");
+      var LatestVersion = (function () {
+        var CachedVersion = "", XHR;
         function GetLatestVersion () {
           if (Environment.IsOldIE) {
             XHR = new ActiveXObject("Microsoft.XMLHTTP");
@@ -933,48 +826,90 @@
           XHR.onreadystatechange = function () {
             if (XHR.readyState == 4) {
               if (XHR.status >= 200 && XHR.status < 400) {
-                CachedVersion = XHR.responseText.replace(/\n/gm, "").replace(/.*"(v[^"]*)".*/gm, "$1");
+                CachedVersion = XHR.responseText.
+                  replace(/\n/gm, "").
+                  replace(/.*"(v[^"]*)".*/gm, "$1");
               } else {
-                CachedVersion = 'v0.0.0';
+                CachedVersion = "v0.0.0";
               }
             }
+            hydrateStatusbar(false);
           };
-          XHR.open('GET', 'https://api.github.com/repos/GianSinghSarao/String-Encrypter/releases/latest', true);
-          XHR.send();
+          try {
+            XHR.open("GET", LatestReleaseAPI_URL, true);
+            XHR.send();
+          } catch (e) {
+            CachedVersion = "v0.0.0";
+            alert("Failed To Check For Updates:\n  This occurs when the program is run without unblocking it.\n  You can unblock this program by unselecting the checkbox in the security warning\n  \"Always ask before opening this file\"\n\n  Alternatively, You can ignore this and continue using the program as normal. ")
+          }
         }
-        GetLatestVersion();
         return function (refresh) {
           if (refresh) {
             GetLatestVersion();
-          } else {
-            return CachedVersion;
-          }
+          } 
+          return CachedVersion;
         };
       })();
-      addEvent(window, 'load', function (a, A, B, C) {
-        try {
-          A = 'v' + document.getElementById('appTag').getAttribute('version');
-        } catch (e) {
-          A = 'unknown';
-        }
-        B = latestVersion(); 
-        C = '<span> Current Version: ' + A;
-        if (B == 'v0.0.0') {
-          C += '(Failed to check for updates);';  
-        } else {
-          if (ifSuitable(convertSemverVersionToArray(A), convertSemverVersionToArray(B))) {
-            if (A != B) {
-              C += '(Alpha);';
-            } else {
-              C += '(Stable);';
+      
+      var CurrentVersion = (function () {
+        var CachedVersion = "unknown", d = document;
+        function GetCurrentVersion () {
+          try {
+            var All_HTA_Tags = d.getElementsByTagName("HTA:APPLICATION").length !== 0 ?
+              d.getElementsByTagName("HTA:APPLICATION") : 
+              d.getElementsByTagName("APPLICATION");
+            if (All_HTA_Tags.length >= 1 && All_HTA_Tags[0]) {
+              return All_HTA_Tags[0].getAttribute('version')
             }
-          } else {
-            C += '(<a href="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/" title="https://github.com/GianSinghSarao/String-Encrypter/releases/latest/">Get Latest Version</a>);';
+          } catch(e) {
+            return "unknown";
           }
         }
-        C += '</span> \n<a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub Repository</a>;'
-        C = '<div role="contentinfo" id="PageStatusBar">'+ C + '</div>';
-        document.body.innerHTML += C;
+        return function (refresh) {
+          if (refresh) {
+            CachedVersion = GetCurrentVersion();
+          }
+          return CachedVersion;
+        }
+      })();
+      
+      function version_status (refresh, versions, HTML_String) {
+        versions = {
+          CV: CurrentVersion(refresh),
+          LV: LatestVersion(refresh)
+        }
+        HTML_String = "<span> Current Version: v" + versions.CV;
+        if (versions.LV == "v0.0.0") {
+          HTML_String += "(Failed to check for updates);";
+          return HTML_String + "</span>";
+        }
+        if (ifSuitable(
+          convertSemverVersionToArray(versions.CV),
+          convertSemverVersionToArray(versions.LV)
+        )) {
+          if (versions.CV != versions.LV) {
+            HTML_String += "(Unreleased);";
+          } else {
+            HTML_String += "(Latest);";
+          }
+        } else {
+          HTML_String += '(<a href="' +
+            LatestReleaseURL +
+            '" title="' +
+            LatestReleaseURL + 
+            '">Update Available</a>);';
+        }
+        HTML_String += "</span>";
+        return HTML_String;
+      }
+      
+      function hydrateStatusbar (refresh) {
+        document.getElementById("PageStatusBar").innerHTML = version_status(refresh) + ' <a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub&nbsp;Repository</a>';
+      }
+      
+      addEvent(window, "load", function (event, versions, B, C) {
+        document.body.innerHTML += '<div role="contentinfo" id="PageStatusBar"></div>';
+        hydrateStatusbar(true);
       });
     </script>
     <script>
@@ -1007,9 +942,9 @@
           If you are on IE click "Allow Blocked Content".
         </h1>
       </noscript>
-      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.0" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
-          <div><span id="ZeroSize">0</span></div>
-          <fieldset id="form">
+      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.1" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
+          <div><span id="ZeroSize" aria-hidden="true">0</span></div>
+          <div id="form">
             <div class="text">
               <label id="textareaLabel" for="tamsg">
                 Text To Encrypt Or Decrypt:
@@ -1027,20 +962,25 @@
               <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);"/>       
             </div>
             <input type="hidden" id="temp">
-          </fieldset>
+          </div>
           <script> 
             addEvent(window, 'load', function () {
-              var width = 582, height = 444;
+              var width = 400, height = 400;
               var chSize = ZeroSize.offsetWidth;
               var emSize = ZeroSize.offsetHeight;
               ZeroSize.className = "hidden";
               var cssInJS = function () { 
-                var formSize = 80 * chSize + 4 * emSize; 
+                var formSize = (80 * chSize) + (4 * emSize); 
+                var minFormSize = (14 * chSize) + (4 * emSize);
                 if (Environment.hasActiveXObject) {
-                  form.style.width = document.body.clientWidth >= formSize + 2 * emSize ? formSize + "px" : "100%"; 
+                  form.style.width = document.body.clientWidth >= formSize + (2 * emSize) ? formSize + "px" : "100%"; 
                 } 
-                if (document.body.clientWidth >= formSize + 2 * emSize) {
-                  form.className = "wide";
+                if (document.body.clientWidth >= minFormSize + (2 * emSize)) {
+                  if (document.body.clientWidth >= formSize + (2 * emSize)) {
+                    form.className = "normal wide";
+                  } else {
+                    form.className = "normal";
+                  }
                 } else {
                   form.className = "";
                 }
@@ -1188,7 +1128,7 @@
           //IE5 calls load event handlers in reverse order of registration.
           //meaning the titlebar might not have been created yet, because it is dynamially created during a load event handler.
           //a settimeout is the simplest (and perhaps only) way to handle this (in IE5)
-          document.getElementById("PageTitleBar").children[0].innerHTML = '<span></span><img width="24" height="24" role="presentation" src="' + Assets['icon.png'] + '">';
+          document.getElementById("PageTitleBar").children[0].innerHTML = '<span></span><img width="24" height="24" alt="" role="presentation" src="' + Assets['icon.png'] + '">';
           try {
             document.head.innerHTML += '<link rel="shortcut icon" href="' + Assets['icon.ico'] + '">';
           } catch (e) {
