@@ -859,7 +859,7 @@
               d.getElementsByTagName("HTA:APPLICATION") : 
               d.getElementsByTagName("APPLICATION");
             if (All_HTA_Tags.length >= 1 && All_HTA_Tags[0]) {
-              return All_HTA_Tags[0].getAttribute('version')
+              return "v" + All_HTA_Tags[0].getAttribute('version');
             }
           } catch(e) {
             return "unknown";
@@ -878,7 +878,7 @@
           CV: CurrentVersion(refresh),
           LV: LatestVersion(refresh)
         }
-        HTML_String = "<span> Current Version: v" + versions.CV;
+        HTML_String = "<span> Current Version: " + versions.CV;
         if (versions.LV == "v0.0.0") {
           HTML_String += "(Failed to check for updates);";
           return HTML_String + "</span>";
@@ -942,7 +942,7 @@
           If you are on IE click "Allow Blocked Content".
         </h1>
       </noscript>
-      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.1" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
+      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.2" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
           <div><span id="ZeroSize" aria-hidden="true">0</span></div>
           <div id="form">
             <div class="text">
@@ -1121,7 +1121,7 @@
         return Assets; 
       })(); 
       
-    </script>
+    </script> 
     <script>
       addEvent(window, "load", function () {
         setTimeout(function () {

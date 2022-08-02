@@ -62,7 +62,7 @@ var CurrentVersion = (function () {
         d.getElementsByTagName("HTA:APPLICATION") : 
         d.getElementsByTagName("APPLICATION");
       if (All_HTA_Tags.length >= 1 && All_HTA_Tags[0]) {
-        return All_HTA_Tags[0].getAttribute('version')
+        return "v" + All_HTA_Tags[0].getAttribute('version');
       }
     } catch(e) {
       return "unknown";
@@ -81,7 +81,7 @@ function version_status (refresh, versions, HTML_String) {
     CV: CurrentVersion(refresh),
     LV: LatestVersion(refresh)
   }
-  HTML_String = "<span> Current Version: v" + versions.CV;
+  HTML_String = "<span> Current Version: " + versions.CV;
   if (versions.LV == "v0.0.0") {
     HTML_String += "(Failed to check for updates);";
     return HTML_String + "</span>";
