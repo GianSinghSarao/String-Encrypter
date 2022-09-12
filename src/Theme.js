@@ -41,3 +41,10 @@ if (Environment.hasDocument) {
     }
   });
 }
+function ToggleTheme () {
+  if (document.body.className.indexOf(" light") != -1) {
+    document.body.className = document.body.className.replace("light", "dark");
+  } else if (document.body.className.indexOf(" dark") != -1) {
+    document.body.className = document.body.className.replace("dark", "light");
+  }
+}

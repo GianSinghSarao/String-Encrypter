@@ -7,8 +7,9 @@
   <head>
     <title>String Encrypter</title>
     <meta http-equiv="X-UA-Compatible" content="IE=9"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Looking for a simple way to obscure your text? Secure your text with ease using String Encrypter. This simple tool obfuscates your data, making it difficult for prying eyes to read. Please note that String Encrypter only provides security through obscurity and is not recommended for sensitive information. Use at your own risk. ">
     <style>
       * {
         box-sizing: border-box;
@@ -246,6 +247,39 @@
         float: left;
       }
       
+      #CustomContextMenu {
+        position: absolute;
+        display: none;
+        z-index: 10000;
+        
+        width: 19.5em;
+        max-width: 100vw;
+        
+        padding: 0.2em 0;  
+      }
+      
+      #CustomContextMenu button {
+        position: relative;
+        display: block;
+      
+        width: 100%;
+        padding: 0.25em;
+        
+        text-align: left;
+      }
+      
+      #CustomContextMenu button .label {
+        display: block;
+        
+        margin: 0 3em;
+        
+        font-size: 0.75em;
+      }
+      
+      #CustomContextMenu.active {
+        display: block;
+      }
+      
       @media print {
         * {
           position: static !important;
@@ -281,6 +315,10 @@
       
         #PageTitleBar,
         #PageStatusBar {
+          display: none;
+        }
+        #CustomContextMenu,
+        #CustomContextMenu.active {
           display: none;
         }
       }
@@ -365,6 +403,44 @@
       body.light input.button:focus, 
       body.light input.button.hover-ed,
       body.light input.button:hover {
+        background: #e8eff7;
+        /* border: solid 1px #a4cef9; */
+        color: #3d3d3d;
+      }
+      
+      body.dark #CustomContextMenu {
+        background: #202020;
+        border: 1px solid #3e3e3e;
+        color: #dadbdc;
+      }
+      
+      body.light #CustomContextMenu {
+        background: #f5f6f7;
+        border: 1px solid #e3e4e5;
+        color: #2b2b2b;
+      }
+      
+      body.dark #CustomContextMenu button {
+        background: transparent;
+        color: #aaa;
+      }
+      
+      body.light #CustomContextMenu button {
+        background: transparent;
+        color: #222;
+      }
+      
+      body.dark #CustomContextMenu button:focus,
+      body.dark #CustomContextMenu button.hover-ed,
+      body.dark #CustomContextMenu button:hover {
+        background: #4a4a4a;
+        /* border: solid 1px #595959; */
+        color: #e5e5e5;
+      }
+      
+      body.light #CustomContextMenu button:focus, 
+      body.light #CustomContextMenu button.hover-ed,
+      body.light #CustomContextMenu button:hover {
         background: #e8eff7;
         /* border: solid 1px #a4cef9; */
         color: #3d3d3d;
@@ -554,6 +630,13 @@
             document.body.className += " dark";
           }
         });
+      }
+      function ToggleTheme () {
+        if (document.body.className.indexOf(" light") != -1) {
+          document.body.className = document.body.className.replace("light", "dark");
+        } else if (document.body.className.indexOf(" dark") != -1) {
+          document.body.className = document.body.className.replace("dark", "light");
+        }
       }
     </script>
     <script>
@@ -913,6 +996,76 @@
       });
     </script>
     <script>
+      addEvent(window, "load", function (e) {
+        document.body.innerHTML += '<div id="CustomContextMenu"><button onclick="ToggleTheme()"><span class="label">Toggle Theme</span></button><button onclick="setTimeout(window.print, 0)"><span class="label">Print</span></button></div>';
+        var menu;
+        var addedHoverPolyfillEvents = false;
+      
+        var setButtonClassName = function (className) {
+          return function (event) {
+            var targeted = event.target || event.srcElement;
+            var targetedName = targeted.nodeName || targeted.tagName;
+            if (targetedName == "BUTTON") targeted.className = className; 
+            targeted = targeted.parentNode;
+            targetedName = targeted.nodeName || targeted.tagName;
+            if (targetedName == "BUTTON") targeted.className = className;
+          } 
+        };
+      
+        addEvent(document.body, "contextmenu", function (event) {
+          menu = document.getElementById("CustomContextMenu");
+      
+          if (Environment.IsOldIE && !addedHoverPolyfillEvents) {
+            addEvent(menu, 'mouseover', setButtonClassName("hover-ed"));
+            addEvent(menu, 'mouseout', setButtonClassName(""));
+      
+            addedHoverPolyfillEvents = true;
+          }
+      
+          var targeted = event.target || event.srcElement;
+          var targetedName = targeted.nodeName || targeted.tagName;
+          var NoCustomMenu = targetedName == "TEXTAREA" || 
+            (targetedName == "INPUT" &&
+             targeted.getAttribute("type").toUpperCase() == "PASSWORD");
+      
+          if (NoCustomMenu) {
+            menu.className = "";
+            return true;
+          }
+      
+          menu.className = "active";
+      
+          var RightEdge = document.body.clientWidth - event.clientX;
+          var BottomEdge = document.body.clientHeight - event.clientY;
+      
+          var LeftOffset = RightEdge < menu.offsetWidth ? 
+            (document.body.scrollLeft + event.clientX - menu.offsetWidth) :
+            (document.body.scrollLeft + event.clientX);
+          LeftOffset = LeftOffset > 0 ? LeftOffset : 0;
+      
+          var TopOffset = BottomEdge < menu.offsetHeight ? 
+            (document.body.scrollTop + event.clientY - menu.offsetHeight) :
+            (document.body.scrollTop + event.clientY);
+          TopOffset = TopOffset > 0 ? TopOffset : 0;
+      
+          menu.style.left = LeftOffset + "px"; 
+          menu.style.top = TopOffset + "px";
+      
+          try {
+            event.preventDefault();
+          } catch (e) {
+            //bury this error which only seems to occur on IE, and other outdated/bad browsers
+          }
+          return false;
+        });
+      
+        addEvent(document.body, "click", function (event) {
+          menu = document.getElementById("CustomContextMenu");
+          menu.className = "";
+        });
+      });
+    </script>
+    <script>
       //small script to make links open in the default browser instead of IE.
       addEvent(window, 'load', function () {
         if (Environment.hasActiveXObject) {
@@ -942,7 +1095,7 @@
           If you are on IE click "Allow Blocked Content".
         </h1>
       </noscript>
-      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.2" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
+      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.3" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
           <div><span id="ZeroSize" aria-hidden="true">0</span></div>
           <div id="form">
             <div class="text">
@@ -966,8 +1119,8 @@
           <script> 
             addEvent(window, 'load', function () {
               var width = 400, height = 400;
-              var chSize = ZeroSize.offsetWidth;
-              var emSize = ZeroSize.offsetHeight;
+              chSize = ZeroSize.offsetWidth;
+              emSize = ZeroSize.offsetHeight;
               ZeroSize.className = "hidden";
               var cssInJS = function () { 
                 var formSize = (80 * chSize) + (4 * emSize); 

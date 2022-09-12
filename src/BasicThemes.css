@@ -81,3 +81,41 @@ body.light input.button:hover {
   /* border: solid 1px #a4cef9; */
   color: #3d3d3d;
 }
+
+body.dark #CustomContextMenu {
+  background: #202020;
+  border: 1px solid #3e3e3e;
+  color: #dadbdc;
+}
+
+body.light #CustomContextMenu {
+  background: #f5f6f7;
+  border: 1px solid #e3e4e5;
+  color: #2b2b2b;
+}
+
+body.dark #CustomContextMenu button {
+  background: transparent;
+  color: #aaa;
+}
+
+body.light #CustomContextMenu button {
+  background: transparent;
+  color: #222;
+}
+
+body.dark #CustomContextMenu button:focus,
+body.dark #CustomContextMenu button.hover-ed,
+body.dark #CustomContextMenu button:hover {
+  background: #4a4a4a;
+  /* border: solid 1px #595959; */
+  color: #e5e5e5;
+}
+
+body.light #CustomContextMenu button:focus, 
+body.light #CustomContextMenu button.hover-ed,
+body.light #CustomContextMenu button:hover {
+  background: #e8eff7;
+  /* border: solid 1px #a4cef9; */
+  color: #3d3d3d;
+}
