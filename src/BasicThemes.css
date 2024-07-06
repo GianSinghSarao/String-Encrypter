@@ -1,15 +1,3 @@
-#PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
-#PageTitleBar #CustomWindowButtons button#ExitButton:hover {
-  background: #e81123;
-  color: #fff;
-}
-
-#PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
-#PageTitleBar #CustomWindowButtons button#ExitButton:active {
-  background: #f00;
-  color: #fff;
-}
-
 body.dark {
   color-scheme: dark;
   background: #202020;
@@ -22,8 +10,82 @@ body.light {
   color: #000000;
 }
 
-body.light #PageTitleBar {
-  border-bottom: #dadbdc 1px solid;
+body.dark #PageTitleBar,
+body.dark #PageTitleBar #CustomWindowButtons button {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+body.light #PageTitleBar,
+body.light #PageTitleBar #CustomWindowButtons button {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark.unfocused #PageTitleBar,
+body.dark.unfocused #PageTitleBar #CustomWindowButtons button {
+  background-color: #2b2b2b;
+  color: #888888;
+}
+
+body.light.unfocused #PageTitleBar,
+body.light.unfocused #PageTitleBar #CustomWindowButtons button {
+  background-color: #ffffff;
+  color: #888888;
+}
+
+body.dark #PageTitleBar #CustomWindowButtons button.hover-ed,
+body.dark #PageTitleBar #CustomWindowButtons button:hover {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+body.light #PageTitleBar #CustomWindowButtons button.hover-ed,
+body.light #PageTitleBar #CustomWindowButtons button:hover {
+  background-color: #e5e5e5;
+  color: #000000;
+}
+
+body.dark.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
+body.dark.unfocused #PageTitleBar #CustomWindowButtons button:hover {
+  background-color: #414141;
+  color: #ffffff;
+}
+
+body.light.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
+body.light.unfocused #PageTitleBar #CustomWindowButtons button:hover {
+  background-color: #e5e5e5;
+  color: #000000;
+}
+
+body.dark #PageTitleBar #CustomWindowButtons button.click-ed,
+body.dark #PageTitleBar #CustomWindowButtons button:active {
+  background-color: #353535;
+  color: #ffffff;
+}
+
+body.light #PageTitleBar #CustomWindowButtons button.click-ed,
+body.light #PageTitleBar #CustomWindowButtons button:active {
+  background-color: #cacaca;
+  color: #000000;
+}
+
+#PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
+#PageTitleBar #CustomWindowButtons button#ExitButton:hover {
+  background: #e81123;
+  color: #ffffff;
+}
+
+body.dark #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+body.dark #PageTitleBar #CustomWindowButtons button#ExitButton:active {
+  background: #8b0a14;
+  color: #ffffff;
+}
+
+body.light #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+body.light #PageTitleBar #CustomWindowButtons button#ExitButton:active {
+  background: #f1707a;
+  color: #ffffff;
 }
 
 body.dark #PageStatusBar {

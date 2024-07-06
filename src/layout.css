@@ -256,7 +256,7 @@ input, textarea {
 }
 
 #CustomContextMenu button .label {
-  display: block;
+  float: left;
   
   margin: 0 3em;
   
@@ -265,6 +265,10 @@ input, textarea {
 
 #CustomContextMenu.active {
   display: block;
+}
+
+#CustomContextMenu button kbd.label {
+  float: right;
 }
 
 @media print {

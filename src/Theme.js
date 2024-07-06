@@ -39,6 +39,9 @@ if (Environment.hasDocument) {
     } else {
       document.body.className += " dark";
     }
+    if (UserlandThemingPreferences.ColorPrevalence()) {
+      document.body.className += " use-system-colors";
+    }
   });
 }
 function ToggleTheme () {

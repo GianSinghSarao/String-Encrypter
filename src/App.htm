@@ -1,16 +1,16 @@
-<div><span id="ZeroSize" aria-hidden="true">0</span></div>
+<div><span id="ZeroSize" aria-hidden="true" role="presentation">0</span></div>
 <div id="form">
   <div class="text">
     <label id="textareaLabel" for="tamsg">
       Text To Encrypt Or Decrypt:
-    </label>
-    <textarea id="tamsg" cols="80" rows="3"></textarea>
+    </label> 
+    <textarea id="tamsg" cols="80" rows="3" required></textarea>
   </div>
   <div>
     <label id="passwordLabel" for="pass">
       Password:
     </label>
-    <input type="password" id="pass">
+    <input type="password" id="pass" required/>
   </div>
   <div id="Buttons">
     <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);"/>
@@ -18,7 +18,7 @@
   </div>
   <input type="hidden" id="temp">
 </div>
-<script> 
+<script>
   addEvent(window, 'load', function () {
     var width = 400, height = 400;
     chSize = ZeroSize.offsetWidth;

@@ -269,7 +269,7 @@
       }
       
       #CustomContextMenu button .label {
-        display: block;
+        float: left;
         
         margin: 0 3em;
         
@@ -278,6 +278,10 @@
       
       #CustomContextMenu.active {
         display: block;
+      }
+      
+      #CustomContextMenu button kbd.label {
+        float: right;
       }
       
       @media print {
@@ -324,18 +328,6 @@
       }
     </style>
     <style>
-      #PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
-      #PageTitleBar #CustomWindowButtons button#ExitButton:hover {
-        background: #e81123;
-        color: #fff;
-      }
-      
-      #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
-      #PageTitleBar #CustomWindowButtons button#ExitButton:active {
-        background: #f00;
-        color: #fff;
-      }
-      
       body.dark {
         color-scheme: dark;
         background: #202020;
@@ -348,8 +340,82 @@
         color: #000000;
       }
       
-      body.light #PageTitleBar {
-        border-bottom: #dadbdc 1px solid;
+      body.dark #PageTitleBar,
+      body.dark #PageTitleBar #CustomWindowButtons button {
+        background-color: #000000;
+        color: #ffffff;
+      }
+      
+      body.light #PageTitleBar,
+      body.light #PageTitleBar #CustomWindowButtons button {
+        background-color: #ffffff;
+        color: #000000;
+      }
+      
+      body.dark.unfocused #PageTitleBar,
+      body.dark.unfocused #PageTitleBar #CustomWindowButtons button {
+        background-color: #2b2b2b;
+        color: #888888;
+      }
+      
+      body.light.unfocused #PageTitleBar,
+      body.light.unfocused #PageTitleBar #CustomWindowButtons button {
+        background-color: #ffffff;
+        color: #888888;
+      }
+      
+      body.dark #PageTitleBar #CustomWindowButtons button.hover-ed,
+      body.dark #PageTitleBar #CustomWindowButtons button:hover {
+        background-color: #1a1a1a;
+        color: #ffffff;
+      }
+      
+      body.light #PageTitleBar #CustomWindowButtons button.hover-ed,
+      body.light #PageTitleBar #CustomWindowButtons button:hover {
+        background-color: #e5e5e5;
+        color: #000000;
+      }
+      
+      body.dark.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
+      body.dark.unfocused #PageTitleBar #CustomWindowButtons button:hover {
+        background-color: #414141;
+        color: #ffffff;
+      }
+      
+      body.light.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
+      body.light.unfocused #PageTitleBar #CustomWindowButtons button:hover {
+        background-color: #e5e5e5;
+        color: #000000;
+      }
+      
+      body.dark #PageTitleBar #CustomWindowButtons button.click-ed,
+      body.dark #PageTitleBar #CustomWindowButtons button:active {
+        background-color: #353535;
+        color: #ffffff;
+      }
+      
+      body.light #PageTitleBar #CustomWindowButtons button.click-ed,
+      body.light #PageTitleBar #CustomWindowButtons button:active {
+        background-color: #cacaca;
+        color: #000000;
+      }
+      
+      #PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
+      #PageTitleBar #CustomWindowButtons button#ExitButton:hover {
+        background: #e81123;
+        color: #ffffff;
+      }
+      
+      body.dark #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+      body.dark #PageTitleBar #CustomWindowButtons button#ExitButton:active {
+        background: #8b0a14;
+        color: #ffffff;
+      }
+      
+      body.light #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+      body.light #PageTitleBar #CustomWindowButtons button#ExitButton:active {
+        background: #f1707a;
+        color: #ffffff;
       }
       
       body.dark #PageStatusBar {
@@ -629,6 +695,9 @@
           } else {
             document.body.className += " dark";
           }
+          if (UserlandThemingPreferences.ColorPrevalence()) {
+            document.body.className += " use-system-colors";
+          }
         });
       }
       function ToggleTheme () {
@@ -642,11 +711,7 @@
     <script>
       ;(function () {
         var TitleBarColor = (function (A) {
-          A = UserlandThemingPreferences.ColorPrevalence() ? 
-            UserlandThemingPreferences.AccentColor() :
-            UserlandThemingPreferences.AppsUseLightTheme() ? 
-              {R:255, G:255, B:255, A:255} : 
-              {R:0, G:0, B:0, A:255}; 
+          A = UserlandThemingPreferences.AccentColor();
           A = Color.toHex(A).substring(0, 7);
           return A;
         })();
@@ -703,10 +768,10 @@
           return Color.toHex(flattenedColor).substring(0, 7);
         }
       
-        function setPos() {
-          if (window.event !== undefined) {
-            posX = window.event.screenX;
-            posY = window.event.screenY;
+        function setPos(event) {
+          if (event !== undefined) {
+            posX = event.screenX;
+            posY = event.screenY;
             move = true;
           }
         }
@@ -719,7 +784,7 @@
               MaximiseWindow();
             };
             window.moveTo((window.screenLeft + moveX), (window.screenTop + moveY));
-            setPos();
+            setPos(event);
           }
         }
       
@@ -764,7 +829,7 @@
           addEvent(window, 'load', function () {
             var Titlebar = (function () {
               var outerHTML = '';
-              outerHTML += '<div role="banner" id="PageTitleBar"><div class="icon"></div><h1 class="text">String Encrypter</h1>';
+              outerHTML += '<div role="banner" id="PageTitleBar" aria-label="String Encrypter"><div class="icon"></div><h1 aria-hidden="true" role="presentation" class="text">String Encrypter</h1>';
               if (Environment.IsHTA()) {
                 outerHTML += '<div id="CustomWindowButtons"><button id="MinButton" title="Minimise" aria-label="Minimise">0</button><button id="MaxButton" title="Maximise" aria-label="Maximise">1</button><button id="ExitButton" title="Quit" aria-label="Quit">r</button></div><object id="HHCtrlMinimizeWindowObject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"><param name="command" value="minimize" /></object>';
               }
@@ -801,45 +866,25 @@
             var ComputedStyleSheet = document.createElement('style');
             var styles = '\n\
               /* This StyleSheet contains values which need to be determined at runtime depending on theming or are being "polyfilled" in because IEs css support is shoddy */ \n\
-              #PageTitleBar { \n\
+              body.use-system-colors #PageTitleBar { \n\
                 background-color: ' + TitleBarColor + '; \n\
                 color: ' + FontColor + '; \n\
               } \n\
-              #PageTitleBar #CustomWindowButtons button, \n\
-              #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-              #PageTitleBar #CustomWindowButtons button:hover, \n\
-              #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-              #PageTitleBar #CustomWindowButtons button:active { \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button, \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover, \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
                 background-color: ' + TitleBarColor + '; \n\
                 color: ' + FontColor + '; \n\
               } \n\
-              #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-              #PageTitleBar #CustomWindowButtons button:hover { \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover { \n\
                 background-color: ' + overlayColor(TitleBarColor, FontColor, 0.1) + '; \n\
               } \n\
-              #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-              #PageTitleBar #CustomWindowButtons button:active { \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
+              body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
                 background-color: ' + overlayColor(TitleBarColor, FontColor, 0.2) + '; \n\
-              } \n\
-              .unfocused #PageTitleBar { \n\
-                background: #ffffff; \n\
-                color: #000000; \n\
-              } \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button, \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button:hover, \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button:active { \n\
-                background: #ffffff; \n\
-                color: #000000; \n\
-              } \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button:hover { \n\
-                background-color: ' + overlayColor('#ffffff', '#000000', 0.1) + '; \n\
-              } \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-              .unfocused #PageTitleBar #CustomWindowButtons button:active { \n\
-                background-color: ' + overlayColor('#ffffff', '#000000', 0.2) + '; \n\
               } \n\
             ';
             ComputedStyleSheet.type = 'text/css';
@@ -997,7 +1042,7 @@
     </script>
     <script>
       addEvent(window, "load", function (e) {
-        document.body.innerHTML += '<div id="CustomContextMenu"><button onclick="ToggleTheme()"><span class="label">Toggle Theme</span></button><button onclick="setTimeout(window.print, 0)"><span class="label">Print</span></button></div>';
+        document.body.innerHTML += '<div id="CustomContextMenu"><button onclick="ToggleTheme()"><span class="label">Toggle Theme</span></button><button onclick="setTimeout(window.print, 0)"><span class="label">Print</span> <kbd class="label">CTRL+P</kbd></button></div>';
         var menu;
         var addedHoverPolyfillEvents = false;
       
@@ -1051,6 +1096,16 @@
           menu.style.left = LeftOffset + "px"; 
           menu.style.top = TopOffset + "px";
       
+          var btns = menu.getElementsByTagName("button");
+          for (var i = 0; i < btns.length; i++) {
+            var btn = btns[i];
+            var disabled = (btn.getAttribute("disabled") == "" || !!btn.getAttribute("disabled"));
+            if (!disabled) {
+              btn.focus();
+              break;
+            }
+          }
+      
           try {
             event.preventDefault();
           } catch (e) {
@@ -1062,6 +1117,15 @@
         addEvent(document.body, "click", function (event) {
           menu = document.getElementById("CustomContextMenu");
           menu.className = "";
+        });
+      
+        addEvent(document, "keyup", function (event) {
+          menu = document.getElementById("CustomContextMenu");
+          if (menu.className == "active") {
+            if (event.keyCode == 27) {
+              menu.className = "";
+            }
+          }
         });
       });
     </script>
@@ -1095,20 +1159,20 @@
           If you are on IE click "Allow Blocked Content".
         </h1>
       </noscript>
-      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.3" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
-          <div><span id="ZeroSize" aria-hidden="true">0</span></div>
+      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.4" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
+          <div><span id="ZeroSize" aria-hidden="true" role="presentation">0</span></div>
           <div id="form">
             <div class="text">
               <label id="textareaLabel" for="tamsg">
                 Text To Encrypt Or Decrypt:
-              </label>
-              <textarea id="tamsg" cols="80" rows="3"></textarea>
+              </label> 
+              <textarea id="tamsg" cols="80" rows="3" required></textarea>
             </div>
             <div>
               <label id="passwordLabel" for="pass">
                 Password:
               </label>
-              <input type="password" id="pass">
+              <input type="password" id="pass" required/>
             </div>
             <div id="Buttons">
               <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);"/>
@@ -1116,7 +1180,7 @@
             </div>
             <input type="hidden" id="temp">
           </div>
-          <script> 
+          <script>
             addEvent(window, 'load', function () {
               var width = 400, height = 400;
               chSize = ZeroSize.offsetWidth;

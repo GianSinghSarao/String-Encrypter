@@ -1,10 +1,6 @@
 ;(function () {
   var TitleBarColor = (function (A) {
-    A = UserlandThemingPreferences.ColorPrevalence() ? 
-      UserlandThemingPreferences.AccentColor() :
-      UserlandThemingPreferences.AppsUseLightTheme() ? 
-        {R:255, G:255, B:255, A:255} : 
-        {R:0, G:0, B:0, A:255}; 
+    A = UserlandThemingPreferences.AccentColor();
     A = Color.toHex(A).substring(0, 7);
     return A;
   })();
@@ -61,10 +57,10 @@
     return Color.toHex(flattenedColor).substring(0, 7);
   }
 
-  function setPos() {
-    if (window.event !== undefined) {
-      posX = window.event.screenX;
-      posY = window.event.screenY;
+  function setPos(event) {
+    if (event !== undefined) {
+      posX = event.screenX;
+      posY = event.screenY;
       move = true;
     }
   }
@@ -77,7 +73,7 @@
         MaximiseWindow();
       };
       window.moveTo((window.screenLeft + moveX), (window.screenTop + moveY));
-      setPos();
+      setPos(event);
     }
   }
 
@@ -122,7 +118,7 @@
     addEvent(window, 'load', function () {
       var Titlebar = (function () {
         var outerHTML = '';
-        outerHTML += '<div role="banner" id="PageTitleBar"><div class="icon"></div><h1 class="text">String Encrypter</h1>';
+        outerHTML += '<div role="banner" id="PageTitleBar" aria-label="String Encrypter"><div class="icon"></div><h1 aria-hidden="true" role="presentation" class="text">String Encrypter</h1>';
         if (Environment.IsHTA()) {
           outerHTML += '<div id="CustomWindowButtons"><button id="MinButton" title="Minimise" aria-label="Minimise">0</button><button id="MaxButton" title="Maximise" aria-label="Maximise">1</button><button id="ExitButton" title="Quit" aria-label="Quit">r</button></div><object id="HHCtrlMinimizeWindowObject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"><param name="command" value="minimize" /></object>';
         }
@@ -159,45 +155,25 @@
       var ComputedStyleSheet = document.createElement('style');
       var styles = '\n\
         /* This StyleSheet contains values which need to be determined at runtime depending on theming or are being "polyfilled" in because IEs css support is shoddy */ \n\
-        #PageTitleBar { \n\
+        body.use-system-colors #PageTitleBar { \n\
           background-color: ' + TitleBarColor + '; \n\
           color: ' + FontColor + '; \n\
         } \n\
-        #PageTitleBar #CustomWindowButtons button, \n\
-        #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-        #PageTitleBar #CustomWindowButtons button:hover, \n\
-        #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-        #PageTitleBar #CustomWindowButtons button:active { \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button, \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover, \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
           background-color: ' + TitleBarColor + '; \n\
           color: ' + FontColor + '; \n\
         } \n\
-        #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-        #PageTitleBar #CustomWindowButtons button:hover { \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover { \n\
           background-color: ' + overlayColor(TitleBarColor, FontColor, 0.1) + '; \n\
         } \n\
-        #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-        #PageTitleBar #CustomWindowButtons button:active { \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
+        body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
           background-color: ' + overlayColor(TitleBarColor, FontColor, 0.2) + '; \n\
-        } \n\
-        .unfocused #PageTitleBar { \n\
-          background: #ffffff; \n\
-          color: #000000; \n\
-        } \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button, \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button:hover, \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button:active { \n\
-          background: #ffffff; \n\
-          color: #000000; \n\
-        } \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button:hover { \n\
-          background-color: ' + overlayColor('#ffffff', '#000000', 0.1) + '; \n\
-        } \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-        .unfocused #PageTitleBar #CustomWindowButtons button:active { \n\
-          background-color: ' + overlayColor('#ffffff', '#000000', 0.2) + '; \n\
         } \n\
       ';
       ComputedStyleSheet.type = 'text/css';

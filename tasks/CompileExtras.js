@@ -63,6 +63,6 @@ create_HTA_targeting_IE("Edge", ".\\temp\\Encrypter.htm");
 WScript.Echo("------------ \nGenerated Following HTM For Testing Changes On Different Browsers \n--------");
 WScript.Echo("[1] '.\\temp\\Encrypter.htm'");
 
-WS_Shell.Exec('explorer .\\temp\\');
+// WS_Shell.Exec('explorer .\\temp\\');
 
 WScript.Echo("============ \nDone. \n============");

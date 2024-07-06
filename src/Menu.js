@@ -1,5 +1,5 @@
 addEvent(window, "load", function (e) {
-  document.body.innerHTML += '<div id="CustomContextMenu"><button onclick="ToggleTheme()"><span class="label">Toggle Theme</span></button><button onclick="setTimeout(window.print, 0)"><span class="label">Print</span></button></div>';
+  document.body.innerHTML += '<div id="CustomContextMenu"><button onclick="ToggleTheme()"><span class="label">Toggle Theme</span></button><button onclick="setTimeout(window.print, 0)"><span class="label">Print</span> <kbd class="label">CTRL+P</kbd></button></div>';
   var menu;
   var addedHoverPolyfillEvents = false;
 
@@ -53,6 +53,16 @@ addEvent(window, "load", function (e) {
     menu.style.left = LeftOffset + "px"; 
     menu.style.top = TopOffset + "px";
 
+    var btns = menu.getElementsByTagName("button");
+    for (var i = 0; i < btns.length; i++) {
+      var btn = btns[i];
+      var disabled = (btn.getAttribute("disabled") == "" || !!btn.getAttribute("disabled"));
+      if (!disabled) {
+        btn.focus();
+        break;
+      }
+    }
+
     try {
       event.preventDefault();
     } catch (e) {
@@ -64,5 +74,14 @@ addEvent(window, "load", function (e) {
   addEvent(document.body, "click", function (event) {
     menu = document.getElementById("CustomContextMenu");
     menu.className = "";
+  });
+
+  addEvent(document, "keyup", function (event) {
+    menu = document.getElementById("CustomContextMenu");
+    if (menu.className == "active") {
+      if (event.keyCode == 27) {
+        menu.className = "";
+      }
+    }
   });
 });
