@@ -3,1356 +3,1532 @@
 <!--[if IE 6]>    <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>    <html lang="en" class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html lang="en" class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" class="modern"> <!--<![endif]-->    
-  <head>
-    <title>String Encrypter</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=9"> 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Looking for a simple way to obscure your text? Secure your text with ease using String Encrypter. This simple tool obfuscates your data, making it difficult for prying eyes to read. Please note that String Encrypter only provides security through obscurity and is not recommended for sensitive information. Use at your own risk. ">
-    <style>
+<!--[if gt IE 8]><!-->
+<html lang="en" class="modern"> <!--<![endif]-->
+
+<head>
+  <title>String Encrypter</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=9">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Looking for a simple way to obscure your text? Secure your text with ease using String Encrypter. This simple tool obfuscates your data, making it difficult for prying eyes to read. Please note that String Encrypter only provides security through obscurity and is not recommended for sensitive information. Use at your own risk. ">
+  <style>
+    * {
+      box-sizing: border-box;
+    
+      background-color: transparent;
+      border-width: 0;
+      border-color: transparent;
+      border-style: none;
+    
+      font-size: 16px;
+      font-family: "Cascadia Code", "Roboto Mono", monospace;
+      line-height: 1em;
+    
+      padding: 0;
+      margin: 0;
+    }
+    
+    hta\:application,
+    application {
+      display: none;
+    }
+    
+    body,
+    #PageTitleBar,
+    #PageTitleBar div,
+    #PageTitleBar h1,
+    #PageContent,
+    #PageStatusBar {
+      position: absolute;
+    }
+    
+    html,
+    body {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    
+      height: 100%;
+      width: 100%;
+    
+      display: block;
+      overflow: hidden;
+      overscroll-behavior: auto;
+    }
+    
+    .modern body {
+      position: static;
+    }
+    
+    .modern #PageTitleBar,
+    .modern #PageStatusBar {
+      position: fixed;
+    }
+    
+    #PageTitleBar {
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: 0;
+    
+      height: 3em;
+      width: 100%;
+    
+      cursor: auto;
+      z-index: 1000;
+    }
+    
+    #PageTitleBar div,
+    #PageTitleBar h1 {
+      top: 0;
+      bottom: 0;
+    
+      height: 100%;
+    }
+    
+    #PageTitleBar .icon {
+      right: auto;
+      left: 0;
+    
+      width: 3em;
+    
+      line-height: 3em;
+      text-align: center;
+    }
+    
+    #PageTitleBar .icon img,
+    #PageTitleBar .icon span {
+      vertical-align: middle;
+    }
+    
+    #PageTitleBar .icon span {
+      height: 100%;
+    
+      display: none;
+    }
+    
+    .lt-ie8 #PageTitleBar .icon span {
+      display: inline-block;
+    }
+    
+    #PageTitleBar .text {
+      right: 0;
+      left: 3em;
+    
+      font-size: 1em;
+      font-weight: normal;
+    
+      padding: 1em 0em;
+    }
+    
+    .HTA #PageTitleBar .text {
+      right: 9em;
+    }
+    
+    #PageTitleBar #CustomWindowButtons {
+      right: 0;
+      left: auto;
+    
+      overflow: visible;
+    }
+    
+    #PageTitleBar #CustomWindowButtons button {
+      height: 3em;
+      width: 3em;
+    
+      font-family: Webdings;
+    
+      padding: 1em;
+    }
+    
+    #PageContent {
+      top: 3em;
+      right: 0;
+      bottom: 1.4em;
+      left: 0;
+    
+      overflow-x: hidden;
+      overflow-y: auto;
+    
+      text-align: center;
+    
+      margin: 0 auto;
+    }
+    
+    .lt-ie7 #PageContent {
+      width: 100%;
+    }
+    
+    #PageStatusBar {
+      top: auto;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    
+      min-height: 1.45em;
+      width: 100%;
+    
+      line-height: 1.45em;
+    }
+    
+    #PageStatusBar * {
+      font-size: 0.8em;
+    }
+    
+    #form {
+      width: calc(80ch + 4em);
+      max-width: 100%;
+    
+      margin: 0 auto;
+    }
+    
+    #form.wide {
+      margin-top: 1em;
+    }
+    
+    #form div {
+      width: 100%;
+    
+      padding: 1em;
+    }
+    
+    #ZeroSize {
+      box-sizing: content-box;
+    
+      color: transparent;
+      outline: none;
+      border: none;
+      opacity: 0;
+    
+      display: inline;
+    
+      padding: none;
+      margin: none;
+    }
+    
+    #ZeroSize.hidden {
+      display: none;
+    }
+    
+    label {
+      width: 100%;
+    
+      font-size: 1em;
+      text-align: left;
+    
+      display: block;
+    }
+    
+    input,
+    textarea {
+      width: 100%;
+    
+      padding: 1em;
+      margin: 0;
+    
+      overflow: auto;
+      display: block;
+    }
+    
+    #form div#Buttons {
+      padding: 0;
+    }
+    
+    #form.normal div#Buttons {
+      overflow: auto;
+    }
+    
+    #form.normal div#Buttons #EncryptButton,
+    #form.normal div#Buttons #DecryptButton {
+      width: 50%;
+      float: left;
+    }
+    
+    #CustomContextMenu {
+      position: absolute;
+      display: none;
+      z-index: 10000;
+    
+      width: 19.5em;
+      max-width: 100vw;
+    
+      padding: 0.2em 0;
+    }
+    
+    #CustomContextMenu button {
+      position: relative;
+      display: block;
+    
+      width: 100%;
+      padding: 0.25em;
+    
+      text-align: left;
+    }
+    
+    #CustomContextMenu button .label {
+      float: left;
+    
+      margin: 0 3em;
+    
+      font-size: 0.75em;
+    }
+    
+    #CustomContextMenu.active {
+      display: block;
+    }
+    
+    #CustomContextMenu button kbd.label {
+      float: right;
+    }
+    
+    @media print {
       * {
-        box-sizing: border-box;
-        
-        background-color: transparent;
-        border-width: 0;
-        border-color: transparent;
-        border-style: none;
-        
-        font-size: 16px;
-        font-family: "Cascadia Code", "Roboto Mono", monospace;
-        line-height: 1em;
-      
-        padding: 0;
-        margin: 0;
+        position: static !important;
+    
+        background: #fff !important;
+        color: #000 !important;
+    
+        max-width: none !important;
+    
+        overflow: visible !important;
+    
+        text-align: left !important;
       }
-      
-      hta\:application,
-      application {
-        display: none;
-      }
-      
-      body,
-      #PageTitleBar, 
-      #PageTitleBar div,
-      #PageTitleBar h1,
-      #PageContent,
-      #PageStatusBar {
-        position: absolute;
-      }
-      
-      html,
-      body {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      
-        height: 100%;
-        width: 100%;
-      
-        display: block;
-        overflow: hidden;
-        overscroll-behavior: auto;
-      }
-      
-      .modern body {
-        position: static;
-      }
-      
-      .modern #PageTitleBar,
-      .modern #PageStatusBar {
-        position: fixed;
-      }
-      
-      #PageTitleBar {
-        top: 0;
-        right: 0;
-        bottom: auto;
-        left: 0;
-      
-        height: 3em;
-        width: 100%;
-      
-        cursor: auto;
-        z-index: 1000;
-      }
-      
-      #PageTitleBar div, 
-      #PageTitleBar h1 {
-        top: 0;
-        bottom: 0;
-      
-        height: 100%;
-      }
-      
-      #PageTitleBar .icon {
-        right: auto;
-        left: 0;
-      
-        width: 3em;
-      
-        line-height: 3em;
-        text-align: center;
-      }
-      
-      #PageTitleBar .icon img,
-      #PageTitleBar .icon span {
-        vertical-align: middle;
-      }
-      
-      #PageTitleBar .icon span {
-        height: 100%;
-      
-        display: none;
-      }
-      
-      .lt-ie8 #PageTitleBar .icon span {
-        display: inline-block;
-      } 
-      
-      #PageTitleBar .text {
-        right: 0;
-        left: 3em;
-      
-        font-size: 1em;
-        font-weight: normal;
-      
-        padding: 1em 0em;
-      }
-      
-      .HTA #PageTitleBar .text {
-        right: 9em;
-      }
-      
-      #PageTitleBar #CustomWindowButtons {
-        right: 0;
-        left: auto;
-        
-        overflow: visible;
-      }
-      
-      #PageTitleBar #CustomWindowButtons button {
-        height: 3em;
-        width: 3em;
-      
-        font-family: Webdings;
-        
-        padding: 1em;
-      }
-      
-      #PageContent {
-        top: 3em;
-        right: 0;
-        bottom: 1.4em;
-        left: 0;
-      
-        overflow-x: hidden;
-        overflow-y: auto;
-      
-        text-align: center;
-        
-        margin: 0 auto;
-      }
-      
-      .lt-ie7 #PageContent {
-        width: 100%;
-      }
-      
-      #PageStatusBar {
-        top: auto;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      
-        min-height: 1.45em;
-        width: 100%;
-      
-        line-height: 1.45em;
-      }
-      
-      #PageStatusBar * {
-        font-size: 0.8em;
-      }
-      
+    
       #form {
-        width: calc(80ch + 4em);
-        max-width: 100%;
-      
-        margin: 0 auto;
+        margin: 0 !important;
+        width: 100%;
       }
-      
-      #form.wide {
-        margin-top: 1em;
-      }
-      
+    
       #form div {
-        width: 100%;
-        
-        padding: 1em;
-      }
-      
-      #ZeroSize {
-        box-sizing: content-box;
-      
-        color: transparent;
-        outline: none;
-        border: none;
-        opacity: 0;
-        
-        display: inline;
-      
-        padding: none;
-        margin: none;
-      }
-      
-      #ZeroSize.hidden {
         display: none;
       }
-      
-      label {
-        width: 100%;
-        
-        font-size: 1em;
-        text-align: left;
-      
+    
+      #form div.text {
         display: block;
       }
-      
-      input, textarea {  
-        width: 100%;
-        
-        padding: 1em;
-        margin: 0;
-        
-        overflow: auto;
-        display: block;
+    
+      textarea#StringInput {
+        max-width: calc(100vw - 2em);
+        background: transparent;
+        border: 1px solid #000;
       }
-      
-      .lt-ie7 #pass {
-        height: 3em;
-      }
-      
-      #form div#Buttons {
-        padding: 0;
-      }
-      
-      #form.normal div#Buttons {
-        overflow: auto;
-      }
-      
-      #form.normal div#Buttons #EncryptButton,
-      #form.normal div#Buttons #DecryptButton {
-        width: 50%;
-        float: left;
-      }
-      
-      #CustomContextMenu {
-        position: absolute;
+    
+      #PageTitleBar,
+      #PageStatusBar {
         display: none;
-        z-index: 10000;
-        
-        width: 19.5em;
-        max-width: 100vw;
-        
-        padding: 0.2em 0;  
       }
-      
-      #CustomContextMenu button {
-        position: relative;
-        display: block;
-      
-        width: 100%;
-        padding: 0.25em;
-        
-        text-align: left;
-      }
-      
-      #CustomContextMenu button .label {
-        float: left;
-        
-        margin: 0 3em;
-        
-        font-size: 0.75em;
-      }
-      
+    
+      #CustomContextMenu,
       #CustomContextMenu.active {
-        display: block;
+        display: none;
       }
-      
-      #CustomContextMenu button kbd.label {
-        float: right;
-      }
-      
-      @media print {
-        * {
-          position: static !important;
-      
-          background: #fff !important;
-          color: #000 !important;
-          
-          max-width: none !important;
-          
-          overflow: visible !important;
-          
-          text-align: left !important;
-        }
-      
-        #form {
-          margin: 0 !important;
-          width: 100%;
-        }
-      
-        #form div {
-          display: none;
-        }
-      
-        #form div.text {
-          display: block;
-        }
-      
-        textarea#tamsg {
-          max-width: calc(100vw - 2em);
-          background: transparent;
-          border: 1px solid #000;
-        }
-      
-        #PageTitleBar,
-        #PageStatusBar {
-          display: none;
-        }
-        #CustomContextMenu,
-        #CustomContextMenu.active {
-          display: none;
-        }
-      }
-    </style>
-    <style>
-      body.dark {
-        color-scheme: dark;
-        background: #202020;
-        color: #ffffff;
-      }
-      
-      body.light {
-        color-scheme: light;
-        background: #f5f6f7;
-        color: #000000;
-      }
-      
-      body.dark #PageTitleBar,
-      body.dark #PageTitleBar #CustomWindowButtons button {
-        background-color: #000000;
-        color: #ffffff;
-      }
-      
-      body.light #PageTitleBar,
-      body.light #PageTitleBar #CustomWindowButtons button {
-        background-color: #ffffff;
-        color: #000000;
-      }
-      
-      body.dark.unfocused #PageTitleBar,
-      body.dark.unfocused #PageTitleBar #CustomWindowButtons button {
-        background-color: #2b2b2b;
-        color: #888888;
-      }
-      
-      body.light.unfocused #PageTitleBar,
-      body.light.unfocused #PageTitleBar #CustomWindowButtons button {
-        background-color: #ffffff;
-        color: #888888;
-      }
-      
-      body.dark #PageTitleBar #CustomWindowButtons button.hover-ed,
-      body.dark #PageTitleBar #CustomWindowButtons button:hover {
-        background-color: #1a1a1a;
-        color: #ffffff;
-      }
-      
-      body.light #PageTitleBar #CustomWindowButtons button.hover-ed,
-      body.light #PageTitleBar #CustomWindowButtons button:hover {
-        background-color: #e5e5e5;
-        color: #000000;
-      }
-      
-      body.dark.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
-      body.dark.unfocused #PageTitleBar #CustomWindowButtons button:hover {
-        background-color: #414141;
-        color: #ffffff;
-      }
-      
-      body.light.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
-      body.light.unfocused #PageTitleBar #CustomWindowButtons button:hover {
-        background-color: #e5e5e5;
-        color: #000000;
-      }
-      
-      body.dark #PageTitleBar #CustomWindowButtons button.click-ed,
-      body.dark #PageTitleBar #CustomWindowButtons button:active {
-        background-color: #353535;
-        color: #ffffff;
-      }
-      
-      body.light #PageTitleBar #CustomWindowButtons button.click-ed,
-      body.light #PageTitleBar #CustomWindowButtons button:active {
-        background-color: #cacaca;
-        color: #000000;
-      }
-      
-      #PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
-      #PageTitleBar #CustomWindowButtons button#ExitButton:hover {
-        background: #e81123;
-        color: #ffffff;
-      }
-      
-      body.dark #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
-      body.dark #PageTitleBar #CustomWindowButtons button#ExitButton:active {
-        background: #8b0a14;
-        color: #ffffff;
-      }
-      
-      body.light #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
-      body.light #PageTitleBar #CustomWindowButtons button#ExitButton:active {
-        background: #f1707a;
-        color: #ffffff;
-      }
-      
-      body.dark #PageStatusBar {
-        background: #333333;
-      }
-      
-      body.light #PageStatusBar {
-        background: #ffffff;
-      }
-      
-      body.dark #form {
-        border: 1px solid #3e3e3e;
-        color: #dadbdc;
-      }
-      
-      body.light #form {
-        border: 1px solid #e3e4e5;
-        color: #2b2b2b;
-      }
-      
-      body.dark input,
-      body.dark textarea {
-        background: #2b2b2b;
-        color: #fff;
-      }
-      
-      body.light input,
-      body.light textarea {
-        background: #fafbfc;
-        color: #202020;
-      }
-      
-      body.dark .button {
-        background: transparent;
-        color: #aaa;
-      }
-      
-      body.light .button {
-        background: transparent;
-        color: #222;
-      }
-      
-      body.dark input.button:focus,
-      body.dark input.button.hover-ed,
-      body.dark input.button:hover {
-        background: #4a4a4a;
-        /* border: solid 1px #595959; */
-        color: #e5e5e5;
-      }
-      
-      body.light input.button:focus, 
-      body.light input.button.hover-ed,
-      body.light input.button:hover {
-        background: #e8eff7;
-        /* border: solid 1px #a4cef9; */
-        color: #3d3d3d;
-      }
-      
-      body.dark #CustomContextMenu {
-        background: #202020;
-        border: 1px solid #3e3e3e;
-        color: #dadbdc;
-      }
-      
-      body.light #CustomContextMenu {
-        background: #f5f6f7;
-        border: 1px solid #e3e4e5;
-        color: #2b2b2b;
-      }
-      
-      body.dark #CustomContextMenu button {
-        background: transparent;
-        color: #aaa;
-      }
-      
-      body.light #CustomContextMenu button {
-        background: transparent;
-        color: #222;
-      }
-      
-      body.dark #CustomContextMenu button:focus,
-      body.dark #CustomContextMenu button.hover-ed,
-      body.dark #CustomContextMenu button:hover {
-        background: #4a4a4a;
-        /* border: solid 1px #595959; */
-        color: #e5e5e5;
-      }
-      
-      body.light #CustomContextMenu button:focus, 
-      body.light #CustomContextMenu button.hover-ed,
-      body.light #CustomContextMenu button:hover {
-        background: #e8eff7;
-        /* border: solid 1px #a4cef9; */
-        color: #3d3d3d;
-      }
-    </style>
-    <script>
-      ;var __global__ = this; var Environment = (function (a) {
-        var a = {
-          hasLocalStorage: !(typeof window === "undefined") && !(typeof window.localStorage === "undefined"), 
-          hasDocument: !(typeof window === "undefined") && !(typeof window.document === "undefined"), 
-          hasActiveXObject: !(typeof window === "undefined") && ("ActiveXObject" in window), 
-          hasConsole: !(typeof console === "undefined"), 
-          hasGlobal: !(typeof global === "undefined"), 
-          hasWindow: !(typeof window === "undefined"), 
-          hasAlert: !(typeof alert === "undefined"), 
-          hasDeno: !(typeof Deno === "undefined")
-        };
-        a.IsOldIE = (a.hasWindow && !a.hasConsole && a.hasAlert && a.hasActiveXObject);
-        a.IsHTA = function () {
-          if (a.IsBrowser) {
-            var htaApp = document.getElementsByTagName("HTA:APPLICATION").length !== 0 ? document.getElementsByTagName("HTA:APPLICATION") : document.getElementsByTagName("APPLICATION");
-            if (htaApp.length == 1 && htaApp[0]) {
-              return (typeof htaApp[0].commandLine !== "undefined");
-            }
+    }
+  </style>
+  <style>
+    body.dark {
+      color-scheme: dark;
+      background: #202020;
+      color: #ffffff;
+    }
+    
+    body.light {
+      color-scheme: light;
+      background: #f5f6f7;
+      color: #000000;
+    }
+    
+    body.dark #PageTitleBar,
+    body.dark #PageTitleBar #CustomWindowButtons button {
+      background-color: #000000;
+      color: #ffffff;
+    }
+    
+    body.light #PageTitleBar,
+    body.light #PageTitleBar #CustomWindowButtons button {
+      background-color: #ffffff;
+      color: #000000;
+    }
+    
+    body.dark.unfocused #PageTitleBar,
+    body.dark.unfocused #PageTitleBar #CustomWindowButtons button {
+      background-color: #2b2b2b;
+      color: #888888;
+    }
+    
+    body.light.unfocused #PageTitleBar,
+    body.light.unfocused #PageTitleBar #CustomWindowButtons button {
+      background-color: #ffffff;
+      color: #888888;
+    }
+    
+    body.dark #PageTitleBar #CustomWindowButtons button.hover-ed,
+    body.dark #PageTitleBar #CustomWindowButtons button:hover {
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+    
+    body.light #PageTitleBar #CustomWindowButtons button.hover-ed,
+    body.light #PageTitleBar #CustomWindowButtons button:hover {
+      background-color: #e5e5e5;
+      color: #000000;
+    }
+    
+    body.dark.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
+    body.dark.unfocused #PageTitleBar #CustomWindowButtons button:hover {
+      background-color: #414141;
+      color: #ffffff;
+    }
+    
+    body.light.unfocused #PageTitleBar #CustomWindowButtons button.hover-ed,
+    body.light.unfocused #PageTitleBar #CustomWindowButtons button:hover {
+      background-color: #e5e5e5;
+      color: #000000;
+    }
+    
+    body.dark #PageTitleBar #CustomWindowButtons button.click-ed,
+    body.dark #PageTitleBar #CustomWindowButtons button:active {
+      background-color: #353535;
+      color: #ffffff;
+    }
+    
+    body.light #PageTitleBar #CustomWindowButtons button.click-ed,
+    body.light #PageTitleBar #CustomWindowButtons button:active {
+      background-color: #cacaca;
+      color: #000000;
+    }
+    
+    #PageTitleBar #CustomWindowButtons button#ExitButton.hover-ed,
+    #PageTitleBar #CustomWindowButtons button#ExitButton:hover {
+      background: #e81123;
+      color: #ffffff;
+    }
+    
+    body.dark #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+    body.dark #PageTitleBar #CustomWindowButtons button#ExitButton:active {
+      background: #8b0a14;
+      color: #ffffff;
+    }
+    
+    body.light #PageTitleBar #CustomWindowButtons button#ExitButton.click-ed,
+    body.light #PageTitleBar #CustomWindowButtons button#ExitButton:active {
+      background: #f1707a;
+      color: #ffffff;
+    }
+    
+    body.dark #PageStatusBar {
+      background: #333333;
+    }
+    
+    body.light #PageStatusBar {
+      background: #ffffff;
+    }
+    
+    body.dark #form {
+      border: 1px solid #3e3e3e;
+      color: #dadbdc;
+    }
+    
+    body.light #form {
+      border: 1px solid #e3e4e5;
+      color: #2b2b2b;
+    }
+    
+    body.dark input,
+    body.dark textarea {
+      background: #2b2b2b;
+      color: #fff;
+    }
+    
+    body.light input,
+    body.light textarea {
+      background: #fafbfc;
+      color: #202020;
+    }
+    
+    body.dark .button {
+      background: transparent;
+      color: #aaa;
+    }
+    
+    body.light .button {
+      background: transparent;
+      color: #222;
+    }
+    
+    body.dark input.button:focus,
+    body.dark input.button.hover-ed,
+    body.dark input.button:hover {
+      background: #4a4a4a;
+      /* border: solid 1px #595959; */
+      color: #e5e5e5;
+    }
+    
+    body.light input.button:focus,
+    body.light input.button.hover-ed,
+    body.light input.button:hover {
+      background: #e8eff7;
+      /* border: solid 1px #a4cef9; */
+      color: #3d3d3d;
+    }
+    
+    body.dark #CustomContextMenu {
+      background: #202020;
+      border: 1px solid #3e3e3e;
+      color: #dadbdc;
+    }
+    
+    body.light #CustomContextMenu {
+      background: #f5f6f7;
+      border: 1px solid #e3e4e5;
+      color: #2b2b2b;
+    }
+    
+    body.dark #CustomContextMenu button {
+      background: transparent;
+      color: #aaa;
+    }
+    
+    body.light #CustomContextMenu button {
+      background: transparent;
+      color: #222;
+    }
+    
+    body.dark #CustomContextMenu button:focus,
+    body.dark #CustomContextMenu button.hover-ed,
+    body.dark #CustomContextMenu button:hover {
+      background: #4a4a4a;
+      /* border: solid 1px #595959; */
+      color: #e5e5e5;
+    }
+    
+    body.light #CustomContextMenu button:focus,
+    body.light #CustomContextMenu button.hover-ed,
+    body.light #CustomContextMenu button:hover {
+      background: #e8eff7;
+      /* border: solid 1px #a4cef9; */
+      color: #3d3d3d;
+    }
+  </style>
+  <script>
+    ; var __global__ = this; var Environment = (function (a) {
+      var a = {
+        hasLocalStorage:  !(typeof window === "undefined") &&
+                          !(typeof window.localStorage === "undefined"),
+        hasDocument: !(typeof window === "undefined") &&
+                     !(typeof window.document === "undefined"),
+        hasActiveXObject: !(typeof window === "undefined") &&
+                          ("ActiveXObject" in window),
+        hasConsole: !(typeof console === "undefined"),
+        hasGlobal: !(typeof global === "undefined"),
+        hasWindow: !(typeof window === "undefined"),
+        hasAlert: !(typeof alert === "undefined"),
+        hasDeno: !(typeof Deno === "undefined")
+      };
+      a.IsOldIE = (
+        a.hasWindow &&
+        !a.hasConsole &&
+        a.hasAlert &&
+        a.hasActiveXObject
+      );
+      a.IsIE = (a.hasWindow && a.hasAlert && a.hasActiveXObject);
+      a.IsHTA = function () {
+        if (a.IsBrowser) {
+          var htaApp = document.getElementsByTagName("HTA:APPLICATION").length ? 
+            document.getElementsByTagName("HTA:APPLICATION") :
+            document.getElementsByTagName("APPLICATION");
+          if (htaApp.length == 1 && htaApp[0]) {
+            return (typeof htaApp[0].commandLine !== "undefined");
           }
-          return false;
-        }; // is a function because it depends on dom to verify
-        a.IsModernBrowser = (a.hasWindow && a.hasConsole && a.hasAlert && a.hasDocument);
-        a.IsBrowser = (a.hasWindow && a.hasAlert && a.hasDocument);
-        a.IsWScript = (!a.hasWindow && !a.hasConsole && !a.hasAlert);
-        a.IsNode = (a.hasGlobal);
-        a.IsDeno = (a.hasDeno);
-        try {
-          __global__.Environment = a;
-        } finally {
-          return a;
         }
+        return false;
+      }; // is a function because it depends on dom to verify
+      a.IsModernBrowser = (
+        a.hasWindow &&
+        a.hasConsole &&
+        a.hasAlert &&
+        a.hasDocument
+      );
+      a.IsBrowser = (a.hasWindow && a.hasAlert && a.hasDocument);
+      a.IsWScript = (!a.hasWindow && !a.hasConsole && !a.hasAlert);
+      a.IsNode = (a.hasGlobal);
+      a.IsDeno = (a.hasDeno);
+      try {
+        __global__.Environment = a;
+      } finally {
+        return a;
+      }
+    })();
+  </script>
+  <script>
+    function addEvent(obj, type, fn) {
+      if (obj.attachEvent) {
+        obj['e' + type + fn] = fn;
+        obj[type + fn] = function () {
+          obj['e' + type + fn](window.event);
+        };
+        obj.attachEvent('on' + type, obj[type + fn]);
+      } else
+        obj.addEventListener(type, fn, false);
+    }
+    function removeEvent(obj, type, fn) {
+      if (obj.detachEvent) {
+        obj.detachEvent('on' + type, obj[type + fn]);
+        obj[type + fn] = null;
+      } else
+        obj.removeEventListener(type, fn, false);
+    }
+  </script>
+  <script>
+    var MIME_Types = {
+      '.html': 'text/html',
+      '.htm': 'text/html',
+      '.gif': 'image/gif',
+      '.jpeg': 'image/jpeg',
+      '.jpg': 'image/jpeg',
+      '.png': 'image/png',
+      '.svg': 'image/svg+xml',
+      '.ico': 'image/x-icon',
+      '.wav': 'audio/wav',
+      '.webp': 'image/webp',
+      '.webv': 'video/webm',
+      '.weba': 'audio/webm',
+      '.webm': 'video/webm',
+      '.oga': 'audio/ogg',
+      '.opus': 'audio/ogg; codecs=opus',
+      '.ogv': 'video/ogg',
+      '.ogg': 'application/ogg',
+      '.m4v': 'video/mp4',
+      '.m4a': 'audio/mp4',
+      '.mp4': 'video/mp4',
+      '.mp3': 'audio/mpeg',
+      '.aac': 'audio/aac',
+      '.flac': 'audio/flac',
+      '.flv': 'video/x-flv',
+      '.m3u8': 'audio/mpegurl',
+      '.ts': 'video/MP2T',
+      '.3gp': 'video/3gpp',
+      '.mov': 'video/quicktime',
+      '.avi': 'video/x-msvideo',
+      '.wmv': 'video/x-ms-wmv',
+      '.css': 'text/css',
+      '.js': 'application/javascript',
+      '.txt': 'text/plain',
+      '.wml': 'text/vnd.wap.wml'
+    };
+  </script>
+  <script>
+    var Color = {
+      fromHex: function (HexColorString) {
+        return {
+          R: parseInt('0x' + HexColorString.substring(1, 3)),
+          G: parseInt('0x' + HexColorString.substring(3, 5)),
+          B: parseInt('0x' + HexColorString.substring(5, 7)),
+          A: parseInt('0x' +
+            (HexColorString.length == 9 ?
+              HexColorString.substring(7, 9)
+              : 'ff'
+            )
+          )
+        }
+      },
+      toHex: function (Color) {
+        var hex = [
+          Color.R.toString(16),
+          Color.G.toString(16),
+          Color.B.toString(16),
+          Color.A.toString(16)
+        ];
+        for (var i = 0; i < hex.length; i++) {
+          hex[i] = (hex[i].length < 2) ? ('0' + hex[i]) : (hex[i]);
+        }
+        return '#' + hex.join('');
+      },
+      fromABGRHexInt: function (integerValue) {
+        var HexString = integerValue.toString(16);
+        return {
+          R: parseInt('0x' + HexString.substring(6, 8)),
+          G: parseInt('0x' + HexString.substring(4, 6)),
+          B: parseInt('0x' + HexString.substring(2, 4)),
+          A: parseInt('0x' + HexString.substring(0, 2))
+        }
+      },
+      getContrastingOf: function (Color) {
+        var ChannelIntensity = (
+          ((0.299 * Color.R + 0.587 * Color.G + 0.114 * Color.B) / 255) > 0.5
+        ) ? 0 : 255;
+        return {
+          R: ChannelIntensity,
+          G: ChannelIntensity,
+          B: ChannelIntensity,
+          A: 255
+        };
+      },
+      flatten: function (FlatBackgroundColor, ForegroundColor) {
+        return {
+          R: Math.round(
+            FlatBackgroundColor.R +
+            (ForegroundColor.R - FlatBackgroundColor.R) *
+            (ForegroundColor.A / 255)
+          ),
+          G: Math.round(
+            FlatBackgroundColor.G +
+            (ForegroundColor.G - FlatBackgroundColor.G) *
+            (ForegroundColor.A / 255)
+          ),
+          B: Math.round(
+            FlatBackgroundColor.B +
+            (ForegroundColor.B - FlatBackgroundColor.B) *
+            (ForegroundColor.A / 255)
+          ),
+          A: 255
+        }
+      }
+    }
+  </script>
+  <script>
+    var UserlandThemingPreferences = {};
+    UserlandThemingPreferences.AppsUseLightTheme = function () {
+      var integerValue;
+      try {
+        integerValue = Environment.IsIE ?
+          new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize\\AppsUseLightTheme') :
+          window.matchMedia('(prefers-color-scheme: light)').matches;
+      } catch (e) {
+        integerValue = 1;
+      } finally {
+        return Boolean(integerValue);
+      }
+    };
+    UserlandThemingPreferences.ColorPrevalence = function () {
+      var integerValue;
+      try {
+        integerValue = new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\DWM\\ColorPrevalence');
+      } catch (e) {
+        integerValue = 0;
+      } finally {
+        return Boolean(integerValue);
+      }
+    };
+    UserlandThemingPreferences.AccentColor = function () {
+      var integerValue;
+      try {
+        integerValue = new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\DWM\\AccentColor');
+      } catch (e) {
+        integerValue = 4278190080;
+      } finally {
+        if (integerValue < 0) { integerValue = 0xFFFFFFFF + integerValue + 1; }
+        return Color.fromABGRHexInt(integerValue);
+      }
+    };
+    addEvent(window, 'load', function () {
+      if (UserlandThemingPreferences.AppsUseLightTheme()) {
+        document.body.className += " light";
+      } else {
+        document.body.className += " dark";
+      }
+      if (UserlandThemingPreferences.ColorPrevalence()) {
+        document.body.className += " use-system-colors";
+      }
+    });
+    function ToggleTheme() {
+      if (document.body.className.indexOf(" light") != -1) {
+        document.body.className = document.body.className.replace("light", "dark");
+      } else if (document.body.className.indexOf(" dark") != -1) {
+        document.body.className = document.body.className.replace("dark", "light");
+      }
+    }
+    function ToggleAccent() {
+      var UsingAccent = (document.body.className.indexOf(" use-system-colors") != -1);
+      if (UsingAccent) {
+        document.body.className = document.body.className.replace(/\s*use-system-colors/g, "");
+      } else {
+        document.body.className += " use-system-colors";
+      }
+    }
+  </script>
+  <script>
+    ; (function () {
+      var TitleBarColor = (function (A) {
+        A = UserlandThemingPreferences.AccentColor();
+        A = Color.toHex(A).substring(0, 7);
+        return A;
       })();
-    </script>
-    <script>
-      function addEvent(obj, type, fn) {
-        if (obj.attachEvent) {
-          obj['e' + type + fn] = fn;
-          obj[type + fn] = function () { 
-            obj['e' + type + fn](window.event); 
+    
+      var FontColor = Color.toHex(
+        Color.getContrastingOf(Color.fromHex(TitleBarColor))
+      ).substring(0, 7);
+    
+      var posX = 0, posY = 0,
+        move = false,
+        w = 0, h = 0,
+        x = 0, y = 0,
+        max = false,
+        MIN_WIDTH = 144,
+        MIN_HEIGHT = 48;
+    
+      if (!window.screenLeft) {
+        window.screenLeft = window.screenX;
+        window.screenTop = window.screenY;
+      }
+    
+      function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+          var context = this, args = arguments;
+          var later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
           };
-          obj.attachEvent('on' + type, obj[type + fn]);
-        } else
-          obj.addEventListener(type, fn, false);
-      }
-      function removeEvent(obj, type, fn) {
-        if (obj.detachEvent) {
-          obj.detachEvent('on' + type, obj[type + fn]);
-          obj[type + fn] = null;
-        } else
-          obj.removeEventListener(type, fn, false);
-      }
-    </script>
-    <script>
-      var MIME_Types = {
-        '.html': 'text/html',
-        '.htm': 'text/html',
-        '.gif': 'image/gif',
-        '.jpeg': 'image/jpeg',
-        '.jpg': 'image/jpeg',
-        '.png': 'image/png',
-        '.svg': 'image/svg+xml',
-        '.ico': 'image/x-icon',
-        '.wav': 'audio/wav',
-        '.webp': 'image/webp',
-        '.webv': 'video/webm',
-        '.weba': 'audio/webm',
-        '.webm': 'video/webm',
-        '.oga': 'audio/ogg',
-        '.opus': 'audio/ogg; codecs=opus',
-        '.ogv': 'video/ogg',
-        '.ogg': 'application/ogg',
-        '.m4v': 'video/mp4',
-        '.m4a': 'audio/mp4',
-        '.mp4': 'video/mp4',
-        '.mp3': 'audio/mpeg',
-        '.aac': 'audio/aac',
-        '.flac': 'audio/flac',
-        '.flv': 'video/x-flv',
-        '.m3u8': 'audio/mpegurl',
-        '.ts': 'video/MP2T',
-        '.3gp': 'video/3gpp',
-        '.mov': 'video/quicktime',
-        '.avi': 'video/x-msvideo',
-        '.wmv': 'video/x-ms-wmv',
-        '.css': 'text/css',
-        '.js': 'application/javascript',
-        '.txt': 'text/plain',
-        '.wml': 'text/vnd.wap.wml'
-      };
-    </script>
-    <script>
-      var Color = {
-        fromHex: function (HexColorString) {
-          return {
-            R: parseInt('0x' + HexColorString.substring(1, 3)),
-            G: parseInt('0x' + HexColorString.substring(3, 5)),
-            B: parseInt('0x' + HexColorString.substring(5, 7)),
-            A: parseInt('0x' + (HexColorString.length == 9 ? HexColorString.substring(7, 9) : 'ff'))
-          }
-        },
-        toHex: function (Color) {
-          var hex = [
-            Color.R.toString(16),
-            Color.G.toString(16),
-            Color.B.toString(16),
-            Color.A.toString(16)
-          ];
-          for (var i = 0; i < hex.length; i++) {
-            hex[i] = (hex[i].length < 2) ? ('0' + hex[i]) : (hex[i]);
-          }
-          return '#' + hex.join('');
-        },
-        fromABGRHexInt: function (integerValue) {
-          var HexString = integerValue.toString(16);
-          return {
-            R: parseInt('0x' + HexString.substring(6, 8)),
-            G: parseInt('0x' + HexString.substring(4, 6)),
-            B: parseInt('0x' + HexString.substring(2, 4)),
-            A: parseInt('0x' + HexString.substring(0, 2))
-          }
-        },
-        getContrastingOf: function (Color) {
-          var ChannelIntensity = (((0.299 * Color.R + 0.587 * Color.G + 0.114 * Color.B) / 255) > 0.5) ? 0 : 255;
-          return {
-            R: ChannelIntensity, 
-            G: ChannelIntensity, 
-            B: ChannelIntensity, 
-            A: 255
-          };
-        },
-        flatten: function (FlatBackgroundColor, ForegroundColor) {
-          return {
-            R: Math.round(FlatBackgroundColor.R + (ForegroundColor.R - FlatBackgroundColor.R) * (ForegroundColor.A / 255)),
-            G: Math.round(FlatBackgroundColor.G + (ForegroundColor.G - FlatBackgroundColor.G) * (ForegroundColor.A / 255)),
-            B: Math.round(FlatBackgroundColor.B + (ForegroundColor.B - FlatBackgroundColor.B) * (ForegroundColor.A / 255)),
-            A: 255
-          }
-        }
-      }
-    </script>
-    <script>
-      var UserlandThemingPreferences = {};
-      UserlandThemingPreferences.AppsUseLightTheme = function () {
-        var integerValue;
-        try {
-          integerValue = Environment.IsOldIE ? 
-            new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize\\AppsUseLightTheme') : 
-            window.matchMedia('(prefers-color-scheme: light)').matches;
-        } catch (e) {
-          integerValue = 1;
-        } finally {
-          return Boolean(integerValue);
-        }
-      };
-      UserlandThemingPreferences.ColorPrevalence = function () {
-        var integerValue;
-        try {
-          integerValue = new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\DWM\\ColorPrevalence');
-        } catch (e) {
-          integerValue = 0;
-        } finally {
-          return Boolean(integerValue);
-        }
-      };
-      UserlandThemingPreferences.AccentColor = function () {
-        var integerValue;
-        try {
-          integerValue = new ActiveXObject('WScript.Shell').RegRead('HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\DWM\\AccentColor');
-        } catch (e) {
-          integerValue = 4278190080;
-        } finally {
-          if (integerValue < 0) { integerValue = 0xFFFFFFFF + integerValue + 1; }
-          return Color.fromABGRHexInt(integerValue);
-        }
-      };
-      if (Environment.hasDocument) {
-        addEvent(window, 'load', function () {
-          if (UserlandThemingPreferences.AppsUseLightTheme()) {
-            document.body.className += " light";  
-          } else {
-            document.body.className += " dark";
-          }
-          if (UserlandThemingPreferences.ColorPrevalence()) {
-            document.body.className += " use-system-colors";
-          }
-        });
-      }
-      function ToggleTheme () {
-        if (document.body.className.indexOf(" light") != -1) {
-          document.body.className = document.body.className.replace("light", "dark");
-        } else if (document.body.className.indexOf(" dark") != -1) {
-          document.body.className = document.body.className.replace("dark", "light");
-        }
-      }
-    </script>
-    <script>
-      ;(function () {
-        var TitleBarColor = (function (A) {
-          A = UserlandThemingPreferences.AccentColor();
-          A = Color.toHex(A).substring(0, 7);
-          return A;
-        })();
-      
-        var FontColor = Color.toHex(
-          Color.getContrastingOf(Color.fromHex(TitleBarColor))
-        ).substring(0, 7);
-      
-        var posX = 0, posY = 0, 
-          move = false, 
-          w = 0, h = 0, 
-          x = 0, y = 0, 
-          max = false,
-          MIN_WIDTH = 144,
-          MIN_HEIGHT = 48;
-      
-        if (!window.screenLeft) {
-          window.screenLeft = window.screenX;
-          window.screenTop = window.screenY;
-        }
-      
-        function debounce(func, wait, immediate) {
-          var timeout;
-          return function() {
-            var context = this, args = arguments;
-            var later = function() {
-              timeout = null;
-              if (!immediate) func.apply(context, args);
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-          };
+          var callNow = immediate && !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) func.apply(context, args);
         };
-      
-        function customResize() {
-          var widthOK = document.body.clientWidth >= MIN_WIDTH;
-          var heightOK = document.body.clientHeight >= MIN_HEIGHT;
-          if (widthOK && heightOK) {
-          } else if (widthOK) {
-            window.resizeTo(document.body.clientWidth + 14, MIN_HEIGHT + 14);
-          } else if (heightOK) {
-            window.resizeTo(MIN_WIDTH + 14, document.body.clientHeight + 14);
-          } else {
-            window.resizeTo(MIN_WIDTH + 14, MIN_HEIGHT + 14);
-          }
+      };
+    
+      function customResize() {
+        var widthOK = document.body.clientWidth >= MIN_WIDTH;
+        var heightOK = document.body.clientHeight >= MIN_HEIGHT;
+        if (widthOK && heightOK) {
+        } else if (widthOK) {
+          window.resizeTo(document.body.clientWidth + 14, MIN_HEIGHT + 14);
+        } else if (heightOK) {
+          window.resizeTo(MIN_WIDTH + 14, document.body.clientHeight + 14);
+        } else {
+          window.resizeTo(MIN_WIDTH + 14, MIN_HEIGHT + 14);
         }
-      
-        function overlayColor(BackgroundColor, OverlayColor, OverlayOpacity) {
-          var TempColor = Color.fromHex(OverlayColor)
-          TempColor.A = OverlayOpacity * 255;
-          var flattenedColor = Color.flatten(Color.fromHex(BackgroundColor), TempColor);
-          return Color.toHex(flattenedColor).substring(0, 7);
+      }
+    
+      function overlayColor(BackgroundColor, OverlayColor, OverlayOpacity) {
+        var TempColor = Color.fromHex(OverlayColor)
+        TempColor.A = OverlayOpacity * 255;
+        var flattenedColor = Color.flatten(Color.fromHex(BackgroundColor), TempColor);
+        return Color.toHex(flattenedColor).substring(0, 7);
+      }
+    
+      function setPos(event) {
+        if (event !== undefined) {
+          posX = event.screenX;
+          posY = event.screenY;
+          move = true;
         }
-      
-        function setPos(event) {
-          if (event !== undefined) {
-            posX = event.screenX;
-            posY = event.screenY;
-            move = true;
-          }
-        }
-      
-        function moving(event) {
-          if (move === true) {
-            var moveX = event.screenX - posX - 7;
-            var moveY = event.screenY - posY - 7;
+      }
+    
+      function moving(event) {
+        if (move === true) {
+          var moveX = event.screenX - posX - 7;
+          var moveY = event.screenY - posY - 7;
+          try {
             if (max) {
               MaximiseWindow();
             };
             window.moveTo((window.screenLeft + moveX), (window.screenTop + moveY));
-            setPos(event);
-          }
-        }
-      
-        function stopMoving() {
-          move = false;
-        }
-      
-        function MaximiseWindow() {
-          if (!max) {
-            x = window.screenLeft;
-            y = window.screenTop;
-            w = document.body.clientWidth + 14;
-            h = document.body.clientHeight + 14;
-            MaxButton.innerHTML = "2";
-            MaxButton.title = "Restore";
-            MaxButton.setAttribute("aria-label", "Restore");
-            window.moveTo(-7, -7);
-            window.resizeTo(screen.availWidth + 14, screen.availHeight + 14);
-          } else {
-            MaxButton.innerHTML = "1";
-            MaxButton.title = "Maximise";
-            MaxButton.setAttribute("aria-label", "Maximise");
-            window.moveTo(x, y);
-            window.resizeTo(w, h)
-          }
-          max = !max;
-        }
-      
-        function CloseWindow() {
-          window.close();
-        }
-      
-        function MinimiseWindow() {
-          try {
-            document.getElementById("HHCtrlMinimizeWindowObject").Click();
           } catch (e) {
-            window.blur();
+            // window.moveTo seems to error out in real IE6 during mousemove events
+            // compatibility mode works fine i.e. IE9 and meta x-ua-compatible=IE6
           }
+          setPos(event);
         }
-      
-        if (Environment.hasDocument) {
-          addEvent(window, 'load', function () {
-            var Titlebar = (function () {
-              var outerHTML = '';
-              outerHTML += '<div role="banner" id="PageTitleBar" aria-label="String Encrypter"><div class="icon"></div><h1 aria-hidden="true" role="presentation" class="text">String Encrypter</h1>';
-              if (Environment.IsHTA()) {
-                outerHTML += '<div id="CustomWindowButtons"><button id="MinButton" title="Minimise" aria-label="Minimise">0</button><button id="MaxButton" title="Maximise" aria-label="Maximise">1</button><button id="ExitButton" title="Quit" aria-label="Quit">r</button></div><object id="HHCtrlMinimizeWindowObject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"><param name="command" value="minimize" /></object>';
-              }
-              outerHTML += '</div>';
-              return outerHTML;
-            })();
-            document.body.innerHTML = Titlebar + document.body.innerHTML;
-            //IE9 and IE10 are very glitchy about the hta tag when using innerHTML, like above
-            //attempting to access the commandline property will sometimes result in it being undefined
-            //this is because the dom is completely replaced/rebuilt when using innerhtml, 
-            //which causes the js object to become detached from the dom node, 
-            //and a timeout is the easiest solution to it
-            setTimeout(function () {
-              if (Environment.IsHTA()) {
-                document.documentElement.className += " HTA";
-              }
-            }, 0);
-            if (Environment.IsHTA() && Environment.IsOldIE) {
-              addEvent(MinButton, 'mousedown', function () { MinButton.className = 'click-ed'; });
-              addEvent(MinButton, 'mouseover', function () { MinButton.className = 'hover-ed'; });
-              addEvent(MinButton, 'mouseup', function () { MinButton.className = 'hover-ed'; });
-              addEvent(MinButton, 'mouseout', function () { MinButton.className = ''; });
-          
-              addEvent(MaxButton, 'mousedown', function () { MaxButton.className = 'click-ed'; });
-              addEvent(MaxButton, 'mouseover', function () { MaxButton.className = 'hover-ed'; });
-              addEvent(MaxButton, 'mouseup', function () { MaxButton.className = 'hover-ed'; });
-              addEvent(MaxButton, 'mouseout', function () { MaxButton.className = ''; });
-          
-              addEvent(ExitButton, 'mousedown', function () { ExitButton.className = 'click-ed'; });
-              addEvent(ExitButton, 'mouseover', function () { ExitButton.className = 'hover-ed'; });
-              addEvent(ExitButton, 'mouseup', function () { ExitButton.className = 'hover-ed'; });
-              addEvent(ExitButton, 'mouseout', function () { ExitButton.className = ''; });
-            }
-            var ComputedStyleSheet = document.createElement('style');
-            var styles = '\n\
-              /* This StyleSheet contains values which need to be determined at runtime depending on theming or are being "polyfilled" in because IEs css support is shoddy */ \n\
-              body.use-system-colors #PageTitleBar { \n\
-                background-color: ' + TitleBarColor + '; \n\
-                color: ' + FontColor + '; \n\
-              } \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button, \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover, \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
-                background-color: ' + TitleBarColor + '; \n\
-                color: ' + FontColor + '; \n\
-              } \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover { \n\
-                background-color: ' + overlayColor(TitleBarColor, FontColor, 0.1) + '; \n\
-              } \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
-              body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
-                background-color: ' + overlayColor(TitleBarColor, FontColor, 0.2) + '; \n\
-              } \n\
-            ';
-            ComputedStyleSheet.type = 'text/css';
-            if(!!ComputedStyleSheet.styleSheet) {
-              ComputedStyleSheet.styleSheet.cssText = styles;
-            } else {
-              ComputedStyleSheet.innerHTML = styles;
-            }
-            document.getElementsByTagName('head')[0].appendChild(ComputedStyleSheet);
-            setTimeout(function () { 
-              // without this timeout the events below don't attach properly in ie9+
-              // for some reason, it fails silently. i thought maybe the events polyfill
-              // was causing the issue, but after messing with it for a bit to no avail
-              // this was the simplest solution that actually worked
-              if (Environment.IsHTA()) {
-                addEvent(MinButton, 'click', MinimiseWindow);
-                addEvent(MaxButton, 'click', MaximiseWindow);
-                addEvent(ExitButton, 'click', CloseWindow);
-                addEvent(PageTitleBar, 'mousedown', setPos);
-                addEvent(PageTitleBar, 'mousemove', moving);
-                addEvent(PageTitleBar, 'mouseup', stopMoving);
-                addEvent(PageTitleBar, 'mouseout', stopMoving);
-              }
-              if (Environment.hasActiveXObject) {
-                addEvent(document, 'focusout', function () {
-                  document.body.className += " unfocused";
-                });
-                addEvent(document, 'focusin', function () {
-                  document.body.className = document.body.className.replace(/\s*unfocused/g, "");
-                });  
-                addEvent(window, 'resize', debounce(customResize, 200));
-              }
-            }, 0);
-          });
-        }
-      })();
-    </script>
-    <script>
-      function convertSemverVersionToArray (a, A, B, C) {
-        A = a.replace('v', '').split('.');
-        B = [];
-        for (C = 0; C != A.length; C++) {
-          B[C] = Number(A[C]);
-        }
-        return B;
-      };
-      function ifSuitable (a, b) {
-        if (a[0] > b[0]) return true;
-        if (a[0] < b[0]) return false;
-        if (a[1] > b[1]) return true;
-        if (a[1] < b[1]) return false;
-        if (a[2] < b[2]) return false;
-        return true;
-      };
-      var RepositoryURL = "https://github.com/GianSinghSarao/String-Encrypter/";
-      var LatestReleaseURL = RepositoryURL + "releases/latest";
-      var LatestReleaseAPI_URL = LatestReleaseURL.
-        replace("github.com/", "api.github.com/repos/");
-      var LatestVersion = (function () {
-        var CachedVersion = "", XHR;
-        function GetLatestVersion () {
-          if (Environment.IsOldIE) {
-            XHR = new ActiveXObject("Microsoft.XMLHTTP");
-          } else {
-            XHR = new XMLHttpRequest();
-          }
-          XHR.onreadystatechange = function () {
-            if (XHR.readyState == 4) {
-              if (XHR.status >= 200 && XHR.status < 400) {
-                CachedVersion = XHR.responseText.
-                  replace(/\n/gm, "").
-                  replace(/.*"(v[^"]*)".*/gm, "$1");
-              } else {
-                CachedVersion = "v0.0.0";
-              }
-            }
-            hydrateStatusbar(false);
-          };
-          try {
-            XHR.open("GET", LatestReleaseAPI_URL, true);
-            XHR.send();
-          } catch (e) {
-            CachedVersion = "v0.0.0";
-            alert("Failed To Check For Updates:\n  This occurs when the program is run without unblocking it.\n  You can unblock this program by unselecting the checkbox in the security warning\n  \"Always ask before opening this file\"\n\n  Alternatively, You can ignore this and continue using the program as normal. ")
-          }
-        }
-        return function (refresh) {
-          if (refresh) {
-            GetLatestVersion();
-          } 
-          return CachedVersion;
-        };
-      })();
-      
-      var CurrentVersion = (function () {
-        var CachedVersion = "unknown", d = document;
-        function GetCurrentVersion () {
-          try {
-            var All_HTA_Tags = d.getElementsByTagName("HTA:APPLICATION").length !== 0 ?
-              d.getElementsByTagName("HTA:APPLICATION") : 
-              d.getElementsByTagName("APPLICATION");
-            if (All_HTA_Tags.length >= 1 && All_HTA_Tags[0]) {
-              return "v" + All_HTA_Tags[0].getAttribute('version');
-            }
-          } catch(e) {
-            return "unknown";
-          }
-        }
-        return function (refresh) {
-          if (refresh) {
-            CachedVersion = GetCurrentVersion();
-          }
-          return CachedVersion;
-        }
-      })();
-      
-      function version_status (refresh, versions, HTML_String) {
-        versions = {
-          CV: CurrentVersion(refresh),
-          LV: LatestVersion(refresh)
-        }
-        HTML_String = "<span> Current Version: " + versions.CV;
-        if (versions.LV == "v0.0.0") {
-          HTML_String += "(Failed to check for updates);";
-          return HTML_String + "</span>";
-        }
-        if (ifSuitable(
-          convertSemverVersionToArray(versions.CV),
-          convertSemverVersionToArray(versions.LV)
-        )) {
-          if (versions.CV != versions.LV) {
-            HTML_String += "(Unreleased);";
-          } else {
-            HTML_String += "(Latest);";
-          }
+      }
+    
+      function stopMoving() {
+        move = false;
+      }
+    
+      function MaximiseWindow() {
+        if (!max) {
+          x = window.screenLeft;
+          y = window.screenTop;
+          w = document.body.clientWidth + 14; // Windows 10
+          h = document.body.clientHeight + 14; // Windows 10
+          w = document.body.clientWidth + 6; // Windows XP
+          h = document.body.clientHeight + 6; // Windows XP
+          MaxButton.innerHTML = "2";
+          MaxButton.title = "Restore";
+          MaxButton.setAttribute("aria-label", "Restore");
+          window.moveTo(-7, -7); // Windows 10
+          window.moveTo(-3, -3); // Windows XP
+          window.resizeTo(screen.availWidth + 14, screen.availHeight + 14); // Windows 10
+          window.resizeTo(screen.availWidth + 6, screen.availHeight + 6); // Windows XP 
         } else {
-          HTML_String += '(<a href="' +
-            LatestReleaseURL +
-            '" title="' +
-            LatestReleaseURL + 
-            '">Update Available</a>);';
+          MaxButton.innerHTML = "1";
+          MaxButton.title = "Maximise";
+          MaxButton.setAttribute("aria-label", "Maximise");
+          window.moveTo(x, y);
+          window.resizeTo(w, h)
         }
-        HTML_String += "</span>";
-        return HTML_String;
+        max = !max;
       }
-      
-      function hydrateStatusbar (refresh) {
-        document.getElementById("PageStatusBar").innerHTML = version_status(refresh) + ' <a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub&nbsp;Repository</a>';
+    
+      function CloseWindow() {
+        window.close();
       }
-      
-      addEvent(window, "load", function (event, versions, B, C) {
-        document.body.innerHTML += '<div role="contentinfo" id="PageStatusBar"></div>';
-        hydrateStatusbar(true);
-      });
-    </script>
-    <script>
-      addEvent(window, "load", function (e) {
-        document.body.innerHTML += '<div id="CustomContextMenu"><button onclick="ToggleTheme()"><span class="label">Toggle Theme</span></button><button onclick="setTimeout(window.print, 0)"><span class="label">Print</span> <kbd class="label">CTRL+P</kbd></button></div>';
-        var menu;
-        var addedHoverPolyfillEvents = false;
-      
-        var setButtonClassName = function (className) {
-          return function (event) {
-            var targeted = event.target || event.srcElement;
-            var targetedName = targeted.nodeName || targeted.tagName;
-            if (targetedName == "BUTTON") targeted.className = className; 
-            targeted = targeted.parentNode;
-            targetedName = targeted.nodeName || targeted.tagName;
-            if (targetedName == "BUTTON") targeted.className = className;
-          } 
-        };
-      
-        addEvent(document.body, "contextmenu", function (event) {
-          menu = document.getElementById("CustomContextMenu");
-      
-          if (Environment.IsOldIE && !addedHoverPolyfillEvents) {
-            addEvent(menu, 'mouseover', setButtonClassName("hover-ed"));
-            addEvent(menu, 'mouseout', setButtonClassName(""));
-      
-            addedHoverPolyfillEvents = true;
+    
+      function MinimiseWindow() {
+        try {
+          document.getElementById("HHCtrlMinimizeWindowObject").Click();
+        } catch (e) {
+          window.blur();
+        }
+      }
+    
+      addEvent(window, 'load', function () {
+        var Titlebar = (function () {
+          var outerHTML = '';
+          outerHTML += '<div role="banner" id="PageTitleBar" aria-label="String Encrypter"><div class="icon"></div><h1 aria-hidden="true" role="presentation" class="text">String Encrypter</h1>';
+          if (Environment.IsHTA()) {
+            outerHTML += '<div id="CustomWindowButtons"><button id="MinButton" title="Minimise" aria-label="Minimise">0</button><button id="MaxButton" title="Maximise" aria-label="Maximise">1</button><button id="ExitButton" title="Quit" aria-label="Quit">r</button></div><object id="HHCtrlMinimizeWindowObject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"><param name="command" value="minimize" /></object>';
           }
-      
+          outerHTML += '</div>';
+          return outerHTML;
+        })();
+        document.body.innerHTML = Titlebar + document.body.innerHTML;
+        //IE9 and IE10 are very glitchy about the hta tag when using innerHTML, like above
+        //attempting to access the commandline property will sometimes result in it being undefined
+        //this is because the dom is completely replaced/rebuilt when using innerhtml, 
+        //which causes the js object to become detached from the dom node, 
+        //and a timeout is the easiest solution to it
+        setTimeout(function () {
+          if (Environment.IsHTA()) {
+            document.documentElement.className += " HTA";
+          }
+        }, 0);
+        if (Environment.IsHTA() && Environment.IsOldIE) {
+          addEvent(MinButton, 'mousedown', function () { MinButton.className = 'click-ed'; });
+          addEvent(MinButton, 'mouseover', function () { MinButton.className = 'hover-ed'; });
+          addEvent(MinButton, 'mouseup', function () { MinButton.className = 'hover-ed'; });
+          addEvent(MinButton, 'mouseout', function () { MinButton.className = ''; });
+    
+          addEvent(MaxButton, 'mousedown', function () { MaxButton.className = 'click-ed'; });
+          addEvent(MaxButton, 'mouseover', function () { MaxButton.className = 'hover-ed'; });
+          addEvent(MaxButton, 'mouseup', function () { MaxButton.className = 'hover-ed'; });
+          addEvent(MaxButton, 'mouseout', function () { MaxButton.className = ''; });
+    
+          addEvent(ExitButton, 'mousedown', function () { ExitButton.className = 'click-ed'; });
+          addEvent(ExitButton, 'mouseover', function () { ExitButton.className = 'hover-ed'; });
+          addEvent(ExitButton, 'mouseup', function () { ExitButton.className = 'hover-ed'; });
+          addEvent(ExitButton, 'mouseout', function () { ExitButton.className = ''; });
+        }
+        var ComputedStyleSheet = document.createElement('style');
+        var styles = '\n\
+            /* This StyleSheet contains values which need to be determined at runtime depending on theming or are being "polyfilled" in because IEs css support is shoddy */ \n\
+            body.use-system-colors #PageTitleBar { \n\
+              background-color: ' + TitleBarColor + '; \n\
+              color: ' + FontColor + '; \n\
+            } \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button, \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover, \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
+              background-color: ' + TitleBarColor + '; \n\
+              color: ' + FontColor + '; \n\
+            } \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button.hover-ed, \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button:hover { \n\
+              background-color: ' + overlayColor(TitleBarColor, FontColor, 0.1) + '; \n\
+            } \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button.click-ed, \n\
+            body.use-system-colors #PageTitleBar #CustomWindowButtons button:active { \n\
+              background-color: ' + overlayColor(TitleBarColor, FontColor, 0.2) + '; \n\
+            } \n\
+          ';
+        ComputedStyleSheet.type = 'text/css';
+        if (!!ComputedStyleSheet.styleSheet) {
+          ComputedStyleSheet.styleSheet.cssText = styles;
+        } else {
+          ComputedStyleSheet.innerHTML = styles;
+        }
+        document.getElementsByTagName('head')[0].appendChild(ComputedStyleSheet);
+        setTimeout(function () {
+          // without this timeout the events below don't attach properly in ie9+
+          // for some reason, it fails silently. i thought maybe the events polyfill
+          // was causing the issue, but after messing with it for a bit to no avail
+          // this was the simplest solution that actually worked
+          if (Environment.IsHTA()) {
+            addEvent(MinButton, 'click', MinimiseWindow);
+            addEvent(MaxButton, 'click', MaximiseWindow);
+            addEvent(ExitButton, 'click', CloseWindow);
+            addEvent(PageTitleBar, 'mousedown', setPos);
+            addEvent(PageTitleBar, 'mousemove', moving);
+            addEvent(PageTitleBar, 'mouseup', stopMoving);
+            addEvent(PageTitleBar, 'mouseout', stopMoving);
+            addEvent(PageTitleBar, 'dblclick', MaximiseWindow);
+          }
+          if (Environment.hasActiveXObject) {
+            addEvent(document, 'focusout', function () {
+              document.body.className += " unfocused";
+            });
+            addEvent(document, 'focusin', function () {
+              document.body.className = document.body.className.replace(/\s*unfocused/g, "");
+            });
+            addEvent(window, 'resize', debounce(customResize, 200));
+          }
+        }, 0);
+      });
+    
+    })();
+  </script>
+  <script>
+    function convertSemverVersionToArray(a, A, B, C) {
+      A = a.replace('v', '').split('.');
+      B = [];
+      for (C = 0; C != A.length; C++) {
+        B[C] = Number(A[C]);
+      }
+      return B;
+    };
+    function ifSuitable(a, b) {
+      if (a[0] > b[0]) return true;
+      if (a[0] < b[0]) return false;
+      if (a[1] > b[1]) return true;
+      if (a[1] < b[1]) return false;
+      if (a[2] < b[2]) return false;
+      return true;
+    };
+    var RepositoryURL = "https://github.com/GianSinghSarao/String-Encrypter/";
+    var LatestReleaseURL = RepositoryURL + "releases/latest";
+    var LatestReleaseAPI_URL = LatestReleaseURL.
+      replace("github.com/", "api.github.com/repos/");
+    var LatestVersion = (function () {
+      var CachedVersion = "", XHR;
+      function GetLatestVersion() {
+        if (Environment.IsOldIE) {
+          XHR = new ActiveXObject("Microsoft.XMLHTTP");
+        } else {
+          XHR = new XMLHttpRequest();
+        }
+        XHR.onreadystatechange = function () {
+          if (XHR.readyState == 4) {
+            if (XHR.status >= 200 && XHR.status < 400) {
+              CachedVersion = XHR.responseText.
+                replace(/\n/gm, "").
+                replace(/.*"(v[^"]*)".*/gm, "$1");
+            } else {
+              CachedVersion = "v0.0.0";
+            }
+          }
+          hydrateStatusbar(false);
+        };
+        try {
+          XHR.open("GET", LatestReleaseAPI_URL, true);
+          XHR.send();
+        } catch (e) {
+          CachedVersion = "v0.0.0";
+          alert("Failed To Check For Updates:\n\
+      This can occur when you are offline.\n\
+      If you are online, please ensure that you have \"unblocked\" this program.\n\
+      You can unblock it by clearing the checkbox in the security warning:\n\
+        \"Always ask before opening this file\"\n\n\
+      You can ignore this and continue to use this program.");
+          // todo: confirm that offline causes error using VMs
+        }
+      }
+      return function (refresh) {
+        if (refresh) {
+          GetLatestVersion();
+        }
+        return CachedVersion;
+      };
+    })();
+    
+    var CurrentVersion = (function () {
+      var CachedVersion = "unknown", d = document;
+      function GetCurrentVersion() {
+        try {
+          var All_HTA_Tags = d.getElementsByTagName("HTA:APPLICATION").length ?
+            d.getElementsByTagName("HTA:APPLICATION") :
+            d.getElementsByTagName("APPLICATION");
+          if (All_HTA_Tags.length >= 1 && All_HTA_Tags[0]) {
+            return "v" + All_HTA_Tags[0].getAttribute('version');
+          }
+        } catch (e) {
+          return "unknown";
+        }
+      }
+      return function (refresh) {
+        if (refresh) {
+          CachedVersion = GetCurrentVersion();
+        }
+        return CachedVersion;
+      }
+    })();
+    
+    function version_status(refresh, versions, HTML_String) {
+      versions = {
+        CV: CurrentVersion(refresh),
+        LV: LatestVersion(refresh)
+      }
+      HTML_String = "<span> Current Version: " + versions.CV;
+      if (versions.LV == "v0.0.0") {
+        HTML_String += "(Failed to check for updates);";
+        return HTML_String + "</span>";
+      }
+      if (ifSuitable(
+        convertSemverVersionToArray(versions.CV),
+        convertSemverVersionToArray(versions.LV)
+      )) {
+        if (versions.CV != versions.LV) {
+          HTML_String += "(Unreleased);";
+        } else {
+          HTML_String += "(Latest);";
+        }
+      } else {
+        HTML_String += '(<a href="' +
+          LatestReleaseURL +
+          '" title="' +
+          LatestReleaseURL +
+          '">Update Available</a>);';
+      }
+      HTML_String += "</span>";
+      return HTML_String;
+    }
+    
+    function hydrateStatusbar(refresh) {
+      document.getElementById("PageStatusBar").innerHTML = version_status(refresh) + ' <a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub&nbsp;Repository</a>';
+    }
+    
+    addEvent(window, "load", function (event) {
+      document.body.innerHTML += '<div role="contentinfo" id="PageStatusBar"></div>';
+      hydrateStatusbar(true);
+    });
+  </script>
+  <script>
+    addEvent(window, "load", function (e) {
+      document.body.innerHTML += '<div id="CustomContextMenu">\
+        <button onclick="ToggleTheme()">\
+          <span class="label">Toggle Theme</span>\
+        </button>\
+        <button onclick="ToggleAccent()">\
+          <span class="label">Toggle System Accent Colour</span>\
+        </button>\
+        <button onclick="setTimeout(window.print, 0)">\
+          <span class="label">Print</span> <kbd class="label">CTRL+P</kbd>\
+        </button>\
+      </div>';
+      var menu;
+      var addedHoverPolyfillEvents = false;
+    
+      var setButtonClassName = function (className) {
+        return function (event) {
           var targeted = event.target || event.srcElement;
           var targetedName = targeted.nodeName || targeted.tagName;
-          var NoCustomMenu = targetedName == "TEXTAREA" || 
-            (targetedName == "INPUT" &&
-             targeted.getAttribute("type").toUpperCase() == "PASSWORD");
-      
-          if (NoCustomMenu) {
-            menu.className = "";
-            return true;
-          }
-      
-          menu.className = "active";
-      
-          var RightEdge = document.body.clientWidth - event.clientX;
-          var BottomEdge = document.body.clientHeight - event.clientY;
-      
-          var LeftOffset = RightEdge < menu.offsetWidth ? 
-            (document.body.scrollLeft + event.clientX - menu.offsetWidth) :
-            (document.body.scrollLeft + event.clientX);
-          LeftOffset = LeftOffset > 0 ? LeftOffset : 0;
-      
-          var TopOffset = BottomEdge < menu.offsetHeight ? 
-            (document.body.scrollTop + event.clientY - menu.offsetHeight) :
-            (document.body.scrollTop + event.clientY);
-          TopOffset = TopOffset > 0 ? TopOffset : 0;
-      
-          menu.style.left = LeftOffset + "px"; 
-          menu.style.top = TopOffset + "px";
-      
-          var btns = menu.getElementsByTagName("button");
-          for (var i = 0; i < btns.length; i++) {
-            var btn = btns[i];
-            var disabled = (btn.getAttribute("disabled") == "" || !!btn.getAttribute("disabled"));
-            if (!disabled) {
-              btn.focus();
-              break;
-            }
-          }
-      
-          try {
-            event.preventDefault();
-          } catch (e) {
-            //bury this error which only seems to occur on IE, and other outdated/bad browsers
-          }
-          return false;
-        });
-      
-        addEvent(document.body, "click", function (event) {
-          menu = document.getElementById("CustomContextMenu");
+          if (targetedName == "BUTTON") targeted.className = className;
+          targeted = targeted.parentNode;
+          targetedName = targeted.nodeName || targeted.tagName;
+          if (targetedName == "BUTTON") targeted.className = className;
+        }
+      };
+    
+      addEvent(document, "contextmenu", function (event) {
+        menu = document.getElementById("CustomContextMenu");
+    
+        if (Environment.IsOldIE && !addedHoverPolyfillEvents) {
+          addEvent(menu, 'mouseover', setButtonClassName("hover-ed"));
+          addEvent(menu, 'mouseout', setButtonClassName(""));
+    
+          addedHoverPolyfillEvents = true;
+        }
+    
+        var targeted = event.target || event.srcElement;
+        var targetedName = targeted.nodeName || targeted.tagName;
+        var NoCustomMenu = targetedName == "TEXTAREA" ||
+          (targetedName == "INPUT" &&
+            targeted.getAttribute("type").toUpperCase() == "PASSWORD");
+    
+        if (NoCustomMenu) {
           menu.className = "";
-        });
-      
-        addEvent(document, "keyup", function (event) {
-          menu = document.getElementById("CustomContextMenu");
-          if (menu.className == "active") {
-            if (event.keyCode == 27) {
-              menu.className = "";
-            }
+          return true;
+        }
+    
+        menu.className = "active";
+    
+        var RightEdge = document.body.clientWidth - event.clientX;
+        var BottomEdge = document.body.clientHeight - event.clientY;
+    
+        var LeftOffset = RightEdge < menu.offsetWidth ?
+          (document.body.scrollLeft + event.clientX - menu.offsetWidth) :
+          (document.body.scrollLeft + event.clientX);
+        LeftOffset = LeftOffset > 0 ? LeftOffset : 0;
+    
+        var TopOffset = BottomEdge < menu.offsetHeight ?
+          (document.body.scrollTop + event.clientY - menu.offsetHeight) :
+          (document.body.scrollTop + event.clientY);
+        TopOffset = TopOffset > 0 ? TopOffset : 0;
+    
+        menu.style.left = LeftOffset + "px";
+        menu.style.top = TopOffset + "px";
+    
+        var btns = menu.getElementsByTagName("button");
+        for (var i = 0; i < btns.length; i++) {
+          var btn = btns[i];
+          var disabled = (
+            btn.getAttribute("disabled") == "" ||
+            !!btn.getAttribute("disabled")
+          );
+          if (!disabled) {
+            btn.focus();
+            break;
           }
-        });
+        }
+    
+        try {
+          event.preventDefault();
+          event.stopPropogation();
+        } catch (e) {
+          // Although IE10 is supposed to support the above, it seems to have a bug
+          event.returnValue = false;
+          event.cancelBubble = true;
+        }
+        return false;
       });
-    </script>
-    <script>
-      //small script to make links open in the default browser instead of IE.
-      addEvent(window, 'load', function () {
-        if (Environment.hasActiveXObject) {
-          setTimeout(function () { 
-            //this settimeout exists because IE5 calls load event handlers in reverse order of registration.
-            //meaning any anchors added dynamically that are normally caught, are missed in IE5 without this.
-            var AnchorElements = document.getElementsByTagName('A');
-            for (var A = 0; A < AnchorElements.length; A++) {
-              // onclick used here (instead of addEvent) to replace the handler that launches IE.
-              AnchorElements[A].onclick = function () {
-                var b = new ActiveXObject("WScript.Shell");
-                b.run(this.href);
-                return false;
-              };
-            }  
-          }, 10); 
-        }  
+    
+      addEvent(document, "click", function (event) {
+        menu = document.getElementById("CustomContextMenu");
+        menu.className = "";
       });
-    </script>
-  </head>
-  <body>
-    <div role="main" id="PageContent">
-      <noscript>
-        <h1>
-          This App Requires Javascript To Work. <br>
-          Please enable it for this site, then refresh this tab. <hr>
-          If you are on IE click "Allow Blocked Content".
-        </h1>
-      </noscript>
-      <HTA:APPLICATION applicationName="String Encrypter" version="0.11.4" selection="no" scroll="no" icon="icon.ico" caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
-          <div><span id="ZeroSize" aria-hidden="true" role="presentation">0</span></div>
-          <div id="form">
-            <div class="text">
-              <label id="textareaLabel" for="tamsg">
-                Text To Encrypt Or Decrypt:
-              </label> 
-              <textarea id="tamsg" cols="80" rows="3" required></textarea>
-            </div>
-            <div>
-              <label id="passwordLabel" for="pass">
-                Password:
-              </label>
-              <input type="password" id="pass" required/>
-            </div>
-            <div id="Buttons">
-              <input type="button" id="EncryptButton" class="button" value="Encrypt" onclick="Validate(Encrypt);"/>
-              <input type="button" id="DecryptButton" class="button" value="Decrypt" onclick="Validate(Decrypt);"/>       
-            </div>
-            <input type="hidden" id="temp">
-          </div>
-          <script>
-            addEvent(window, 'load', function () {
-              var width = 400, height = 400;
-              chSize = ZeroSize.offsetWidth;
-              emSize = ZeroSize.offsetHeight;
-              ZeroSize.className = "hidden";
-              var cssInJS = function () { 
-                var formSize = (80 * chSize) + (4 * emSize); 
-                var minFormSize = (14 * chSize) + (4 * emSize);
-                if (Environment.hasActiveXObject) {
-                  form.style.width = document.body.clientWidth >= formSize + (2 * emSize) ? formSize + "px" : "100%"; 
-                } 
-                if (document.body.clientWidth >= minFormSize + (2 * emSize)) {
-                  if (document.body.clientWidth >= formSize + (2 * emSize)) {
-                    form.className = "normal wide";
-                  } else {
-                    form.className = "normal";
-                  }
-                } else {
-                  form.className = "";
-                }
-              } 
-              cssInJS(); 
-              addEvent(window, 'resize', cssInJS);
-              if (document.getElementsByTagName('html')[0].className.indexOf('lt-ie7') != -1) {
-                DecryptButton.setAttribute('onmouseover', "DecryptButton.className='button hover-ed';");
-                DecryptButton.setAttribute('onmouseout', "DecryptButton.className='button';");
-                EncryptButton.setAttribute('onmouseover', "EncryptButton.className='button hover-ed';");
-                EncryptButton.setAttribute('onmouseout', "EncryptButton.className='button';");
-                tamsg.setAttribute('rows', "5");
-              }
-              window.resizeTo(width, height);
-            });
-            addEvent(window, 'beforeprint', function () {
-              var width = form.style.width;
-              var height = tamsg.style.height;
-              addEvent(window, 'afterprint', function PrintCleanup () {
-                form.style.width = width;
-                tamsg.style.height = height;
-                removeEvent(window, 'afterprint', PrintCleanup);
-              });
-              form.style.width = '';
-              tamsg.style.height = (tamsg.scrollHeight + 10) + 'px';
-            });
-          </script>
-          <script>
-            function Validate(METHOD) {
-              if (pass.value === "") {
-                alert("You Have To Enter The Password!");
-              } else {
-                if (tamsg.value === "") {
-                  alert("Enter The Text To Encrypt Or Decrypt!");
-                } else {
-                  KEYS(METHOD);
-                }
-              }
-            }
-            function KEYS(METHOD) {
-              var text = pass.value;
-              var code = 0
-              while (text !== "") {
-                code += text.charCodeAt(0);
-                text = text.slice(1);
-              }
-              code = code % 255;
-              temp.value = code;
-              METHOD();
-            }
-            function Encrypt () {
-              var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-              var text = tamsg.value;
-              var code = "";
-              var key = Number(temp.value);
-              while (text !== "") {
-                var cnum = text.charCodeAt(0);
-                cnum = (cnum + key) % 255;
-                num = cnum % 26;
-                var count = 0;
-                var tst = num;
-                while (tst !== cnum) {
-                  tst += 26;
-                  count += 1
-                }
-                code = code + Alpha[num] + count;
-                text = text.slice(1);
-              }
-              tamsg.value = code;
-            }
-            function Decrypt () {
-              var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-              var text = tamsg.value;
-              var code = "";
-              var key = Number(temp.value);
-              while (text !== "") {
-                var lttr = text.slice(0,2);
-                var num = lttr.charCodeAt(0) - 65
-                var chk = lttr.slice(1,2);
-                var count = 0;
-                while (count !== Number(chk)) {
-                  num += 26;
-                  count += 1; 
-                }
-                num -= key;
-                while (num <= 0) {
-                  num += 255;
-                }
-                code = code + String.fromCharCode(num);
-                text = text.slice(2);
-              }
-              tamsg.value = code;
-            }
-          </script>
-    </div>
-    <script>
-      var Assets = (function (a, b, c) { 
-        var Assets = { 
-          "icon.ico": "AAABAAMAMDAQAAEABABoBgAANgAAACAgEAABAAQA6AIAAJ4GAAAQEBAAAQAEACgBAACGCQAAKAAAADAAAABgAAAAAQAEAAAAAACABAAAAAAAAAAAAAAQAAAAAAAAAAAAAAB/f38Aw8PDAMxIPwC+knAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREREAAAAAAAAAAAAREREiIAAAAAAAAiIREREAAAAAAAAAAAAREREiIAAAAAAAAiIREREAAAAAAAAAAAAREREiIAAAAAAAAAAiIiIREREREREREREiIiIAAAAAAAAAAAAiIiIREREREREREREiIiIAAAAAAAAAAAAiIiIREREREREREREiIiIAAAAAAAAAAAAAAAAiIiIiIiIiIiIAAAAAAAAAAAAAAAAAAAAiIiIiIiIiIiIAAAAAAAAAAAAAAAAAAAAiIiIiIiIiIiIAAAAAAAAADgAAAAAAcAAOAAAAAABwAA4AAAAAAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgADgcAAcAAOAAOBwABwAA4AA4HAAHAADgADgcAAcAAOAAOBwABwAA4AA4HAAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAAAAAcAAOAAAAAABwAA4AAAAAAHAAD8D///8D8AAPwP///wPwAA/A////A/AAD8D///8D8AAPwP///wPwAA/A////A/AAD8D///8D8AAPwP///wPwAA/A////A/AAD8Af//gD8AAPwB//+APwAA/AH//4A/AAD/gAAAAf8AAP+AAAAB/wAA/4AAAAH/AAD//gAAf/8AAP/+AAB//wAA//4AAH//AAAoAAAAIAAAAEAAAAABAAQAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAAAAAH9/fwDDw8MAzEg/AL6ScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABERERERERERERERERERAAAREREREREREREREREREQAAEQzMzMzMwAAMzMzMzNEAABEMzMzMzMAADMzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABEMzMzMzMAADMzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABEMzMzMzMAADMzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABEMzMzMwAREQAzMzMzRAAARDMzMzMAEREAMzMzM0QAAEQzMzMzABERADMzMzNEAABEMzMzMwAREQAzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABERERERERERERERERERAAAREREREREREREREREREQAAAAiEQAAAAAAAAAAESIAAAAAIhEAAAAAAAAAABEiAAAAACIRAAAAAAAAAAARIgAAAAAiEQAAAAAAAAAAESIAAAAAIhEAAAAAAAAAABEiAAAAACIRAAAAAAAAAAARIgAAAAAiEREAAAAAAAARESIAAAAAIhERAAAAAAAAEREiAAAAAAAiIhERERERESIiAAAAAAAAIiIREREREREiIgAAAAAAAAAAIiIiIiIiAAAAAAAAAAAAACIiIiIiIgAAAAAAwAAAA8AAAAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAwwA8AMMAPADDADwAwwA8ADwAPAA8ADwAAAA8AAAAPw//8P8P//D/D//w/w//8P8P//D/D//w/wP/wP8D/8D/wAAD/8AAA//8AD///AA/8oAAAAEAAAACAAAAABAAQAAAAAAIAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAH9/fwDDw8MAzEg/AL6ScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARERERERERABDMzMAMzM0AEMzMwAzMzQAQzMzADMzNABDMzMAMzM0AEMzMwAzMzQAQzMwEQMzNABDMzARAzM0AEMzMwAzMzQARERERERERAACEAAAAAEgAAIQAAAAASAAAhAAAAABIAACEQAAABEgAAAiERERIgAAAAAiIiIAAAgAEAAIGBAACBgQAAgYEAAIGBAACBgQAAgkEAAIJBAACBgQAAgAEAAM/zAADP8wAAz/MAAMfjAADgBwAA+B8AAA==", 
-          "icon.png": "iVBORw0KGgoAAAANSUhEUgAAAJAAAACQBAMAAAAVaP+LAAAAAXNSR0IArs4c6QAAAA9QTFRFAAAAw8PDcJK+f39/P0jMGVTH4QAAAAF0Uk5TAEDm2GYAAACHSURBVHja7djJCYRAEEDRniWAGUxAjEAxAQ/mH5MHURG6QXDH989d79hQFeK9/sl+IRoItBpKz2d1smoUQaAdodl8GZJ9ZiIItDcUFgQCgUAgEOgE6F2sKgeBtofaaM3w5ttGA4EOg4ZdaNqXQCAQCHTVPxsEAoFAIBAIBAKB+m5xGQU9EOoAt6nwSKEcdzEAAAAASUVORK5CYII=" 
-        }; 
-        try { 
-          if (Environment.hasActiveXObject) { 
-            function cleanup () { 
-              a = new ActiveXObject("WScript.Shell"); 
-              b = new ActiveXObject("Scripting.FileSystemObject"); 
-              a.CurrentDirectory = b.GetSpecialFolder(2); 
-              b.DeleteFolder(c.slice(0, -1)); 
-            } 
-            addEvent(window, "unload", cleanup); 
-            a = new ActiveXObject("WScript.Shell"); 
-            b = new ActiveXObject("Scripting.FileSystemObject"); 
-            c = b.GetSpecialFolder(2) + "\\Strngncryptr-" + b.GetTempName() + "\\"; 
-            b.CreateFolder(c); 
-            a.CurrentDirectory = c; 
-            for (var FileName in Assets) { 
-              a = new ActiveXObject("Microsoft.XMLDOM").createElement("Base64Data"); 
-              a.dataType = "bin.base64"; 
-              a.text = Assets[FileName]; 
-              b = new ActiveXObject("ADODB.Stream"); 
-              b.Type = 1; 
-              b.Open(); 
-              b.Write(a.nodeTypedValue); 
-              b.SaveToFile(FileName, 2); 
-              b.Close(); 
-              Assets[FileName] = c + FileName; 
-            } 
-          } else { 
-            throw "Not IE"; 
-          } 
-        } catch (e) { 
-          for (var FileName in Assets) { 
-            e = FileName.split("."); 
-            e = "." + e[e.length - 1]; 
-            Assets[FileName] = "data:" + (MIME_Types[e] ? MIME_Types[e] : "application/octet-stream") + ";base64," + Assets[FileName]; 
-          } 
-        } 
-        return Assets; 
-      })(); 
-      
-    </script> 
-    <script>
-      addEvent(window, "load", function () {
+    
+      addEvent(document, "keyup", function (event) {
+        menu = document.getElementById("CustomContextMenu");
+        if (menu.className == "active") {
+          if (event.keyCode == 27) {
+            menu.className = "";
+          }
+        }
+      });
+    });
+  </script>
+  <script>
+    //small script to make links open in the default browser instead of IE.
+    addEvent(window, 'load', function () {
+      if (Environment.hasActiveXObject) {
         setTimeout(function () {
-          //IE5 calls load event handlers in reverse order of registration.
-          //meaning the titlebar might not have been created yet, because it is dynamially created during a load event handler.
-          //a settimeout is the simplest (and perhaps only) way to handle this (in IE5)
-          document.getElementById("PageTitleBar").children[0].innerHTML = '<span></span><img width="24" height="24" alt="" role="presentation" src="' + Assets['icon.png'] + '">';
-          try {
-            document.head.innerHTML += '<link rel="shortcut icon" href="' + Assets['icon.ico'] + '">';
-          } catch (e) {
-            //throws in old IE/HTA and maybe some other browsers too, so just suppress the error
+          // this settimeout exists because IE5 calls load handlers in reverse
+          // order of registration. meaning any anchors added dynamically that are 
+          // normally caught, are missed in IE5 without this.
+          var AnchorElements = document.getElementsByTagName('A');
+          for (var A = 0; A < AnchorElements.length; A++) {
+            // onclick used here (instead of addEvent) to replace the handler that
+            // launches IE.
+            AnchorElements[A].onclick = function () {
+              var b = new ActiveXObject("WScript.Shell");
+              b.run(this.href);
+              return false;
+            };
           }
         }, 10);
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <div role="main" id="PageContent">
+    <noscript>
+      <h1>
+        This App Requires Javascript To Work. <br>
+        Please enable it for this site, then refresh this tab.
+        <hr>
+        If you are on IE click "Allow Blocked Content".
+      </h1>
+    </noscript>
+    <HTA:APPLICATION applicationName="String Encrypter" version="0.11.5" selection="no" scroll="no" icon="icon.ico"
+      caption="no" innerborder="no" id="appTag"></HTA:APPLICATION>
+  </div>
+  <script>
+    addEvent(window, "load", function (event) {
+      var main = document.getElementById("PageContent");
+      main.innerHTML += '\
+          <div><span id="ZeroSize" aria-hidden="true" role="presentation">0</span></div>\
+          <form id="form">\
+            <div class="text">\
+              <label id="StringInputLabel" for="StringInput">\
+                Text To Encrypt Or Decrypt:\
+              </label>\
+              <textarea id="StringInput" cols="80" rows="3" required></textarea>\
+            </div>\
+            <div>\
+              <label id="PasswordInputLabel" for="PasswordInput">\
+                Password:\
+              </label>\
+              <input type="password" id="PasswordInput" required/>\
+            </div>\
+            <div id="Buttons">\
+              <input type="submit" id="EncryptButton" class="button" name="Action" value="Encrypt"/>\
+              <input type="submit" id="DecryptButton" class="button" name="Action" value="Decrypt"/>\
+            </div>\
+            <input type="hidden" id="temp">\
+          </form>\
+        ';
+    
+      setTimeout(addCSSHacks, 1);
+      setTimeout(resizeWindow, 2);
+      setTimeout(addFormHandler, 3);
+    });
+    
+    addEvent(window, 'beforeprint', function () {
+      var width = form.style.width;
+      var height = StringInput.style.height;
+      addEvent(window, 'afterprint', function PrintCleanup() {
+        form.style.width = width;
+        StringInput.style.height = height;
+        removeEvent(window, 'afterprint', PrintCleanup);
       });
-    </script>
-  </body>
+      form.style.width = '';
+      StringInput.style.height = (StringInput.scrollHeight + 10) + 'px';
+    });
+    
+    function HoverOn(event) {
+      var button = event.target || event.srcElement;
+      button.className += " hover-ed";
+    }
+    
+    function HoverOff(event) {
+      var button = event.target || event.srcElement;
+      button.className = button.className.replace(/\s*hover\-ed/g, "");
+    }
+    
+    function resizeWindow() {
+      if (Environment.IsHTA()) {
+        var width = (80 * window.chSize) + (4 * window.emSize),
+          height = PageTitleBar.offsetHeight +
+            form.offsetHeight +
+            PageStatusBar.offsetHeight;
+    
+        window.resizeTo(width, height);
+    
+        var windowHeight = window.innerHeight ?
+          window.innerHeight :
+          document.documentElement.offsetHeight;
+    
+        if (height != windowHeight) {
+          var offset = (height - windowHeight);
+          height = height + offset;
+          window.resizeTo(width, height);
+        }
+      }
+    }
+    
+    function addCSSHacks() {
+      var chSize = ZeroSize.offsetWidth;
+      var emSize = ZeroSize.offsetHeight;
+      window.chSize = chSize;
+      window.emSize = emSize;
+      ZeroSize.className = "hidden";
+      function ResponsiveCSSViaJS() {
+        var formSize = (80 * chSize) + (4 * emSize);
+        var minFormSize = (14 * chSize) + (4 * emSize);
+        if (Environment.hasActiveXObject) {
+          form.style.width = document.body.clientWidth >= (formSize + (2 * emSize)) 
+            ? ( formSize + "px" )
+            : "100%";
+        }
+        if (document.body.clientWidth >= minFormSize + (2 * emSize)) {
+          if (document.body.clientWidth >= formSize + (2 * emSize)) {
+            form.className = "normal wide";
+          } else {
+            form.className = "normal";
+          }
+        } else {
+          form.className = "";
+        }
+      }
+      ResponsiveCSSViaJS();
+      addEvent(window, 'resize', ResponsiveCSSViaJS);
+      if (document.getElementsByTagName('html')[0].className.indexOf('lt-ie7') != -1) {
+        var DecryptButton = document.getElementById("DecryptButton");
+        var EncryptButton = document.getElementById("EncryptButton");
+        var StringInput = document.getElementById("StringInput");
+        addEvent(DecryptButton, "mouseover", HoverOn);
+        addEvent(DecryptButton, "mouseout", HoverOff);
+        addEvent(EncryptButton, "mouseover", HoverOn);
+        addEvent(EncryptButton, "mouseout", HoverOff);
+        StringInput.setAttribute('rows', "5");
+      }
+    }
+    
+    function addFormHandler() {
+      addEvent(form, "submit", function (event) {
+        try {
+          event.preventDefault();
+          event.stopPropogation();
+        } catch (e) {
+          event.returnValue = false;
+          event.cancelBubble = true;
+        }
+    
+        PasswordInput = document.getElementById("PasswordInput");
+        StringInput = document.getElementById("StringInput");
+        var Submitter = event.submitter || document.activeElement;
+        var Action = Submitter['value'];
+    
+        var ErrorMessages = [
+          "Please enter the plaintext you want to encrypt!",
+          "Please enter a password!",
+          "Please enter the ciphertext you want to decrypt!",
+          "Cannot decrypt malformed ciphertext!",
+          "Please enter the password!",
+          "Please use either the encrypt or decrypt button!"
+        ];
+    
+        var ErrorCases = [
+          Action == "Encrypt" && StringInput.value == "",
+          Action == "Encrypt" && PasswordInput.value == "",
+          Action == "Decrypt" && StringInput.value == "",
+          Action == "Decrypt" && (
+            StringInput.value.length % 2 ||
+            StringInput.value.toUpperCase() != StringInput.value
+          ),
+          Action == "Decrypt" && PasswordInput.value == "",
+          Action != "Decrypt" && Action != "Encrypt"
+        ];
+    
+        for (var i = 0; i < ErrorCases.length; i++) {
+          if (ErrorCases[i]) {
+            alert(ErrorMessages[i]);
+            return;
+          }
+        }
+    
+        if (Action == "Encrypt") {
+          KEYS(Encrypt);
+        } else if (Action == "Decrypt") {
+          KEYS(Decrypt);
+        }
+      });
+    }
+    
+    function KEYS(METHOD) {
+      var text = PasswordInput.value;
+      var code = 0;
+      while (text !== "") {
+        code += text.charCodeAt(0);
+        text = text.slice(1);
+      }
+      code = code % 255;
+      temp = document.getElementById("temp");
+      temp.value = code;
+      METHOD();
+    }
+    
+    function Encrypt() {
+      var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+      var text = StringInput.value;
+      var code = "";
+      var key = Number(temp.value);
+      while (text !== "") {
+        var cnum = text.charCodeAt(0);
+        cnum = (cnum + key) % 255;
+        num = cnum % 26;
+        var count = 0;
+        var tst = num;
+        while (tst !== cnum) {
+          tst += 26;
+          count += 1
+        }
+        code = code + Alpha[num] + count;
+        text = text.slice(1);
+      }
+      StringInput.value = code;
+    }
+    
+    function Decrypt() {
+      var Alpha = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+      var text = StringInput.value;
+      var code = "";
+      var key = Number(temp.value);
+      while (text !== "") {
+        var lttr = text.slice(0, 2);
+        var num = lttr.charCodeAt(0) - 65
+        var chk = lttr.slice(1, 2);
+        var count = 0;
+        while (count !== Number(chk)) {
+          num += 26;
+          count += 1;
+        }
+        num -= key;
+        while (num <= 0) {
+          num += 255;
+        }
+        code = code + String.fromCharCode(num);
+        text = text.slice(2);
+      }
+      StringInput.value = code;
+    }
+  </script>
+  <script>
+    var Assets = (function (a, b, c) { 
+      var Assets = { 
+        "icon.ico": "AAABAAMAMDAQAAEABABoBgAANgAAACAgEAABAAQA6AIAAJ4GAAAQEBAAAQAEACgBAACGCQAAKAAAADAAAABgAAAAAQAEAAAAAACABAAAAAAAAAAAAAAQAAAAAAAAAAAAAAB/f38Aw8PDAMxIPwC+knAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMAAREREAAzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEQzMzMzMzMzMAAAAzMzMzMzMzNEQAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAABEREREREREREREREREREREREREREQAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREAAAAAAAAAAAAAAAAREiIAAAAAAAAiIREREAAAAAAAAAAAAREREiIAAAAAAAAiIREREAAAAAAAAAAAAREREiIAAAAAAAAiIREREAAAAAAAAAAAAREREiIAAAAAAAAAAiIiIREREREREREREiIiIAAAAAAAAAAAAiIiIREREREREREREiIiIAAAAAAAAAAAAiIiIREREREREREREiIiIAAAAAAAAAAAAAAAAiIiIiIiIiIiIAAAAAAAAAAAAAAAAAAAAiIiIiIiIiIiIAAAAAAAAAAAAAAAAAAAAiIiIiIiIiIiIAAAAAAAAADgAAAAAAcAAOAAAAAABwAA4AAAAAAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgADgcAAcAAOAAOBwABwAA4AA4HAAHAADgADgcAAcAAOAAOBwABwAA4AA4HAAHAADgAAfgAAcAAOAAB+AABwAA4AAH4AAHAADgAAAAAAcAAOAAAAAABwAA4AAAAAAHAAD8D///8D8AAPwP///wPwAA/A////A/AAD8D///8D8AAPwP///wPwAA/A////A/AAD8D///8D8AAPwP///wPwAA/A////A/AAD8Af//gD8AAPwB//+APwAA/AH//4A/AAD/gAAAAf8AAP+AAAAB/wAA/4AAAAH/AAD//gAAf/8AAP/+AAB//wAA//4AAH//AAAoAAAAIAAAAEAAAAABAAQAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAAAAAH9/fwDDw8MAzEg/AL6ScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABERERERERERERERERERAAAREREREREREREREREREQAAEQzMzMzMwAAMzMzMzNEAABEMzMzMzMAADMzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABEMzMzMzMAADMzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABEMzMzMzMAADMzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABEMzMzMwAREQAzMzMzRAAARDMzMzMAEREAMzMzM0QAAEQzMzMzABERADMzMzNEAABEMzMzMwAREQAzMzMzRAAARDMzMzMzAAAzMzMzM0QAAEQzMzMzMwAAMzMzMzNEAABERERERERERERERERERAAAREREREREREREREREREQAAAAiEQAAAAAAAAAAESIAAAAAIhEAAAAAAAAAABEiAAAAACIRAAAAAAAAAAARIgAAAAAiEQAAAAAAAAAAESIAAAAAIhEAAAAAAAAAABEiAAAAACIRAAAAAAAAAAARIgAAAAAiEREAAAAAAAARESIAAAAAIhERAAAAAAAAEREiAAAAAAAiIhERERERESIiAAAAAAAAIiIREREREREiIgAAAAAAAAAAIiIiIiIiAAAAAAAAAAAAACIiIiIiIgAAAAAAwAAAA8AAAAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAPAA8ADwAwwA8AMMAPADDADwAwwA8ADwAPAA8ADwAAAA8AAAAPw//8P8P//D/D//w/w//8P8P//D/D//w/wP/wP8D/8D/wAAD/8AAA//8AD///AA/8oAAAAEAAAACAAAAABAAQAAAAAAIAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAH9/fwDDw8MAzEg/AL6ScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARERERERERABDMzMAMzM0AEMzMwAzMzQAQzMzADMzNABDMzMAMzM0AEMzMwAzMzQAQzMwEQMzNABDMzARAzM0AEMzMwAzMzQARERERERERAACEAAAAAEgAAIQAAAAASAAAhAAAAABIAACEQAAABEgAAAiERERIgAAAAAiIiIAAAgAEAAIGBAACBgQAAgYEAAIGBAACBgQAAgkEAAIJBAACBgQAAgAEAAM/zAADP8wAAz/MAAMfjAADgBwAA+B8AAA==", 
+        "icon.png": "iVBORw0KGgoAAAANSUhEUgAAAJAAAACQBAMAAAAVaP+LAAAAAXNSR0IArs4c6QAAAA9QTFRFAAAAw8PDcJK+f39/P0jMGVTH4QAAAAF0Uk5TAEDm2GYAAACHSURBVHja7djJCYRAEEDRniWAGUxAjEAxAQ/mH5MHURG6QXDH989d79hQFeK9/sl+IRoItBpKz2d1smoUQaAdodl8GZJ9ZiIItDcUFgQCgUAgEOgE6F2sKgeBtofaaM3w5ttGA4EOg4ZdaNqXQCAQCHTVPxsEAoFAIBAIBAKB+m5xGQU9EOoAt6nwSKEcdzEAAAAASUVORK5CYII=", 
+        "Thumbs.db": "0M8R4KGxGuEAAAAAAAAAAAAAAAAAAAAAPgADAP7/CQAGAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAEAAAAgAAAAEAAAD+////AAAAAAAAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////9/////v////7///8EAAAABQAAAAYAAAAHAAAACAAAAAkAAAAKAAAACwAAAP7//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////1IAbwBvAHQAIABFAG4AdAByAHkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWAAUA//////////8CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANCtpUxI2doBAwAAAIAQAAAAAAAAMQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAgD///////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZAwAAAAAAAAyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAACAQEAAAADAAAA/////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIAAABNAwAAAAAAAEMAYQB0AGEAbABvAGcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIA////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAFgAAAAAAAAAAQAAAAIAAAADAAAABAAAAAUAAAAGAAAABwAAAAgAAAAJAAAACgAAAAsAAAAMAAAADQAAAA4AAAAPAAAAEAAAABEAAAASAAAAEwAAABQAAAAVAAAAFgAAABcAAAAYAAAAGQAAABoAAAAbAAAAHAAAAB0AAAAeAAAAHwAAACAAAAAhAAAAIgAAACMAAAAkAAAAJQAAACYAAAAnAAAAKAAAACkAAAAqAAAAKwAAACwAAAAtAAAALgAAAC8AAAAwAAAAMQAAAP7///8zAAAANAAAADUAAAA2AAAANwAAADgAAAA5AAAAOgAAADsAAAA8AAAAPQAAAD4AAAA/AAAA/v///0EAAAD+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8MAAAAAQAAAFgMAAD/2P/gABBKRklGAAEBAQBgAGAAAP/bAEMAAwICAwICAwMDAwQDAwQFCAUFBAQFCgcHBggMCgwMCwoLCw0OEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFP/bAEMBAwQEBQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIAGAAYAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP1Toorl/G3jb/hDvsX+hfbPtO//AJa7Nu3b/snP3v0oAtan460PRr6WzvL7ybmPG9PKdsZAI5CkdCK4v4n/ABP8Mp4G1Nm1PAHlf8sJf+eqf7NeA/FL48eV471Nf7Dzjyuftf8A0yT/AGKyPDPiL/heWuW3gj7P/Yn9qbv9O3/aPK8tTN/q8JnPl4+8MZzzjFAGz/wtfwr/ANBT/wAl5f8A4mj/AIWv4V/6Cn/kvL/8TXR/8ML/APU7f+Un/wC30f8ADC//AFO3/lJ/+30Ac5/wtfwr/wBBT/yXl/8AiaP+Fr+Ff+gp/wCS8v8A8TXR/wDDC/8A1O3/AJSf/t9H/DC//U7f+Un/AO30Aes/DD4n+GX8DaYy6nkHzf8AlhL/AM9X/wBmu00zx1oes30VnZ33nXMmdieU65wCTyVA6A18beJvEX/CjdcufBH2f+2/7L2/6dv+z+b5iib/AFeHxjzMfeOcZ4zitf4W/HjzfHemL/YeM+bz9r/6ZP8A7FAH2hRXL+CfG3/CY/bf9C+x/Ztn/LXfu3bv9kY+7+tdRQAV5f8AG3/mDf8Abb/2nXqFeX/G3/mDf9tv/adAHxP8V/8Akf8AVP8Atl/6KSvujwt8BPAngrXrXWdG0L7HqVtu8qf7ZPJt3KUb5WkIOVYjkd6+F/iv/wAj/qn/AGy/9FJX6UUAFFFFABRRRQB5/wCKfgJ4E8a69dazrOhfbNSudvmz/bJ4921Qi/KsgAwqgcDtXwv8KP8Akf8AS/8Atr/6Kev0or81/hR/yP8Apf8A21/9FPQB9sfBL/mM/wDbH/2pXqFeX/BL/mM/9sf/AGpXqFAHM/Enxp/wr3wVqPiD7H/aH2Py/wDR/N8vfvkVPvYOMbs9O1fMvjb9pj/hMfsX/FN/Y/s2/wD5ft+7dt/6ZjH3f1r3T9pL/ki3iL/t2/8ASmKvzi+JviXUvD39m/2fc/Z/O83f8itnGzH3gfU19bkmV08y/dtLmbe7a2V+h42Mr1adVQpu2n+Z3viyX/hKNfutTx9m8/Z+6zv27UC9eM9M9K+lP+Gz/wDqT/8Ayp//AGmvz1/4WT4j/wCgj/5Aj/8AiaP+Fk+I/wDoI/8AkCP/AOJr7P8A1M8o/fL/ACOT6xif5vwX+R+hX/DZ/wD1J/8A5U//ALTR/wANn/8AUn/+VP8A+01+ev8AwsnxH/0Ef/IEf/xNfoB+y38JPCfxG+BHhjxF4i0r+0NYvPtXn3P2mWLfsupY1+VHVRhUUcDt6142a5DQyegq9eKabto3e9m+tuxtSqYuq+WM1/XyLX/DZ/8A1J//AJU//tNH/DZ//Un/APlT/wDtNVf2pPhJ4T+HPwI8T+IvDulf2frFn9l8i5+0yy7N91FG3yu7Kcq7Dkd/Wvz/AP8AhZPiP/oI/wDkCP8A+JoyrIaGcUHXoRSSdtW73sn0v3CrUxdJ8spr+vkfoV/w2f8A9Sf/AOVP/wC0181+E5f+EX1+11PH2nyN/wC6zs3bkK9ecdc9K8J/4WT4j/6CP/kCP/4mj/hZPiP/AKCP/kCP/wCJr2f9TPKP3y/yMfrGJ/m/Bf5H3F4J/aY/4Q77b/xTf2z7Ts/5ftm3bu/6ZnP3v0r6a+G3jT/hYXgrTvEH2P8As/7Z5n+j+b5mzZIyfewM5256d6/Lz4ZeJdS8Q/2l/aFz9o8nytnyKuM78/dA9BX6O/s2/wDJFvDv/bz/AOlMtfGZ3ldPLf3aS5k1s291fqdeDr1alVwqO+n+QftJf8kW8Rf9u3/pTFX5n/Gf/mD/APbb/wBkr9MP2kv+SLeIv+3b/wBKYq/M/wCM/wDzB/8Att/7JXucHfx4+sv/AEkxx3+8R9P8zzOiiiv2w5j7k/4Jk/8ANSf+4b/7dVh/tSf8l28Tf9uv/pLFXlP7Mn7Tf/DOf/CSf8U3/wAJD/bP2b/l/wDs3k+V5v8A0zfdnzfbG3vnj6d0P4Pf8NXaXD8U/wC1/wDhFv7f3f8AEp+zfbPI8hjbf63fHu3eTu+4Mbsc4yfwji/L8TTx1THSh+6k4pO61fKul79H0PawtSLgoJ6r/M84/Zb/AOS7eGf+3r/0llrc/wCCm3/NNv8AuJf+2tdXrnwe/wCGUdLm+Kf9r/8ACU/2Bt/4lP2b7H5/nsLb/W75Nu3zt33DnbjjOR8xftN/tN/8NGf8I3/xTf8Awj39jfaf+X/7T53m+V/0zTbjyvfO7tjk4Qy/E1MdTx0YfuouSbutHyvpe/VdAxVSKg4N6v8AzPDaKKK/dzxT0z4Mf8xj/tj/AOz1+mH7Nv8AyRbw7/28/wDpTLX5n/Bj/mMf9sf/AGev0w/Zt/5It4d/7ef/AEplr8T4x/jz9Y/+knTgf94l6f5B+0l/yRbxF/27f+lMVfmf8Z/+YP8A9tv/AGSv0w/aS/5It4i/7dv/AEpir8z/AIz/APMH/wC23/slHB38ePrL/wBJDHf7xH0/zPM6KKK/bDmCv1W/Yk/5Nh8Gf9vv/pbPX5U1+q37En/JsPgz/t9/9LZ6/O+Of+RbT/xr/wBJkd+C/iP0/wAg/bb/AOTYfGf/AG5f+lsFflTX6rftt/8AJsPjP/ty/wDS2Cvypo4G/wCRbU/xv/0mIY3+IvT/ADCiiiv0Q4D0z4Mf8xj/ALY/+z1+mH7Nv/JFvDv/AG8/+lMtfmf8GP8AmMf9sf8A2ev0w/Zt/wCSLeHf+3n/ANKZa/E+Mf48/WP/AKSdOB/3iXp/kH7SX/JFvEX/AG7f+lMVfmf8Z/8AmD/9tv8A2Sv0w/aS/wCSLeIv+3b/ANKYq+CNa8Nab4h8n+0Lb7R5O7Z87LjOM/dI9BXLwxiIYSSrTTsm9vONice+WvFvt/mfPVFe5f8ACtvDn/QO/wDI8n/xVH/CtvDn/QO/8jyf/FV+nf6xYX+WX3L/ADOL2sTw2v1W/Yk/5Nh8Gf8Ab7/6Wz18N/8ACtvDn/QO/wDI8n/xVeq+CPi34s+HPhey8O+HdV/s/R7Pf5Ft9mil2b3aRvmdGY5Z2PJ7+lfK8SYynnGEjQoJpqSeu1rNdL9zpw+KhSk5STPo/wDbb/5Nh8Z/9uX/AKWwV+VNfY/jf4t+LPiN4XvfDviLVf7Q0e82efbfZoot+x1kX5kRWGGRTwe3pXlX/CtvDn/QO/8AI8n/AMVRw3jKeT4SVCum25N6bWsl1t2DEYqFWSlFM8Nor3L/AIVt4c/6B3/keT/4qj/hW3hz/oHf+R5P/iq+q/1iwv8ALL7l/mc3tYnM/Bj/AJjH/bH/ANnr9MP2bf8Aki3h3/t5/wDSmWvgjRfDWm+HvO/s+2+z+dt3/OzZxnH3ifU197/s2/8AJFvDv/bz/wClMtfmPE+Ihi5OtBOza38o2O3APmrya7f5H//ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAABAAAAQQMAAP/Y/+AAEEpGSUYAAQEBAGAAYAAA/9sAQwADAgIDAgIDAwMDBAMDBAUIBQUEBAUKBwcGCAwKDAwLCgsLDQ4SEA0OEQ4LCxAWEBETFBUVFQwPFxgWFBgSFBUU/9sAQwEDBAQFBAUJBQUJFA0LDRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU/8AAEQgAEAAQAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A+yPEfxU8B+Ifi9rnhzxR4ruTa2rW1lp+i2klxE0l7ukWUbYAJGcHYqjOG38BuCDw58VPAfh74vaH4c8L+K7kWt01zZahot3JcStHe7o1iG2cGRXJ3qwzhdnIXkn5R8SW97Z/to6jdvBLFo9z4meyvrp4yIfsc7mC6DORhVMUkqlgQVySCCAQeG7e9vP20dOu0gll0e28TJZWN0kZMP2OBxBahXAwyiKOJQxJLYBJJJJ/Q/8AVzC+z9p7R29lz7r4v5bW2+d/I8r63O3Te39an//ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAHAAIAAABgAAAAYAAAACQAAAABAAAAAOP4ljSI2AFpAGMAbwBuAC4AcABuAGcAAAAAACQAAAACAAAAACPLdjiI2AFpAGMAbwBuAC4AaQBjAG8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" 
+      }; 
+      try { 
+        if (Environment.hasActiveXObject) { 
+          function cleanup () { 
+            a = new ActiveXObject("WScript.Shell"); 
+            b = new ActiveXObject("Scripting.FileSystemObject"); 
+            a.CurrentDirectory = b.GetSpecialFolder(2); 
+            b.DeleteFolder(c.slice(0, -1)); 
+          } 
+          addEvent(window, "unload", cleanup); 
+          a = new ActiveXObject("WScript.Shell"); 
+          b = new ActiveXObject("Scripting.FileSystemObject"); 
+          c = b.GetSpecialFolder(2) + "\\Strngncryptr-" + b.GetTempName() + "\\"; 
+          b.CreateFolder(c); 
+          a.CurrentDirectory = c; 
+          for (var FileName in Assets) { 
+            a = new ActiveXObject("Microsoft.XMLDOM").createElement("Base64Data"); 
+            a.dataType = "bin.base64"; 
+            a.text = Assets[FileName]; 
+            b = new ActiveXObject("ADODB.Stream"); 
+            b.Type = 1; 
+            b.Open(); 
+            b.Write(a.nodeTypedValue); 
+            b.SaveToFile(FileName, 2); 
+            b.Close(); 
+            Assets[FileName] = c + FileName; 
+          } 
+        } else { 
+          throw "Not IE"; 
+        } 
+      } catch (e) { 
+        // Not IE Or new ActiveXObject("ADODB.Stream") failed 
+        for (var FileName in Assets) { 
+          e = FileName.split("."); 
+          e = "." + e[e.length - 1]; 
+          Assets[FileName] = "data:" + ( 
+            MIME_Types[e] ? 
+              MIME_Types[e] : 
+              "application/octet-stream" 
+            ) + ";base64," + Assets[FileName]; 
+        } 
+      } 
+      return Assets; 
+    })(); 
+    
+  </script>
+  <script>
+    addEvent(window, "load", function () {
+      setTimeout(function () {
+        // IE5 calls load event handlers in reverse order of registration.
+        // meaning the titlebar might not have been created yet, because it is 
+        // dynamically created during a load event handler.
+        // a settimeout is the simplest (and perhaps only) way to handle this 
+        // (in IE5)
+        document.getElementById("PageTitleBar").children[0].innerHTML = '<span></span><img width="24" height="24" alt="" role="presentation" src="' + Assets['icon.png'] + '">';
+        try {
+          document.head.innerHTML += '<link rel="shortcut icon" href="' + Assets['icon.ico'] + '">';
+        } catch (e) {
+          //throws in old IE/HTA and maybe some other browsers too, so just suppress the error
+        }
+      }, 10);
+    });
+  </script>
+</body>
+
 </html>

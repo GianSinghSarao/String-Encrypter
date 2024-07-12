@@ -4,7 +4,12 @@ var Color = {
       R: parseInt('0x' + HexColorString.substring(1, 3)),
       G: parseInt('0x' + HexColorString.substring(3, 5)),
       B: parseInt('0x' + HexColorString.substring(5, 7)),
-      A: parseInt('0x' + (HexColorString.length == 9 ? HexColorString.substring(7, 9) : 'ff'))
+      A: parseInt('0x' +
+        (HexColorString.length == 9 ?
+          HexColorString.substring(7, 9)
+          : 'ff'
+        )
+      )
     }
   },
   toHex: function (Color) {
@@ -29,19 +34,33 @@ var Color = {
     }
   },
   getContrastingOf: function (Color) {
-    var ChannelIntensity = (((0.299 * Color.R + 0.587 * Color.G + 0.114 * Color.B) / 255) > 0.5) ? 0 : 255;
+    var ChannelIntensity = (
+      ((0.299 * Color.R + 0.587 * Color.G + 0.114 * Color.B) / 255) > 0.5
+    ) ? 0 : 255;
     return {
-      R: ChannelIntensity, 
-      G: ChannelIntensity, 
-      B: ChannelIntensity, 
+      R: ChannelIntensity,
+      G: ChannelIntensity,
+      B: ChannelIntensity,
       A: 255
     };
   },
   flatten: function (FlatBackgroundColor, ForegroundColor) {
     return {
-      R: Math.round(FlatBackgroundColor.R + (ForegroundColor.R - FlatBackgroundColor.R) * (ForegroundColor.A / 255)),
-      G: Math.round(FlatBackgroundColor.G + (ForegroundColor.G - FlatBackgroundColor.G) * (ForegroundColor.A / 255)),
-      B: Math.round(FlatBackgroundColor.B + (ForegroundColor.B - FlatBackgroundColor.B) * (ForegroundColor.A / 255)),
+      R: Math.round(
+        FlatBackgroundColor.R +
+        (ForegroundColor.R - FlatBackgroundColor.R) *
+        (ForegroundColor.A / 255)
+      ),
+      G: Math.round(
+        FlatBackgroundColor.G +
+        (ForegroundColor.G - FlatBackgroundColor.G) *
+        (ForegroundColor.A / 255)
+      ),
+      B: Math.round(
+        FlatBackgroundColor.B +
+        (ForegroundColor.B - FlatBackgroundColor.B) *
+        (ForegroundColor.A / 255)
+      ),
       A: 255
     }
   }

@@ -1,11 +1,11 @@
 * {
   box-sizing: border-box;
-  
+
   background-color: transparent;
   border-width: 0;
   border-color: transparent;
   border-style: none;
-  
+
   font-size: 16px;
   font-family: "Cascadia Code", "Roboto Mono", monospace;
   line-height: 1em;
@@ -20,7 +20,7 @@ application {
 }
 
 body,
-#PageTitleBar, 
+#PageTitleBar,
 #PageTitleBar div,
 #PageTitleBar h1,
 #PageContent,
@@ -65,7 +65,7 @@ body {
   z-index: 1000;
 }
 
-#PageTitleBar div, 
+#PageTitleBar div,
 #PageTitleBar h1 {
   top: 0;
   bottom: 0;
@@ -96,7 +96,7 @@ body {
 
 .lt-ie8 #PageTitleBar .icon span {
   display: inline-block;
-} 
+}
 
 #PageTitleBar .text {
   right: 0;
@@ -115,7 +115,7 @@ body {
 #PageTitleBar #CustomWindowButtons {
   right: 0;
   left: auto;
-  
+
   overflow: visible;
 }
 
@@ -124,7 +124,7 @@ body {
   width: 3em;
 
   font-family: Webdings;
-  
+
   padding: 1em;
 }
 
@@ -138,7 +138,7 @@ body {
   overflow-y: auto;
 
   text-align: center;
-  
+
   margin: 0 auto;
 }
 
@@ -175,7 +175,7 @@ body {
 
 #form div {
   width: 100%;
-  
+
   padding: 1em;
 }
 
@@ -186,7 +186,7 @@ body {
   outline: none;
   border: none;
   opacity: 0;
-  
+
   display: inline;
 
   padding: none;
@@ -199,25 +199,22 @@ body {
 
 label {
   width: 100%;
-  
+
   font-size: 1em;
   text-align: left;
 
   display: block;
 }
 
-input, textarea {  
+input,
+textarea {
   width: 100%;
-  
+
   padding: 1em;
   margin: 0;
-  
+
   overflow: auto;
   display: block;
-}
-
-.lt-ie7 #pass {
-  height: 3em;
 }
 
 #form div#Buttons {
@@ -238,11 +235,11 @@ input, textarea {
   position: absolute;
   display: none;
   z-index: 10000;
-  
+
   width: 19.5em;
   max-width: 100vw;
-  
-  padding: 0.2em 0;  
+
+  padding: 0.2em 0;
 }
 
 #CustomContextMenu button {
@@ -251,15 +248,15 @@ input, textarea {
 
   width: 100%;
   padding: 0.25em;
-  
+
   text-align: left;
 }
 
 #CustomContextMenu button .label {
   float: left;
-  
+
   margin: 0 3em;
-  
+
   font-size: 0.75em;
 }
 
@@ -277,11 +274,11 @@ input, textarea {
 
     background: #fff !important;
     color: #000 !important;
-    
+
     max-width: none !important;
-    
+
     overflow: visible !important;
-    
+
     text-align: left !important;
   }
 
@@ -298,7 +295,7 @@ input, textarea {
     display: block;
   }
 
-  textarea#tamsg {
+  textarea#StringInput {
     max-width: calc(100vw - 2em);
     background: transparent;
     border: 1px solid #000;
@@ -308,6 +305,7 @@ input, textarea {
   #PageStatusBar {
     display: none;
   }
+
   #CustomContextMenu,
   #CustomContextMenu.active {
     display: none;

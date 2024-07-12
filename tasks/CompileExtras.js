@@ -1,5 +1,19 @@
 var FSo = new ActiveXObject("Scripting.FileSystemObject");
 var WS_Shell = WScript.CreateObject("WScript.Shell");
+
+// this part is just a pre-execution check to figure out if the jscript file was
+// double-clicked or if it's been ran from vscode or started some other way
+var cwd = WS_Shell.CurrentDirectory;
+var scriptPath = FSo.GetParentFolderName(WScript.ScriptFullName);
+if (cwd == "C:\\Windows\\system32") {
+  // Dragged a file onto the JScript or similar
+  WScript.Echo("Can't handle drag and drop! Exiting without compiling.");
+  WScript.Quit();
+} else if (cwd == scriptPath) {
+  // Double clicked it
+  WS_Shell.CurrentDirectory = "..\\";
+}
+
 var ExtCmd = WS_Shell.Run('cscript .\\tasks\\Compile.js', 0, true);
 
 function create_HTA_targeting_IE(versionOfIE, saveLocation) {

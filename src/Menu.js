@@ -1,5 +1,15 @@
 addEvent(window, "load", function (e) {
-  document.body.innerHTML += '<div id="CustomContextMenu"><button onclick="ToggleTheme()"><span class="label">Toggle Theme</span></button><button onclick="setTimeout(window.print, 0)"><span class="label">Print</span> <kbd class="label">CTRL+P</kbd></button></div>';
+  document.body.innerHTML += '<div id="CustomContextMenu">\
+    <button onclick="ToggleTheme()">\
+      <span class="label">Toggle Theme</span>\
+    </button>\
+    <button onclick="ToggleAccent()">\
+      <span class="label">Toggle System Accent Colour</span>\
+    </button>\
+    <button onclick="setTimeout(window.print, 0)">\
+      <span class="label">Print</span> <kbd class="label">CTRL+P</kbd>\
+    </button>\
+  </div>';
   var menu;
   var addedHoverPolyfillEvents = false;
 
@@ -7,14 +17,14 @@ addEvent(window, "load", function (e) {
     return function (event) {
       var targeted = event.target || event.srcElement;
       var targetedName = targeted.nodeName || targeted.tagName;
-      if (targetedName == "BUTTON") targeted.className = className; 
+      if (targetedName == "BUTTON") targeted.className = className;
       targeted = targeted.parentNode;
       targetedName = targeted.nodeName || targeted.tagName;
       if (targetedName == "BUTTON") targeted.className = className;
-    } 
+    }
   };
 
-  addEvent(document.body, "contextmenu", function (event) {
+  addEvent(document, "contextmenu", function (event) {
     menu = document.getElementById("CustomContextMenu");
 
     if (Environment.IsOldIE && !addedHoverPolyfillEvents) {
@@ -26,9 +36,9 @@ addEvent(window, "load", function (e) {
 
     var targeted = event.target || event.srcElement;
     var targetedName = targeted.nodeName || targeted.tagName;
-    var NoCustomMenu = targetedName == "TEXTAREA" || 
+    var NoCustomMenu = targetedName == "TEXTAREA" ||
       (targetedName == "INPUT" &&
-       targeted.getAttribute("type").toUpperCase() == "PASSWORD");
+        targeted.getAttribute("type").toUpperCase() == "PASSWORD");
 
     if (NoCustomMenu) {
       menu.className = "";
@@ -40,23 +50,26 @@ addEvent(window, "load", function (e) {
     var RightEdge = document.body.clientWidth - event.clientX;
     var BottomEdge = document.body.clientHeight - event.clientY;
 
-    var LeftOffset = RightEdge < menu.offsetWidth ? 
+    var LeftOffset = RightEdge < menu.offsetWidth ?
       (document.body.scrollLeft + event.clientX - menu.offsetWidth) :
       (document.body.scrollLeft + event.clientX);
     LeftOffset = LeftOffset > 0 ? LeftOffset : 0;
 
-    var TopOffset = BottomEdge < menu.offsetHeight ? 
+    var TopOffset = BottomEdge < menu.offsetHeight ?
       (document.body.scrollTop + event.clientY - menu.offsetHeight) :
       (document.body.scrollTop + event.clientY);
     TopOffset = TopOffset > 0 ? TopOffset : 0;
 
-    menu.style.left = LeftOffset + "px"; 
+    menu.style.left = LeftOffset + "px";
     menu.style.top = TopOffset + "px";
 
     var btns = menu.getElementsByTagName("button");
     for (var i = 0; i < btns.length; i++) {
       var btn = btns[i];
-      var disabled = (btn.getAttribute("disabled") == "" || !!btn.getAttribute("disabled"));
+      var disabled = (
+        btn.getAttribute("disabled") == "" ||
+        !!btn.getAttribute("disabled")
+      );
       if (!disabled) {
         btn.focus();
         break;
@@ -65,13 +78,16 @@ addEvent(window, "load", function (e) {
 
     try {
       event.preventDefault();
+      event.stopPropogation();
     } catch (e) {
-      //bury this error which only seems to occur on IE, and other outdated/bad browsers
+      // Although IE10 is supposed to support the above, it seems to have a bug
+      event.returnValue = false;
+      event.cancelBubble = true;
     }
     return false;
   });
 
-  addEvent(document.body, "click", function (event) {
+  addEvent(document, "click", function (event) {
     menu = document.getElementById("CustomContextMenu");
     menu.className = "";
   });

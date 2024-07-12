@@ -136,7 +136,7 @@ body.dark input.button:hover {
   color: #e5e5e5;
 }
 
-body.light input.button:focus, 
+body.light input.button:focus,
 body.light input.button.hover-ed,
 body.light input.button:hover {
   background: #e8eff7;
@@ -174,7 +174,7 @@ body.dark #CustomContextMenu button:hover {
   color: #e5e5e5;
 }
 
-body.light #CustomContextMenu button:focus, 
+body.light #CustomContextMenu button:focus,
 body.light #CustomContextMenu button.hover-ed,
 body.light #CustomContextMenu button:hover {
   background: #e8eff7;

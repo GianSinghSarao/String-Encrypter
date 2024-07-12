@@ -1,4 +1,4 @@
-function convertSemverVersionToArray (a, A, B, C) {
+function convertSemverVersionToArray(a, A, B, C) {
   A = a.replace('v', '').split('.');
   B = [];
   for (C = 0; C != A.length; C++) {
@@ -6,7 +6,7 @@ function convertSemverVersionToArray (a, A, B, C) {
   }
   return B;
 };
-function ifSuitable (a, b) {
+function ifSuitable(a, b) {
   if (a[0] > b[0]) return true;
   if (a[0] < b[0]) return false;
   if (a[1] > b[1]) return true;
@@ -20,7 +20,7 @@ var LatestReleaseAPI_URL = LatestReleaseURL.
   replace("github.com/", "api.github.com/repos/");
 var LatestVersion = (function () {
   var CachedVersion = "", XHR;
-  function GetLatestVersion () {
+  function GetLatestVersion() {
     if (Environment.IsOldIE) {
       XHR = new ActiveXObject("Microsoft.XMLHTTP");
     } else {
@@ -43,28 +43,34 @@ var LatestVersion = (function () {
       XHR.send();
     } catch (e) {
       CachedVersion = "v0.0.0";
-      alert("Failed To Check For Updates:\n  This occurs when the program is run without unblocking it.\n  You can unblock this program by unselecting the checkbox in the security warning\n  \"Always ask before opening this file\"\n\n  Alternatively, You can ignore this and continue using the program as normal. ")
+      alert("Failed To Check For Updates:\n\
+  This can occur when you are offline.\n\
+  If you are online, please ensure that you have \"unblocked\" this program.\n\
+  You can unblock it by clearing the checkbox in the security warning:\n\
+    \"Always ask before opening this file\"\n\n\
+  You can ignore this and continue to use this program.");
+      // todo: confirm that offline causes error using VMs
     }
   }
   return function (refresh) {
     if (refresh) {
       GetLatestVersion();
-    } 
+    }
     return CachedVersion;
   };
 })();
 
 var CurrentVersion = (function () {
   var CachedVersion = "unknown", d = document;
-  function GetCurrentVersion () {
+  function GetCurrentVersion() {
     try {
-      var All_HTA_Tags = d.getElementsByTagName("HTA:APPLICATION").length !== 0 ?
-        d.getElementsByTagName("HTA:APPLICATION") : 
+      var All_HTA_Tags = d.getElementsByTagName("HTA:APPLICATION").length ?
+        d.getElementsByTagName("HTA:APPLICATION") :
         d.getElementsByTagName("APPLICATION");
       if (All_HTA_Tags.length >= 1 && All_HTA_Tags[0]) {
         return "v" + All_HTA_Tags[0].getAttribute('version');
       }
-    } catch(e) {
+    } catch (e) {
       return "unknown";
     }
   }
@@ -76,7 +82,7 @@ var CurrentVersion = (function () {
   }
 })();
 
-function version_status (refresh, versions, HTML_String) {
+function version_status(refresh, versions, HTML_String) {
   versions = {
     CV: CurrentVersion(refresh),
     LV: LatestVersion(refresh)
@@ -99,18 +105,18 @@ function version_status (refresh, versions, HTML_String) {
     HTML_String += '(<a href="' +
       LatestReleaseURL +
       '" title="' +
-      LatestReleaseURL + 
+      LatestReleaseURL +
       '">Update Available</a>);';
   }
   HTML_String += "</span>";
   return HTML_String;
 }
 
-function hydrateStatusbar (refresh) {
+function hydrateStatusbar(refresh) {
   document.getElementById("PageStatusBar").innerHTML = version_status(refresh) + ' <a href="https://github.com/GianSinghSarao/String-Encrypter" title="https://github.com/GianSinghSarao/String-Encrypter">GitHub&nbsp;Repository</a>';
 }
 
-addEvent(window, "load", function (event, versions, B, C) {
+addEvent(window, "load", function (event) {
   document.body.innerHTML += '<div role="contentinfo" id="PageStatusBar"></div>';
   hydrateStatusbar(true);
 });
